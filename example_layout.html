@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Example Layout</title>
+  </head>
+  <body>
+    <svg
+      xmlns="http://www.w3.org/2001/XMLSchema"
+      xmlns:svg="http://www.w3.org/2000/svg"
+      xmlns:xlink="http://www.w3.org/1999/xlink"
+      xml:space="preserve"
+      width="600" height="600" viewbox="0 0 40 40">
+
+      <!-- View boundary -->
+      <line x1="0" y1="0" x2="40" y2="0" stroke="black" stroke-width="1%"/>
+      <line x1="40" y1="0" x2="40" y2="40" stroke="black" stroke-width="1%"/>
+      <line x1="40" y1="40" x2="0" y2="40" stroke="black" stroke-width="1%"/>
+      <line x1="0" y1="40" x2="0" y2="0" stroke="black" stroke-width="1%"/>
+
+      <defs>
+        <circle id="yellow-cone" r="1%" cx="0" cy="0" stroke="black" stroke-width="0.25%" fill="yellow"/>
+        <circle id="blue-cone" r="1%" cx="0" cy="0" stroke="black" stroke-width="0.25%" fill="blue"/>
+        <circle id="red-cone" r="1%" cx="0" cy="0" stroke="black" stroke-width="0.25%" fill="red"/>
+        <g id="red-stripe-cone">
+          <circle r="1%" cx="0" cy="0" stroke="black" stroke-width="0.25%" fill="red"/>
+          <circle r="0.5%" cx="0" cy="0" fill="yellow"/>
+        </g>
+        <g id="gate">
+          <use xlink:href="#yellow-cone" x="-0.75" y="0" />
+          <use xlink:href="#yellow-cone" x="0.75" y="0" />
+        </g>
+        <g id="start-finish-box">
+          <use xlink:href="#yellow-cone" x="-0.75" y="0" />
+          <use xlink:href="#yellow-cone" x="0.75" y="0" />
+          <use xlink:href="#yellow-cone" x="-0.75" y="2" />
+          <use xlink:href="#yellow-cone" x="0.75" y="2" />
+        </g>
+      </defs>
+
+      <use xlink:href="#start-finish-box" x="15" y="35" />
+      <use xlink:href="#start-finish-box" x="20" y="35" />
+      <use xlink:href="#red-cone" x="10" y="30" />
+      <use xlink:href="#blue-cone" x="12" y="25" />
+      <use xlink:href="#red-cone" x="10" y="20" />
+      <use xlink:href="#blue-cone" x="12" y="15" />
+      <use xlink:href="#red-cone" x="10" y="10" />
+      <use xlink:href="#red-stripe-cone" x="20" y="10" />
+      <use xlink:href="#gate" x="25" y="22" />
+
+    </svg>
+  </body>
+</html>
