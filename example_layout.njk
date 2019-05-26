@@ -4,6 +4,14 @@
     <title>Example Layout</title>
   </head>
   <body>
+    <style type="text/css">
+      .boundaryCircle {
+          stroke: purple;
+          stroke-width: 0.25%;
+          stroke-dasharray: 0.2;
+          fill: none;
+      }
+    </style>
     <svg
       xmlns="http://www.w3.org/2001/XMLSchema"
       xmlns:svg="http://www.w3.org/2000/svg"
@@ -18,9 +26,15 @@
       <line x1="0" y1="40" x2="0" y2="0" stroke="black" stroke-width="1%"/>
 
       <defs>
-        <circle id="yellow-cone" r="1%" cx="0" cy="0" stroke="black" stroke-width="0.25%" fill="yellow"/>
-        <circle id="blue-cone" r="1%" cx="0" cy="0" stroke="black" stroke-width="0.25%" fill="blue"/>
-        <circle id="red-cone" r="1%" cx="0" cy="0" stroke="black" stroke-width="0.25%" fill="red"/>
+        <g id="yellow-cone">
+          <circle r="1%" cx="0" cy="0" stroke="black" stroke-width="0.25%" fill="yellow"/>
+        </g>
+        <g id="blue-cone">
+          <circle r="1%" cx="0" cy="0" stroke="black" stroke-width="0.25%" fill="blue"/>
+        </g>
+        <g id="red-cone">
+          <circle r="1%" cx="0" cy="0" stroke="black" stroke-width="0.25%" fill="red"/>
+        </g>
         <g id="red-stripe-cone">
           <circle r="1%" cx="0" cy="0" stroke="black" stroke-width="0.25%" fill="red"/>
           <circle r="0.5%" cx="0" cy="0" fill="yellow"/>
@@ -46,6 +60,14 @@
       <use xlink:href="#red-cone" x="10" y="10" />
       <use xlink:href="#red-stripe-cone" x="20" y="10" />
       <use xlink:href="#gate" x="25" y="22" />
+
+      {% for boundary in obstacleBoundaries %}
+        {{- boundary | safe }}
+      {% endfor %}
+
+      {% for segment in courseSegments %}
+        {{- segment | safe }}
+      {% endfor %}
 
     </svg>
   </body>

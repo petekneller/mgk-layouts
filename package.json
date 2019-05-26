@@ -1,0 +1,16 @@
+{
+  "name": "mgk-layouts",
+  "version": "0.0.1",
+  "description": "",
+  "main": "run.js",
+  "dependencies": {
+    "lodash": "^4.17.11",
+    "nunjucks": "^3.2.0"
+  },
+  "devDependencies": {},
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://petekneller@github.com/petekneller/mgk-layouts.git"
+  }
+}
