@@ -61,9 +61,10 @@
         {{- boundary | safe }}
       {% endfor %}
 
-      <!-- {% for segment in courseSegments %} -->
-      <!--   {{- segment | safe }} -->
-      <!-- {% endfor %} -->
+      <!-- course segments -->
+      {% for segment in courseSegments %}
+        {{- segment | safe }}
+      {% endfor %}
 
     </svg>
   </body>

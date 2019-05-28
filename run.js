@@ -39,14 +39,6 @@ const obstacles = [{
   y: 5
 }];
 
-
-// const renderCourseSegment = function(startObstacle, endObstacle) {
-//   return `<line x1="${startObstacle.x}" y1="${startObstacle.y}" x2="${endObstacle.x}" y2="${endObstacle.y}" stroke="black" stroke-width="0.5%" />`;
-// };
-
-// _.initial is necessary because _.zip will keep the last pair where the end segment is undefined
-//const courseSegments = _.initial(_.zip(obstacles, _.drop(obstacles)));
-
 const svgViewSize = { x: 40, y: 40};
 
 const globalToViewbox = function(x, y) {
@@ -89,11 +81,19 @@ const renderBoundary = function(obstacle) {
   }
 };
 
+const renderCourseSegment = function(startObstacle, endObstacle) {
+  const {x: x1, y: y1} = globalToViewbox(startObstacle.x, startObstacle.y);
+  const {x: x2, y: y2} = globalToViewbox(endObstacle.x, endObstacle.y);
+  return `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="black" stroke-width="0.5%" />`;
+};
+
+//_.initial is necessary because _.zip will keep the last pair where the end segment is undefined
+const courseSegments = _.initial(_.zip(obstacles, _.drop(obstacles)));
+
 nunjucks.configure({});
 const output = nunjucks.render('example_layout.njk', {
   obstacles: obstacles.map(renderObstacle),
-  obstacleBoundaries: obstacles.map(renderBoundary)
-  // obstacleBoundaries: obstacles.map(function (o) { return renderBoundary(o); }),
-  // courseSegments: courseSegments.map(function (a) { return renderCourseSegment(a[0], a[1]); })
+  obstacleBoundaries: obstacles.map(renderBoundary),
+  courseSegments: courseSegments.map(([o1, o2]) => renderCourseSegment(o1, o2))
 });
 console.log(output);
