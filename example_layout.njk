@@ -51,23 +51,17 @@
         </g>
       </defs>
 
-      <use xlink:href="#start-finish-box" x="15" y="35" />
-      <use xlink:href="#start-finish-box" x="20" y="35" />
-      <use xlink:href="#red-cone" x="10" y="30" />
-      <use xlink:href="#blue-cone" x="12" y="25" />
-      <use xlink:href="#red-cone" x="10" y="20" />
-      <use xlink:href="#blue-cone" x="12" y="15" />
-      <use xlink:href="#red-cone" x="10" y="10" />
-      <use xlink:href="#red-stripe-cone" x="20" y="10" />
-      <use xlink:href="#gate" x="25" y="22" />
-
-      {% for boundary in obstacleBoundaries %}
-        {{- boundary | safe }}
+      {% for obstacle in obstacles %}
+      {{- obstacle | safe -}}
       {% endfor %}
 
-      {% for segment in courseSegments %}
-        {{- segment | safe }}
-      {% endfor %}
+      <!-- {% for boundary in obstacleBoundaries %} -->
+      <!--   {{- boundary | safe }} -->
+      <!-- {% endfor %} -->
+
+      <!-- {% for segment in courseSegments %} -->
+      <!--   {{- segment | safe }} -->
+      <!-- {% endfor %} -->
 
     </svg>
   </body>
