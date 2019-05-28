@@ -39,23 +39,6 @@ const obstacles = [{
   y: 5
 }];
 
-// const renderBoundary = function(obstacle) {
-//   switch (obstacle.type) {
-//   case "StartBox":
-//     return `<circle r="0.75" cx="${obstacle.x - 0.75}" cy="${obstacle.y}" class="boundaryCircle" />`;
-//   case "FinishBox":
-//     return `<circle r="0.75" cx="${obstacle.x + 0.75}" cy="${obstacle.y}" class="boundaryCircle" />`;
-//   case "Gate":
-//     return `<circle r="0.75" cx="${obstacle.x - 0.75}" cy="${obstacle.y}" class="boundaryCircle" />`;
-//   case "LeftTurn":
-//   case "RightTurn":
-//   case "LeftRotation":
-//   case "RightRotation":
-//     return `<circle r="1" cx="${obstacle.x}" cy="${obstacle.y}" class="boundaryCircle" />`;
-//   default:
-//     return "";
-//   }
-// };
 
 // const renderCourseSegment = function(startObstacle, endObstacle) {
 //   return `<line x1="${startObstacle.x}" y1="${startObstacle.y}" x2="${endObstacle.x}" y2="${endObstacle.y}" stroke="black" stroke-width="0.5%" />`;
@@ -83,9 +66,33 @@ const renderObstacle = function(obstacle) {
   }
 };
 
+const renderBoundary = function(obstacle) {
+  switch (obstacle.type) {
+  // TODO: simplifying assumption that start/finish boxes and gates are always 'handed' the same way
+  case "StartBox":
+  case "Gate": {
+    const {x, y} = globalToViewbox(obstacle.x - 0.75, obstacle.y);
+    return `<circle r="0.75" cx="${x}" cy="${y}" class="boundaryCircle" />`;
+  }
+  case "FinishBox": {
+    const {x, y} = globalToViewbox(obstacle.x + 0.75, obstacle.y);
+    return `<circle r="0.75" cx="${x}" cy="${y}" class="boundaryCircle" />`;
+  }
+  case "LeftTurn":
+  case "RightTurn":
+  case "LeftRotation":
+  case "RightRotation": {
+    const {x, y} = globalToViewbox(obstacle.x, obstacle.y);
+    return `<circle r="1" cx="${x}" cy="${y}" class="boundaryCircle" />`;
+  }
+  default: return "";
+  }
+};
+
 nunjucks.configure({});
 const output = nunjucks.render('example_layout.njk', {
-  obstacles: obstacles.map(renderObstacle)
+  obstacles: obstacles.map(renderObstacle),
+  obstacleBoundaries: obstacles.map(renderBoundary)
   // obstacleBoundaries: obstacles.map(function (o) { return renderBoundary(o); }),
   // courseSegments: courseSegments.map(function (a) { return renderCourseSegment(a[0], a[1]); })
 });

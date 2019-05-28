@@ -51,13 +51,15 @@
         </g>
       </defs>
 
+      <!-- obstacles -->
       {% for obstacle in obstacles %}
       {{- obstacle | safe -}}
       {% endfor %}
 
-      <!-- {% for boundary in obstacleBoundaries %} -->
-      <!--   {{- boundary | safe }} -->
-      <!-- {% endfor %} -->
+      <!-- boundaries -->
+      {% for boundary in obstacleBoundaries %}
+        {{- boundary | safe }}
+      {% endfor %}
 
       <!-- {% for segment in courseSegments %} -->
       <!--   {{- segment | safe }} -->
