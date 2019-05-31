@@ -1,5 +1,6 @@
 const nunjucks = require('nunjucks');
 const _ = require('lodash');
+const Victor = require('victor');
 
 const obstacles = [{
   type: "StartBox",
@@ -81,19 +82,34 @@ const renderBoundary = function(obstacle) {
   }
 };
 
-const renderCourseSegment = function(startObstacle, endObstacle) {
-  const {x: x1, y: y1} = globalToViewbox(startObstacle.x, startObstacle.y);
-  const {x: x2, y: y2} = globalToViewbox(endObstacle.x, endObstacle.y);
-  return `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="black" stroke-width="0.5%" />`;
+const calculateSegment = function(o1, o2) {
+  const v1 = Victor(o1.x, o1.y);
+  const v2 = Victor(o2.x, o2.y);
+  const v12 = v2.subtract(v1);
+
+  return {
+    o1,
+    o2,
+    alpha12: v12.angle(),
+    d12: v12.magnitude(),
+  };
+};
+
+const renderSegment = function(segment) {
+  const {x: x1, y: y1} = globalToViewbox(segment.o1.x, segment.o1.y);
+  const {x: x2, y: y2} = globalToViewbox(segment.o2.x, segment.o2.y);
+  return `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="black" stroke-width="0.25%" />`;
 };
 
 //_.initial is necessary because _.zip will keep the last pair where the end segment is undefined
-const courseSegments = _.initial(_.zip(obstacles, _.drop(obstacles)));
+const courseSegments = _.initial(_.zip(obstacles, _.drop(obstacles))).
+      map(([o1, o2]) => calculateSegment(o1, o2));
 
 nunjucks.configure({});
 const output = nunjucks.render('example_layout.njk', {
-  obstacles: obstacles.map(renderObstacle),
-  obstacleBoundaries: obstacles.map(renderBoundary),
-  courseSegments: courseSegments.map(([o1, o2]) => renderCourseSegment(o1, o2))
+  courseSegments,
+  renderedObstacles: obstacles.map(renderObstacle),
+  renderedObstacleBoundaries: obstacles.map(renderBoundary),
+  renderedCourseSegments: courseSegments.map(renderSegment),
 });
 console.log(output);

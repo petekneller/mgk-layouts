@@ -52,20 +52,38 @@
       </defs>
 
       <!-- obstacles -->
-      {% for obstacle in obstacles %}
+      {% for obstacle in renderedObstacles %}
       {{- obstacle | safe -}}
       {% endfor %}
 
       <!-- boundaries -->
-      {% for boundary in obstacleBoundaries %}
+      {% for boundary in renderedObstacleBoundaries %}
         {{- boundary | safe }}
       {% endfor %}
 
       <!-- course segments -->
-      {% for segment in courseSegments %}
+      {% for segment in renderedCourseSegments %}
         {{- segment | safe }}
       {% endfor %}
 
     </svg>
+
+    <table>
+      <tr>
+        <th>o1</th>
+        <th>o2</th>
+        <th>alpha12</th>
+        <th>d12</th>
+      </tr>
+      {% for segment in courseSegments %}
+      <tr>
+        <td>({{ segment.o1.x }},{{ segment.o1.y }})</td>
+        <td>({{ segment.o2.x }},{{ segment.o2.y }})</td>
+        <td>{{ segment.alpha12 }}</td>
+        <td>{{ segment.d12 }}</td>
+      </tr>
+      {% endfor %}
+    </table>
+
   </body>
 </html>
