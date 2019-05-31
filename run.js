@@ -5,39 +5,48 @@ const Victor = require('victor');
 const obstacles = [{
   type: "StartBox",
   x: 15,
-  y: 5
+  y: 5,
+  orientation: "N"
 }, {
   type: "RightTurn",
   x: 10,
-  y: 10
+  y: 10,
+  orientation: "N"
 }, {
   type: "LeftTurn",
   x: 12,
-  y: 15
+  y: 15,
+  orientation: "N"
 }, {
   type: "RightTurn",
   x: 10,
-  y: 20
+  y: 20,
+  orientation: "N"
 }, {
   type: "LeftTurn",
   x: 12,
-  y: 25
+  y: 25,
+  orientation: "N"
 }, {
   type: "RightTurn",
   x: 10,
-  y: 30
+  y: 30,
+  orientation: "N"
 }, {
   type: "RightRotation",
   x: 20,
-  y: 30
+  y: 30,
+  orientation: "N"
 }, {
   type: "Gate",
   x: 25,
-  y: 18
+  y: 18,
+  orientation: "S"
 }, {
   type: "FinishBox",
   x: 20,
-  y: 5
+  y: 5,
+  orientation: "N"
 }];
 
 const svgViewSize = { x: 40, y: 40};
@@ -101,6 +110,20 @@ const renderSegment = function(segment) {
   return `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="black" stroke-width="0.25%" />`;
 };
 
+const renderOrientationVector = function(obstacle) {
+  const x2 = obstacle.x + (
+    obstacle.orientation === "E" ? 3 :
+      obstacle.orientation === "W" ? -3 : 0
+  );
+  const y2 = obstacle.y + (
+    obstacle.orientation === "N" ? 3 :
+      obstacle.orientation === "S" ? -3 : 0
+  );
+  const {x: x1b, y: y1b} = globalToViewbox(obstacle.x, obstacle.y);
+  const {x: x2b, y: y2b} = globalToViewbox(x2, y2);
+  return `<line x1="${x1b}" y1="${y1b}" x2="${x2b}" y2="${y2b}" stroke="red" stroke-width="0.25%" />`;
+};
+
 //_.initial is necessary because _.zip will keep the last pair where the end segment is undefined
 const courseSegments = _.initial(_.zip(obstacles, _.drop(obstacles))).
       map(([o1, o2]) => calculateSegment(o1, o2));
@@ -111,5 +134,6 @@ const output = nunjucks.render('example_layout.njk', {
   renderedObstacles: obstacles.map(renderObstacle),
   renderedObstacleBoundaries: obstacles.map(renderBoundary),
   renderedCourseSegments: courseSegments.map(renderSegment),
+  renderedOrientationVectors: obstacles.map(renderOrientationVector)
 });
 console.log(output);

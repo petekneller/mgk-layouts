@@ -61,6 +61,11 @@
         {{- boundary | safe }}
       {% endfor %}
 
+      <!-- orientation vectors -->
+      {% for orientation in renderedOrientationVectors %}
+        {{- orientation | safe }}
+      {% endfor %}
+
       <!-- course segments -->
       {% for segment in renderedCourseSegments %}
         {{- segment | safe }}
