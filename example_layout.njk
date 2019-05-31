@@ -79,6 +79,8 @@
         <th>o2</th>
         <th>alpha12</th>
         <th>d12</th>
+        <th>exit</th>
+        <th>entry</th>
       </tr>
       {% for segment in courseSegments %}
       <tr>
@@ -86,6 +88,8 @@
         <td>({{ segment.o2.x }},{{ segment.o2.y }})</td>
         <td>{{ segment.alpha12 }}</td>
         <td>{{ segment.d12 }}</td>
+        <td>{{ segment.exit }}</td>
+        <td>{{ segment.entry }}</td>
       </tr>
       {% endfor %}
     </table>

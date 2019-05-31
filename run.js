@@ -91,6 +91,28 @@ const renderBoundary = function(obstacle) {
   }
 };
 
+const calculateExit = function(obstacle) {
+  switch(obstacle.type) {
+  case "StartBox": return "Right";
+  case "LeftTurn": return "Right";
+  case "RightTurn": return "Left";
+  case "RightRotation": return "Left";
+  case "Gate": return "Left";
+  default: return "Left";
+  }
+};
+
+const calculateEntry = function(obstacle) {
+  switch(obstacle.type) {
+  case "FinishBox": return "Right";
+  case "LeftTurn": return "Right";
+  case "RightTurn": return "Left";
+  case "RightRotation": return "Left";
+  case "Gate": return "Left";
+  default: return "Left";
+  }
+};
+
 const calculateSegment = function(o1, o2) {
   const v1 = Victor(o1.x, o1.y);
   const v2 = Victor(o2.x, o2.y);
@@ -101,6 +123,8 @@ const calculateSegment = function(o1, o2) {
     o2,
     alpha12: v12.angle(),
     d12: v12.magnitude(),
+    exit: calculateExit(o1),
+    entry: calculateEntry(o2)
   };
 };
 
