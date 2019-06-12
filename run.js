@@ -119,19 +119,23 @@ const calculateEntry = function(obstacle) {
 };
 
 const calculateSegment = function(o1, o2) {
-  const v12 = v2.subtract(v1);
   const v1 = boundaryCircleOrigin(o1);
   const v2 = boundaryCircleOrigin(o2);
+  const v12 = v2.clone().subtract(v1);
+  const alpha12 = v12.angle();
+  const d12 = v12.magnitude();
+  const exit = calculateExit(o1);
+  const entry = calculateEntry(o2);
 
   return {
     o1,
     o2,
-    alpha12: v12.angle(),
-    d12: v12.magnitude(),
-    exit: calculateExit(o1),
-    entry: calculateEntry(o2)
     v1,
     v2,
+    alpha12,
+    d12,
+    exit,
+    entry,
   };
 };
 
