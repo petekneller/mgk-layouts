@@ -74,20 +74,32 @@ const renderBoundary = function(obstacle) {
   case "StartBox":
   case "Gate": {
     const {x, y} = globalToViewbox(obstacle.x - 0.75, obstacle.y);
-    return `<circle r="0.75" cx="${x}" cy="${y}" class="boundaryCircle" />`;
+    return `<circle r="${boundaryRadius(obstacle)}" cx="${x}" cy="${y}" class="boundaryCircle" />`;
   }
   case "FinishBox": {
     const {x, y} = globalToViewbox(obstacle.x + 0.75, obstacle.y);
-    return `<circle r="0.75" cx="${x}" cy="${y}" class="boundaryCircle" />`;
+    return `<circle r="${boundaryRadius(obstacle)}" cx="${x}" cy="${y}" class="boundaryCircle" />`;
   }
   case "LeftTurn":
   case "RightTurn":
   case "LeftRotation":
   case "RightRotation": {
     const {x, y} = globalToViewbox(obstacle.x, obstacle.y);
-    return `<circle r="1" cx="${x}" cy="${y}" class="boundaryCircle" />`;
+    return `<circle r="${boundaryRadius(obstacle)}" cx="${x}" cy="${y}" class="boundaryCircle" />`;
   }
   default: return "";
+  }
+};
+
+const boundaryRadius = function(obstacle) {
+  switch(obstacle.type) {
+  case "StartBox":
+  case "FinishBox":
+  case "Gate": return 0.75;
+  case "LeftTurn":
+  case "RightTurn":
+  case "RightRotation": return 1.0;
+  default: return 1.0;
   }
 };
 
