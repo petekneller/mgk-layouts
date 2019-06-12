@@ -69,26 +69,9 @@ const renderObstacle = function(obstacle) {
 };
 
 const renderBoundary = function(obstacle) {
-  switch (obstacle.type) {
-  // TODO: simplifying assumption that start/finish boxes and gates are always 'handed' the same way
-  case "StartBox":
-  case "Gate": {
-    const {x, y} = globalToViewbox(obstacle.x - 0.75, obstacle.y);
-    return `<circle r="${boundaryRadius(obstacle)}" cx="${x}" cy="${y}" class="boundaryCircle" />`;
-  }
-  case "FinishBox": {
-    const {x, y} = globalToViewbox(obstacle.x + 0.75, obstacle.y);
-    return `<circle r="${boundaryRadius(obstacle)}" cx="${x}" cy="${y}" class="boundaryCircle" />`;
-  }
-  case "LeftTurn":
-  case "RightTurn":
-  case "LeftRotation":
-  case "RightRotation": {
-    const {x, y} = globalToViewbox(obstacle.x, obstacle.y);
-    return `<circle r="${boundaryRadius(obstacle)}" cx="${x}" cy="${y}" class="boundaryCircle" />`;
-  }
-  default: return "";
-  }
+  const boundary = boundaryCircleOrigin(obstacle);
+  const {x, y} = globalToViewbox(boundary.x, boundary.y);
+  return `<circle r="${boundaryRadius(obstacle)}" cx="${x}" cy="${y}" class="boundaryCircle" />`;
 };
 
 const boundaryRadius = function(obstacle) {
@@ -100,6 +83,16 @@ const boundaryRadius = function(obstacle) {
   case "RightTurn":
   case "RightRotation": return 1.0;
   default: return 1.0;
+  }
+};
+
+const boundaryCircleOrigin = function(obstacle) {
+  // TODO: simplifying assumption that start/finish boxes and gates are always 'handed' the same way
+  switch (obstacle.type) {
+  case "StartBox": return Victor(obstacle.x - 0.75, obstacle.y);
+  case "Gate": return Victor(obstacle.x - 0.75, obstacle.y);
+  case "FinishBox": return Victor(obstacle.x + 0.75, obstacle.y);
+  default: return Victor(obstacle.x, obstacle.y);
   }
 };
 
@@ -126,9 +119,9 @@ const calculateEntry = function(obstacle) {
 };
 
 const calculateSegment = function(o1, o2) {
-  const v1 = Victor(o1.x, o1.y);
-  const v2 = Victor(o2.x, o2.y);
   const v12 = v2.subtract(v1);
+  const v1 = boundaryCircleOrigin(o1);
+  const v2 = boundaryCircleOrigin(o2);
 
   return {
     o1,
@@ -137,12 +130,14 @@ const calculateSegment = function(o1, o2) {
     d12: v12.magnitude(),
     exit: calculateExit(o1),
     entry: calculateEntry(o2)
+    v1,
+    v2,
   };
 };
 
 const renderSegment = function(segment) {
-  const {x: x1, y: y1} = globalToViewbox(segment.o1.x, segment.o1.y);
-  const {x: x2, y: y2} = globalToViewbox(segment.o2.x, segment.o2.y);
+  const {x: x1, y: y1} = globalToViewbox(segment.v1.x, segment.v1.y);
+  const {x: x2, y: y2} = globalToViewbox(segment.v2.x, segment.v2.y);
   return `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="black" stroke-width="0.25%" />`;
 };
 
