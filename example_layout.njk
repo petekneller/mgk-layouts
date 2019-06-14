@@ -66,6 +66,14 @@
         {{- orientation | safe }}
       {% endfor %}
 
+      <!-- course normal vectors -->
+      {% for vector in renderedExitVectors %}
+        {{- vector | safe }}
+      {% endfor %}
+      {% for vector in renderedEntryVectors %}
+        {{- vector | safe }}
+      {% endfor %}
+
       <!-- course segments -->
       {% for segment in renderedCourseSegments %}
         {{- segment | safe }}
@@ -81,6 +89,9 @@
         <th>d12</th>
         <th>exit</th>
         <th>entry</th>
+        <th>r12</th>
+        <th>t12</th>
+        <th>beta</th>
       </tr>
       {% for segment in courseSegments %}
       <tr>
@@ -90,6 +101,9 @@
         <td>{{ segment.d12 }}</td>
         <td>{{ segment.exit }}</td>
         <td>{{ segment.entry }}</td>
+        <td>{{ segment.r12 }}</td>
+        <td>{{ segment.t12 }}</td>
+        <td>{{ segment.beta }}</td>
       </tr>
       {% endfor %}
     </table>
