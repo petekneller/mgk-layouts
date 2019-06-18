@@ -1,53 +1,11 @@
 const nunjucks = require('nunjucks');
 const _ = require('lodash');
 const Victor = require('victor');
+const process = require('process');
+const fs = require('fs');
 
-const obstacles = [{
-  type: "StartBox",
-  x: 15,
-  y: 5,
-  orientation: "N"
-}, {
-  type: "RightTurn",
-  x: 10,
-  y: 10,
-  orientation: "N"
-}, {
-  type: "LeftTurn",
-  x: 12,
-  y: 15,
-  orientation: "N"
-}, {
-  type: "RightTurn",
-  x: 10,
-  y: 20,
-  orientation: "N"
-}, {
-  type: "LeftTurn",
-  x: 12,
-  y: 25,
-  orientation: "N"
-}, {
-  type: "RightTurn",
-  x: 10,
-  y: 30,
-  orientation: "N"
-}, {
-  type: "RightRotation",
-  x: 20,
-  y: 30,
-  orientation: "N"
-}, {
-  type: "Gate",
-  x: 25,
-  y: 18,
-  orientation: "S"
-}, {
-  type: "FinishBox",
-  x: 20,
-  y: 5,
-  orientation: "N"
-}];
+const courseFile = process.argv.slice(2)[0]; // drop the js file path
+const course = JSON.parse(fs.readFileSync(courseFile)).obstacles;
 
 const svgViewSize = { x: 40, y: 40};
 
@@ -232,16 +190,16 @@ const renderNormalVector = function(obstacle, localNormal) {
 };
 
 //_.initial is necessary because _.zip will keep the last pair where the end segment is undefined
-const courseSegments = _.initial(_.zip(obstacles, _.drop(obstacles))).
+const courseSegments = _.initial(_.zip(course, _.drop(course))).
       map(([o1, o2]) => calculateSegment(o1, o2));
 
 nunjucks.configure({});
 const output = nunjucks.render('example_layout.njk', {
   courseSegments,
-  renderedObstacles: obstacles.map(renderObstacle),
-  renderedObstacleBoundaries: obstacles.map(renderBoundary),
+  renderedObstacles: course.map(renderObstacle),
+  renderedObstacleBoundaries: course.map(renderBoundary),
   renderedCourseSegments: courseSegments.map(renderSegment),
-  renderedOrientationVectors: obstacles.map(renderOrientationVector),
+  renderedOrientationVectors: course.map(renderOrientationVector),
   renderedExitVectors: courseSegments.map(segment => renderNormalVector(segment.o1, segment.exitNormal)),
   renderedEntryVectors: courseSegments.map(segment => renderNormalVector(segment.o2, segment.entryNormal))
 });
