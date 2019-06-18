@@ -1,0 +1,38 @@
+{
+  "obstacles": [{
+      "type": "LeftTurn",
+      "x": 20,
+      "y": 5,
+      "orientation": "N"
+    }, {
+      "type": "RightTurn",
+      "x": 20,
+      "y": 10,
+      "orientation": "N"
+    }, {
+      "type": "LeftTurn",
+      "x": 20,
+      "y": 15,
+      "orientation": "N"
+    }, {
+      "type": "RightTurn",
+      "x": 20,
+      "y": 20,
+      "orientation": "N"
+    }, {
+      "type": "LeftTurn",
+      "x": 20,
+      "y": 25,
+      "orientation": "N"
+    }, {
+      "type": "RightTurn",
+      "x": 20,
+      "y": 30,
+      "orientation": "N"
+    }, {
+      "type": "LeftTurn",
+      "x": 20,
+      "y": 35,
+      "orientation": "N"
+    }]
+}

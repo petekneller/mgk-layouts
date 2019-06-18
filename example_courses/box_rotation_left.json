@@ -1,0 +1,23 @@
+{
+  "obstacles": [{
+      "type": "LeftRotation",
+      "x": 10,
+      "y": 10,
+      "orientation": "N"
+    }, {
+      "type": "LeftRotation",
+      "x": 10,
+      "y": 30,
+      "orientation": "N"
+    }, {
+      "type": "LeftRotation",
+      "x": 30,
+      "y": 30,
+      "orientation": "N"
+    }, {
+      "type": "LeftRotation",
+      "x": 30,
+      "y": 10,
+      "orientation": "N"
+    }]
+}
