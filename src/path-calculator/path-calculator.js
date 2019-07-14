@@ -6,7 +6,6 @@ const calculateSegment = function(obstacle1, obstacle2) {
 
   // TODO:
   // * obstacle entry and exit on opposite sides
-  // * boundary circle radii
   // * r12 and t12
   // * correct value of beta
 
@@ -14,22 +13,24 @@ const calculateSegment = function(obstacle1, obstacle2) {
         Math.PI / 2:
         -1 * Math.PI / 2;
 
-  const r1 = d12.
+  const exit = d12.
         clone().
         normalize().
+        multiplyScalar(obstacle1.radius).
         rotate(beta);
 
-  const r2 = d12.
+  const entry = d12.
         clone().
         normalize().
+        multiplyScalar(obstacle2.radius).
         rotate(beta);
 
   return {
     o1: obstacle1,
     o2: obstacle2,
     d12,
-    r1,
-    r2
+    exit,
+    entry
   };
 };
 
