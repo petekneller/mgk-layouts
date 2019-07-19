@@ -1,4 +1,4 @@
-require('tap').mochaGlobals();
+const t = require('tap').mocha;
 const assert = require('chai').assert;
 const victorAssert = require('../victor-assert.js');
 const fc = require('fast-check');
@@ -7,33 +7,33 @@ const pathCalculator = require('../../src/path-calculator/path-calculator.js');
 const obstacle = require('../../src/obstacle.js');
 const victor = require('victor');
 
-describe('a segment of two obstacles, both with the same boundary circle radius', () => {
+t.describe('a segment of two obstacles, both with the same boundary circle radius', () => {
 
-  context('when obstacle 1 is at (0,0), obstacle 2 is at (0,10), boundary circle radius = 1 and entry = exit = right', () => {
+  t.context('when obstacle 1 is at (0,0), obstacle 2 is at (0,10), boundary circle radius = 1 and entry = exit = right', () => {
     const o1 = obstacle({ origin: victor(0, 0) });
     const o2 = obstacle({ origin: victor(0, 10) });
     const segment = pathCalculator.calculateSegment(o1, o2);
 
-    it('both entry and exit vectors should be equal to (1,0)', () => {
+    t.it('both entry and exit vectors should be equal to (1,0)', () => {
       const expected = victor(1, 0);
       victorAssert.equalVectors(segment.exit, expected);
       victorAssert.equalVectors(segment.entry, expected);
     });
   });
 
-  context('when obstacle 1 is at (0,0), obstacle 2 is at (-10,-10), boundary circle radius = 1 and entry = exit = left', () => {
+  t.context('when obstacle 1 is at (0,0), obstacle 2 is at (-10,-10), boundary circle radius = 1 and entry = exit = left', () => {
     const o1 = obstacle({ origin: victor(0, 0), exit: obstacle.LEFT });
     const o2 = obstacle({ origin: victor(-10, -10), entry: obstacle.LEFT });
     const segment = pathCalculator.calculateSegment(o1, o2);
 
-    it('both entry and exit vectors should be equal to (√0.5, -√0.5)', () => {
+    t.it('both entry and exit vectors should be equal to (√0.5, -√0.5)', () => {
       const expected = victor(Math.sqrt(0.5), -1 * Math.sqrt(0.5));
       victorAssert.equalVectors(segment.exit, expected);
       victorAssert.equalVectors(segment.entry, expected);
     });
   });
 
-  context('when obstacles are at least the boundary circle radius apart', () => {
+  t.context('when obstacles are at least the boundary circle radius apart', () => {
     const segmentProperty = (cb) => {
       return fc.property(fc.nat(), fc.nat(), fc.nat(), fc.nat(), fc.double(0.001, 100.0), (o1x, o1y, o2x, o2y, r) => {
         // obstacles can't be less than 2 radii away from each other
@@ -47,13 +47,13 @@ describe('a segment of two obstacles, both with the same boundary circle radius'
       });
     };
 
-    it('both entry and exit vectors should be equal', () => {
+    t.it('both entry and exit vectors should be equal', () => {
       fc.assert(segmentProperty((segment) => {
         victorAssert.equalVectors(segment.exit, segment.entry);
       }));
     });
 
-    it('both entry and exit vectors should have magnitude = boundary circle radius', () => {
+    t.it('both entry and exit vectors should have magnitude = boundary circle radius', () => {
       fc.assert(segmentProperty((segment) => {
         assert.closeTo(segment.exit.magnitude(), segment.o1.radius, 0.01);
       }));

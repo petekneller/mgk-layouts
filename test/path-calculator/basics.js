@@ -1,13 +1,13 @@
-require('tap').mochaGlobals();
+const t = require('tap').mocha;
 const assert = require('chai').assert;
 
 const victor = require('victor');
 const obstacle = require('../../src/obstacle.js');
 const pathCalculator = require('../../src/path-calculator/path-calculator.js');
 
-describe('pathCalculator.calculateSegment', () => {
-  context('when the obstacles have known entry/exit sides', () => {
-    it('should return an object containing both input obstacles', () => {
+t.describe('pathCalculator.calculateSegment', () => {
+  t.context('when the obstacles have known entry/exit sides', () => {
+    t.it('should return an object containing both input obstacles', () => {
       const o1 = obstacle();
       const o2 = obstacle();
       const segment = pathCalculator.calculateSegment(o1, o2);
