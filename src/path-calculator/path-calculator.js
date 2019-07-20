@@ -2,33 +2,50 @@ const obstacle = require('../obstacle.js');
 
 const calculateSegment = function(obstacle1, obstacle2) {
 
-  const d12 = obstacle2.origin.clone().subtract(obstacle1.origin);
+  const o12 = obstacle2.origin.clone().subtract(obstacle1.origin);
+  const r12 = obstacle1.exit === obstacle2.entry ?
+        Math.abs(obstacle1.radius - obstacle2.radius) :
+       (obstacle1.radius + obstacle2.radius);
+  const t12 = Math.sqrt(Math.pow(o12.magnitude(), 2) - Math.pow(r12, 2));
+  const beta = Math.atan2(t12, r12);
 
-  // TODO:
-  // * obstacle entry and exit on opposite sides
-  // * r12 and t12
-  // * correct value of beta
+  let exitTheta, entryTheta;
+  if (obstacle1.exit !== obstacle2.entry) {
+    exitTheta = (obstacle1.exit === obstacle.LEFT) ?
+      beta :
+      -1 * beta;
 
-  const beta = (obstacle1.exit === obstacle.LEFT) ?
-        Math.PI / 2:
-        -1 * Math.PI / 2;
+    entryTheta = (obstacle2.entry === obstacle.LEFT) ?
+      (Math.PI - beta) :
+      (Math.PI + beta);
+  } else if (obstacle1.radius >= obstacle2.radius) {
+    entryTheta = exitTheta = (obstacle1.exit === obstacle.LEFT) ?
+      beta :
+      -1 * beta;
+  } else {
+    entryTheta = exitTheta = Math.PI +
+      ((obstacle1.exit === obstacle.RIGHT) ?
+        beta :
+        -1 * beta);
+  }
 
-  const exit = d12.
+  const exit = o12.
         clone().
         normalize().
         multiplyScalar(obstacle1.radius).
-        rotate(beta);
+        rotate(exitTheta);
 
-  const entry = d12.
+  const entry = o12.
         clone().
         normalize().
         multiplyScalar(obstacle2.radius).
-        rotate(beta);
+        rotate(entryTheta);
 
   return {
     o1: obstacle1,
     o2: obstacle2,
-    d12,
+    o12,
+    beta,
     exit,
     entry
   };

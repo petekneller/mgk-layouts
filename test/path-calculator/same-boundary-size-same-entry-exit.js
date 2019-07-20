@@ -7,7 +7,7 @@ const pathCalculator = require('../../src/path-calculator/path-calculator.js');
 const obstacle = require('../../src/obstacle.js');
 const victor = require('victor');
 
-t.describe('a segment of two obstacles, both with the same boundary circle radius', () => {
+t.describe('a segment of two obstacles, both with the same boundary circle radius and having entry/exit on the same side', () => {
 
   t.context('when obstacle 1 is at (0,0), obstacle 2 is at (0,10), boundary circle radius = 1 and entry = exit = right', () => {
     const o1 = obstacle({ origin: victor(0, 0) });
@@ -35,13 +35,14 @@ t.describe('a segment of two obstacles, both with the same boundary circle radiu
 
   t.context('when obstacles are at least the boundary circle radius apart', () => {
     const segmentProperty = (cb) => {
-      return fc.property(fc.nat(), fc.nat(), fc.nat(), fc.nat(), fc.double(0.001, 100.0), (o1x, o1y, o2x, o2y, r) => {
+      return fc.property(fc.nat(), fc.nat(), fc.nat(), fc.nat(), fc.double(0.001, 100.0), fc.boolean(), (o1x, o1y, o2x, o2y, r, b) => {
         // obstacles can't be less than 2 radii away from each other
         fc.pre(Math.abs(o1x - o2x) >= 2*r);
         fc.pre(Math.abs(o1y - o2y) >= 2*r);
 
-        const o1 = obstacle({ origin: victor(o1x, o1y), radius: r });
-        const o2 = obstacle({ origin: victor(o2x, o2y), radius: r });
+        const entryAndExit = b ? obstacle.LEFT : obstacle.RIGHT;
+        const o1 = obstacle({ origin: victor(o1x, o1y), radius: r, exit: entryAndExit });
+        const o2 = obstacle({ origin: victor(o2x, o2y), radius: r, entry: entryAndExit });
         const segment = pathCalculator.calculateSegment(o1, o2);
         cb(segment);
       });
@@ -56,10 +57,9 @@ t.describe('a segment of two obstacles, both with the same boundary circle radiu
     t.it('both entry and exit vectors should have magnitude = boundary circle radius', () => {
       fc.assert(segmentProperty((segment) => {
         assert.closeTo(segment.exit.magnitude(), segment.o1.radius, 0.01);
+        assert.closeTo(segment.entry.magnitude(), segment.o1.radius, 0.01);
       }));
     });
   });
 
-  // TODO:
-  // * add tests/properties for opposites exit/entry sides
 });

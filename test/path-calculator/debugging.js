@@ -12,7 +12,7 @@ t.describe('the segment object returned by pathCalculator.calculateSegment shoul
   const segment = pathCalculator.calculateSegment(o1, o2);
 
   t.it('should contain the vector "d12" between the two obstacle origins', () => {
-    assert.exists(segment.d12);
-    victorAssert.equalVectors(segment.d12, victor(0, 10));
+    assert.exists(segment.o12);
+    victorAssert.equalVectors(segment.o12, victor(0, 10));
   });
 });
