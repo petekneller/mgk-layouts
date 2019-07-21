@@ -10,8 +10,8 @@ const victor = require('victor');
 t.describe('a segment of two obstacles, both with the same boundary circle radius and having entry/exit on the same side', () => {
 
   t.context('when obstacle 1 is at (0,0), obstacle 2 is at (0,10), boundary circle radius = 1 and entry = exit = right', () => {
-    const o1 = obstacle({ origin: victor(0, 0) });
-    const o2 = obstacle({ origin: victor(0, 10) });
+    const o1 = obstacle({ origin: victor(0, 0), exit: obstacle.RIGHT });
+    const o2 = obstacle({ origin: victor(0, 10), entry: obstacle.RIGHT });
     const segment = pathCalculator.calculateSegment(o1, o2);
 
     t.it('both entry and exit vectors should be equal to (1,0)', () => {
