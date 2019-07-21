@@ -1,6 +1,6 @@
 * path calculator
 ** +same radius, entry/exit on same side+
-** add tests for entry/exit on opposite side
-** add tests for radius increasing/decreasing
-** fast-check arbitrary for vectors/obstacles
+** +add tests for entry/exit on opposite side+
+** +add tests for radius increasing/decreasing+
+** +fast-check arbitrary for vectors/obstacles+
 ** tests for unknown entry/exit strategy
