@@ -85,24 +85,18 @@
       <tr>
         <th>o1</th>
         <th>o2</th>
-        <th>alpha12</th>
-        <th>d12</th>
+        <th>o12</th>
         <th>exit</th>
         <th>entry</th>
-        <th>r12</th>
-        <th>t12</th>
         <th>beta</th>
       </tr>
       {% for segment in courseSegments %}
       <tr>
-        <td>({{ segment.o1.x }},{{ segment.o1.y }})</td>
-        <td>({{ segment.o2.x }},{{ segment.o2.y }})</td>
-        <td>{{ segment.alpha12 }}</td>
-        <td>{{ segment.d12 }}</td>
+        <td>({{ segment.o1.origin.x }},{{ segment.o1.origin.y }})</td>
+        <td>({{ segment.o2.origin.x }},{{ segment.o2.origin.y }})</td>
+        <td>{{ segment.o12 }}</td>
         <td>{{ segment.exit }}</td>
         <td>{{ segment.entry }}</td>
-        <td>{{ segment.r12 }}</td>
-        <td>{{ segment.t12 }}</td>
         <td>{{ segment.beta }}</td>
       </tr>
       {% endfor %}

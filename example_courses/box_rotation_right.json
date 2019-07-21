@@ -1,23 +1,19 @@
 {
   "obstacles": [{
-      "type": "RightRotation",
-      "x": 30,
-      "y": 10,
+      "name": "RightRotation",
+      "origin": { "x": 30, "y": 10 },
       "orientation": "N"
     }, {
-      "type": "RightRotation",
-      "x": 30,
-      "y": 30,
+      "name": "RightRotation",
+      "origin": { "x": 30, "y": 30 },
       "orientation": "N"
     }, {
-      "type": "RightRotation",
-      "x": 10,
-      "y": 30,
+      "name": "RightRotation",
+      "origin": { "x": 10, "y": 30 },
       "orientation": "N"
     }, {
-      "type": "RightRotation",
-      "x": 10,
-      "y": 10,
+      "name": "RightRotation",
+      "origin": { "x": 10, "y": 10 },
       "orientation": "N"
     }]
 }
