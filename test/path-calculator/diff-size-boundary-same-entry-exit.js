@@ -73,14 +73,14 @@ t.describe('a segment of two obstacles, having different size boundary circles a
     t.it('exit vector should have magnitude equal to boundary circle radius 1', () => {
       fc.assert(segmentProperty((o1, o2) => {
         const segment = pathCalculator.calculateSegment(o1, o2);
-        assert.closeTo(segment.exit.magnitude(), segment.o1.radius, 0.01);
+        assert.closeTo(segment.exit.magnitude(), segment.obstacle1.radius, 0.01);
       }));
     });
 
     t.it('entry vector should have magnitude equal to boundary circle radius 2', () => {
       fc.assert(segmentProperty((o1, o2) => {
         const segment = pathCalculator.calculateSegment(o1, o2);
-        assert.closeTo(segment.entry.magnitude(), segment.o2.radius, 0.01);
+        assert.closeTo(segment.entry.magnitude(), segment.obstacle2.radius, 0.01);
       }));
     });
 

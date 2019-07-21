@@ -56,8 +56,8 @@ t.describe('a segment of two obstacles, both with the same boundary circle radiu
 
     t.it('both entry and exit vectors should have magnitude = boundary circle radius', () => {
       fc.assert(segmentProperty((segment) => {
-        assert.closeTo(segment.exit.magnitude(), segment.o1.radius, 0.01);
-        assert.closeTo(segment.entry.magnitude(), segment.o1.radius, 0.01);
+        assert.closeTo(segment.exit.magnitude(), segment.obstacle1.radius, 0.01);
+        assert.closeTo(segment.entry.magnitude(), segment.obstacle1.radius, 0.01);
       }));
     });
   });
