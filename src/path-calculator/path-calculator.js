@@ -73,6 +73,11 @@ const normalizeAngle = function(angle) {
   return normalizeAngle(angle);
 };
 
+const obstacleLocalVectorToGlobal = function(obstacle, vector) {
+  const vectorRotatedToObstacleOrientation = vector.rotate(obstacle.orientation.direction() - (Math.PI / 2));
+  return obstacle.origin.clone().add(vectorRotatedToObstacleOrientation);
+};
+
 const testEntrySides = function(segment) {
   if (segment.obstacle2.entry !== obstacle.EITHER) {
     segment.boundaryCircle2 = toBoundaryCircle(segment.obstacle2);
@@ -85,7 +90,7 @@ const testEntrySides = function(segment) {
 
   const leftInputSegment = _.clone(segment);
   leftInputSegment.boundaryCircle2 = {
-    origin: obstacle2.origin.clone().add(obstacle2.leftEntryBoundaryOrigin),
+    origin: obstacleLocalVectorToGlobal(obstacle2, obstacle2.leftEntryBoundaryOrigin),
     radius: obstacle2.radius,
     entry: obstacle.RIGHT
   };
@@ -93,7 +98,7 @@ const testEntrySides = function(segment) {
 
   const rightInputSegment = _.clone(segment);
   rightInputSegment.boundaryCircle2 = {
-    origin: obstacle2.origin.clone().add(obstacle2.rightEntryBoundaryOrigin),
+    origin: obstacleLocalVectorToGlobal(obstacle2, obstacle2.rightEntryBoundaryOrigin),
     radius: obstacle2.radius,
     entry: obstacle.LEFT
   };
@@ -128,7 +133,7 @@ const testExitSides = function(segment) {
 
   const leftInputSegment = _.clone(segment);
   leftInputSegment.boundaryCircle1 = {
-    origin: obstacle1.origin.clone().add(obstacle1.leftExitBoundaryOrigin),
+    origin: obstacleLocalVectorToGlobal(obstacle1, obstacle1.leftExitBoundaryOrigin),
     radius: obstacle1.radius,
     exit: obstacle.RIGHT
   };
@@ -136,7 +141,7 @@ const testExitSides = function(segment) {
 
   const rightInputSegment = _.clone(segment);
   rightInputSegment.boundaryCircle1 = {
-    origin: obstacle1.origin.clone().add(obstacle1.rightExitBoundaryOrigin),
+    origin: obstacleLocalVectorToGlobal(obstacle1, obstacle1.rightExitBoundaryOrigin),
     radius: obstacle1.radius,
     exit: obstacle.LEFT
   };

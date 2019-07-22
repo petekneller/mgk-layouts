@@ -43,13 +43,14 @@ t.describe('a path segment composed of a simple obstacle followed by an "either"
   t.context('when the simple obstacle is directly south of the either-obstacle', () => {
     const eitherObstacle = obstacle({ origin: { x: 0, y: 10 }, entry: obstacle.EITHER, leftEntryBoundaryOrigin: { x: -1, y: 0 }, rightEntryBoundaryOrigin: { x: 1, y: 0 } });
     const simpleObstacle = obstacle({ origin: { x: 0, y: 0 } });
+    const sqrtPointFive = Math.sqrt(0.5);
 
     t.context('when the either obstacle has a north-west orientation vector', () => {
       const eo = _.assign(_.clone(eitherObstacle), { orientation: 315 });
       const segment = pathCalculator.calculateSegment(simpleObstacle, obstacle(eo));
 
       t.it('the path should be using the "left-hand" boundary circle of the either-obstacle', () => {
-        victorAssert.equalVectors(segment.boundaryCircle2.origin, victor(-1, 10));
+        victorAssert.equalVectors(segment.boundaryCircle2.origin, victor(-1 * sqrtPointFive, 10 - sqrtPointFive));
       });
 
       t.it('the path should have a right entry', () => {
@@ -62,7 +63,7 @@ t.describe('a path segment composed of a simple obstacle followed by an "either"
       const segment = pathCalculator.calculateSegment(simpleObstacle, obstacle(eo));
 
       t.it('the path should be using the "right-hand" boundary circle of the either-obstacle', () => {
-        victorAssert.equalVectors(segment.boundaryCircle2.origin, victor(1, 10));
+        victorAssert.equalVectors(segment.boundaryCircle2.origin, victor(sqrtPointFive, 10 - sqrtPointFive));
       });
 
       t.it('the path should have a left entry', () => {
