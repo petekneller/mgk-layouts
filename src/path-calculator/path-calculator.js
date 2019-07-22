@@ -1,3 +1,5 @@
+const _ = require('lodash');
+const victor = require('victor');
 const obstacle = require('../obstacle.js');
 
 const _calculateSegment = function(segment) {
@@ -60,11 +62,51 @@ const toBoundaryCircle = function(obstacle) {
   };
 };
 
+const trialBothExitSides = function(segment) {
+  const obstacle1 = segment.obstacle1;
+  const obstacle2 = segment.obstacle2;
+
+  segment.boundaryCircle2 = toBoundaryCircle(obstacle2);
+
+  const leftInputSegment = _.clone(segment);
+  leftInputSegment.boundaryCircle1 = {
+    origin: obstacle1.origin.clone().add(obstacle1.leftExitBoundaryOrigin),
+    radius: obstacle1.radius,
+    exit: obstacle.RIGHT
+  };
+  const leftOutputSegment = _calculateSegment(leftInputSegment);
+
+  const rightInputSegment = _.clone(segment);
+  rightInputSegment.boundaryCircle1 = {
+    origin: obstacle1.origin.clone().add(obstacle1.rightExitBoundaryOrigin),
+    radius: obstacle1.radius,
+    exit: obstacle.LEFT
+  };
+  const rightOutputSegment = _calculateSegment(rightInputSegment);
+
+  const obstacleOriginToLeftEntryPoint =
+        leftOutputSegment.boundaryCircle2.origin.
+        add(leftOutputSegment.entry).
+        subtract(leftOutputSegment.obstacle1.origin);
+  const obstacleOrientation = leftOutputSegment.obstacle1.orientation;
+  const exitAngle = obstacleOriginToLeftEntryPoint.direction() - obstacleOrientation.direction();
+
+  if (exitAngle >= 0 && exitAngle < Math.PI)
+    return leftOutputSegment;
+  else
+    return rightOutputSegment;
+};
+
 const calculateSegment = function(obstacle1, obstacle2) {
   const segment = { obstacle1, obstacle2 };
-  segment.boundaryCircle1 = toBoundaryCircle(obstacle1);
-  segment.boundaryCircle2 = toBoundaryCircle(obstacle2);
-  return _calculateSegment(segment);
+
+  if (obstacle1.exit !== obstacle.EITHER) {
+    segment.boundaryCircle1 = toBoundaryCircle(obstacle1);
+    segment.boundaryCircle2 = toBoundaryCircle(obstacle2);
+    return _calculateSegment(segment);
+  } else {
+    return trialBothExitSides(segment);
+  }
 };
 
 module.exports = {

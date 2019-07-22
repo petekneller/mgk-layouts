@@ -49,9 +49,16 @@ const addDefaults = function(opts) {
   opts.origin = victor.fromObject(origin);
 
   opts.entry = directionFromString(opts.entry) || RIGHT;
-  opts.exit = directionFromString(opts.exit) || RIGHT;
-  opts.orientation = orientationFromBearing(orientationFromCardinal(opts.orientation)) || victor(0, 1);
 
+  opts.exit = directionFromString(opts.exit) || RIGHT;
+  if (opts.exit === obstacle.EITHER) {
+    const leftExitBoundaryOrigin = opts.leftExitBoundaryOrigin || { x: 0, y: 0 };
+    opts.leftExitBoundaryOrigin = victor.fromObject(leftExitBoundaryOrigin);
+    const rightExitBoundaryOrigin = opts.rightExitBoundaryOrigin || { x: 0, y: 0 };
+    opts.rightExitBoundaryOrigin = victor.fromObject(rightExitBoundaryOrigin);
+  }
+
+  opts.orientation = orientationFromBearing(orientationFromCardinal(opts.orientation)) || victor(0, 1);
   opts.radius = opts.radius || 1.0;
 
   return opts;

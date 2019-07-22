@@ -3,7 +3,7 @@
 ** +add tests for entry/exit on opposite side+
 ** +add tests for radius increasing/decreasing+
 ** +fast-check arbitrary for vectors/obstacles+
-** tests for unknown entry/exit strategy
+** tests for unknown entry and +exit+ strategy
 ** needs a =calculateSegments= (plural) method
 * deserialisation
 ** separate deserialisation concerns from the =obstacle= constructor
