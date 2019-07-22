@@ -112,6 +112,26 @@ t.describe('the deserialiser', () => {
         assert.exists(obstacle1.orientation);
       });
 
+      t.context('if the entry is "either"', () => {
+        const obstacle1 = obstacle({ entry: obstacle.EITHER });
+        t.it('the leftEntryBoundaryOrigin', () => {
+          assert.exists(obstacle1.leftEntryBoundaryOrigin);
+        });
+        t.it('the rightEntryBoundaryOrigin', () => {
+          assert.exists(obstacle1.rightEntryBoundaryOrigin);
+        });
+      });
+
+      t.context('if the exit is "either"', () => {
+        const obstacle1 = obstacle({ exit: obstacle.EITHER });
+        t.it('the leftExitBoundaryOrigin', () => {
+          assert.exists(obstacle1.leftExitBoundaryOrigin);
+        });
+        t.it('the rightExitBoundaryOrigin', () => {
+          assert.exists(obstacle1.rightExitBoundaryOrigin);
+        });
+      });
+
     });
 
     t.it('should pass through other parameters unmodified', () => {

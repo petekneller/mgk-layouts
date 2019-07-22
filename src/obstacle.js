@@ -45,26 +45,21 @@ const GATE = Symbol.for('Gate');
 
 
 const addDefaults = function(opts) {
-  const origin = opts.origin || { x: 0, y: 0 };
-  opts.origin = victor.fromObject(origin);
+  opts.origin = opts.origin || victor(0, 0);
 
-  opts.entry = directionFromString(opts.entry) || RIGHT;
+  opts.entry = opts.entry || RIGHT;
   if (opts.entry === obstacle.EITHER) {
-    const leftEntryBoundaryOrigin = opts.leftEntryBoundaryOrigin || { x: 0, y: 0 };
-    opts.leftEntryBoundaryOrigin = victor.fromObject(leftEntryBoundaryOrigin);
-    const rightEntryBoundaryOrigin = opts.rightEntryBoundaryOrigin || { x: 0, y: 0 };
-    opts.rightEntryBoundaryOrigin = victor.fromObject(rightEntryBoundaryOrigin);
+    opts.leftEntryBoundaryOrigin = opts.leftEntryBoundaryOrigin || victor(0, 0);
+    opts.rightEntryBoundaryOrigin = opts.rightEntryBoundaryOrigin || victor(0, 0);
   }
 
-  opts.exit = directionFromString(opts.exit) || RIGHT;
+  opts.exit = opts.exit || RIGHT;
   if (opts.exit === obstacle.EITHER) {
-    const leftExitBoundaryOrigin = opts.leftExitBoundaryOrigin || { x: 0, y: 0 };
-    opts.leftExitBoundaryOrigin = victor.fromObject(leftExitBoundaryOrigin);
-    const rightExitBoundaryOrigin = opts.rightExitBoundaryOrigin || { x: 0, y: 0 };
-    opts.rightExitBoundaryOrigin = victor.fromObject(rightExitBoundaryOrigin);
+    opts.leftExitBoundaryOrigin = opts.leftExitBoundaryOrigin || victor(0, 0);
+    opts.rightExitBoundaryOrigin = opts.rightExitBoundaryOrigin || victor(0, 0);
   }
 
-  opts.orientation = orientationFromBearing(orientationFromCardinal(opts.orientation)) || victor(0, 1);
+  opts.orientation = opts.orientation || victor(0, 1);
   opts.radius = opts.radius || 1.0;
 
   return opts;
@@ -98,8 +93,37 @@ const constructNamed = function(opts) {
   return opts;
 };
 
+const deserializeTypes = function(opts) {
+  if (opts.hasOwnProperty('origin'))
+    opts.origin = victor.fromObject(opts.origin);
+
+  if (opts.hasOwnProperty('entry'))
+    opts.entry = directionFromString(opts.entry);
+
+  if (opts.hasOwnProperty('leftEntryBoundaryOrigin'))
+    opts.leftEntryBoundaryOrigin = victor.fromObject(opts.leftEntryBoundaryOrigin);
+
+  if (opts.hasOwnProperty('rightEntryBoundaryOrigin'))
+    opts.rightEntryBoundaryOrigin = victor.fromObject(opts.rightEntryBoundaryOrigin);
+
+  if (opts.hasOwnProperty('exit'))
+    opts.exit = directionFromString(opts.exit);
+
+  if (opts.hasOwnProperty('leftExitBoundaryOrigin'))
+    opts.leftExitBoundaryOrigin = victor.fromObject(opts.leftExitBoundaryOrigin);
+
+  if (opts.hasOwnProperty('rightExitBoundaryOrigin'))
+    opts.rightExitBoundaryOrigin = victor.fromObject(opts.rightExitBoundaryOrigin);
+
+  if (opts.hasOwnProperty('orientation'))
+    opts.orientation = orientationFromBearing(orientationFromCardinal(opts.orientation));
+
+
+  return opts;
+};
+
 const obstacle = function(opts = {}) {
-  return addDefaults(constructNamed(opts));
+  return addDefaults(constructNamed(deserializeTypes(opts)));
 };
 
 obstacle.LEFT = LEFT;
