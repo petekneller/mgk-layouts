@@ -15,6 +15,21 @@ const directionFromString = function(s) {
   return s;
 };
 
+// Orientation
+const orientationFromCardinal = function(orientation) {
+  return orientation === 'N' ? 0 :
+    orientation === 'E' ? 90 :
+    orientation === 'S' ? 180 :
+    orientation === 'W' ? 270 :
+    orientation;
+};
+
+const orientationFromBearing = function(orientation) {
+  return (typeof orientation === 'number') ?
+    victor(0, 1).rotate(-1 * orientation * Math.PI / 180):
+    orientation;
+};
+
 // Named (known) obstacles
 // TODO: this feels a bit sloppy having basially a
 // registry of known obstacles direction in the obstacle
@@ -35,6 +50,7 @@ const addDefaults = function(opts) {
 
   opts.entry = directionFromString(opts.entry) || RIGHT;
   opts.exit = directionFromString(opts.exit) || RIGHT;
+  opts.orientation = orientationFromBearing(orientationFromCardinal(opts.orientation)) || victor(0, 1);
 
   opts.radius = opts.radius || 1.0;
 

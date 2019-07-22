@@ -68,9 +68,34 @@ t.describe('the deserialiser', () => {
       assert.equal(obstacleFor({ exit: 'unknown' }).exit, 'unknown');
     });
 
-    t.context('should add a default value for', () => {
+    t.context('should convert the "orientation" parameter', () => {
+      t.it('if it is a string describing a cardinal point', () => {
+        victorAssert.equalVectors(obstacleFor({ orientation: 'N' }).orientation, victor(0, 1));
+        victorAssert.equalVectors(obstacleFor({ orientation: 'E' }).orientation, victor(1, 0));
+        victorAssert.equalVectors(obstacleFor({ orientation: 'S' }).orientation, victor(0, -1));
+        victorAssert.equalVectors(obstacleFor({ orientation: 'W' }).orientation, victor(-1, 0));
+      });
 
+      t.it('if it is a number describing a compass bearing', () => {
+        const sqrtPointFive = Math.sqrt(0.5);
+        victorAssert.equalVectors(obstacleFor({ orientation: 0}).orientation, victor(0, 1));
+        victorAssert.equalVectors(obstacleFor({ orientation: 45 }).orientation, victor(sqrtPointFive, sqrtPointFive));
+        victorAssert.equalVectors(obstacleFor({ orientation: 90}).orientation, victor(1, 0));
+        victorAssert.equalVectors(obstacleFor({ orientation: 135 }).orientation, victor(sqrtPointFive, -1 * sqrtPointFive));
+        victorAssert.equalVectors(obstacleFor({ orientation: 180}).orientation, victor(0, -1));
+        victorAssert.equalVectors(obstacleFor({ orientation: 225 }).orientation, victor(-1 * sqrtPointFive, -1 * sqrtPointFive));
+        victorAssert.equalVectors(obstacleFor({ orientation: 270}).orientation, victor(-1, 0));
+        victorAssert.equalVectors(obstacleFor({ orientation: 315 }).orientation, victor(-1 * sqrtPointFive, sqrtPointFive));
+      });
+    });
+
+    t.it('should be idempotent in converting the "orientation" parameter', () => {
+      victorAssert.equalVectors(obstacleFor({ orientation: victor(0, 1) }).orientation, victor(0, 1));
+    });
+
+    t.context('should add a default value for', () => {
       const obstacle1 = obstacleFor({});
+
       t.it('origin', () => {
         assert.exists(obstacle1.origin);
       });
@@ -82,6 +107,9 @@ t.describe('the deserialiser', () => {
       });
       t.it('exit side', () => {
         assert.exists(obstacle1.entry);
+      });
+      t.it('orientation', () => {
+        assert.exists(obstacle1.orientation);
       });
 
     });
