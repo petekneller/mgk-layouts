@@ -3,6 +3,7 @@ const _ = require('lodash');
 const Victor = require('victor');
 const process = require('process');
 const fs = require('fs');
+const obstacleCtr = require('./src/obstacle.js');
 const pathCalculator = require('./src/path-calculator/path-calculator.js');
 const deserializer = require('./src/serialization/deserializer.js');
 
@@ -28,79 +29,64 @@ const renderObstacle = function(obstacle) {
   }
 };
 
+const renderBoundaryCircle = function(obstacle) {
+  const {x, y} = globalToViewbox(obstacle.origin.x, obstacle.origin.y);
+  return `<circle r="${obstacle.radius}" cx="${x}" cy="${y}" class="boundaryCircle" />`;
+};
+
 const renderBoundary = function(obstacle) {
-  const boundary = boundaryCircleOrigin(obstacle);
-  const {x, y} = globalToViewbox(boundary.x, boundary.y);
-  return `<circle r="${boundaryRadius(obstacle)}" cx="${x}" cy="${y}" class="boundaryCircle" />`;
-};
+  let boundaries = '';
 
-const boundaryRadius = function(obstacle) {
-  return obstacle.radius;
-};
-
-const boundaryCircleOrigin = function(obstacle) {
-  // TODO: simplifying assumption that start/finish boxes and gates are always 'handed' the same way
-  switch (obstacle.name) {
-  case "StartBox": return Victor(obstacle.origin.x - 0.75, obstacle.origin.y);
-  case "Gate": return Victor(obstacle.origin.x - 0.75, obstacle.origin.y);
-  case "FinishBox": return Victor(obstacle.origin.x + 0.75, obstacle.origin.y);
-  default: return Victor(obstacle.origin.x, obstacle.origin.y);
+  if (obstacle.entry === obstacleCtr.EITHER) {
+    boundaries = boundaries.concat(renderBoundaryCircle({
+      origin: obstacle.origin.clone().add(obstacle.leftEntryBoundaryOrigin),
+      radius: obstacle.radius
+    }));
+    boundaries = boundaries.concat(renderBoundaryCircle({
+      origin: obstacle.origin.clone().add(obstacle.rightEntryBoundaryOrigin),
+      radius: obstacle.radius
+    }));
+  } else {
+    boundaries = boundaries.concat(renderBoundaryCircle(obstacle));
   }
-};
 
-const calculateExit = function(obstacle) {
-  switch(obstacle.name) {
-  case "StartBox": return "Right";
-  case "LeftTurn": return "Right";
-  case "RightTurn": return "Left";
-  case "RightRotation": return "Left";
-  case "Gate": return "Left";
-  default: return "Left";
+  if (obstacle.exit === obstacleCtr.EITHER) {
+    boundaries = boundaries.concat(renderBoundaryCircle({
+      origin: obstacle.origin.clone().add(obstacle.leftExitBoundaryOrigin),
+      radius: obstacle.radius
+    }));
+    boundaries = boundaries.concat(renderBoundaryCircle({
+      origin: obstacle.origin.clone().add(obstacle.rightExitBoundaryOrigin),
+      radius: obstacle.radius
+    }));
+  } else {
+    boundaries = boundaries.concat(renderBoundaryCircle(obstacle));
   }
-};
 
-const calculateEntry = function(obstacle) {
-  switch(obstacle.name) {
-  case "FinishBox": return "Right";
-  case "LeftTurn": return "Right";
-  case "RightTurn": return "Left";
-  case "RightRotation": return "Left";
-  case "Gate": return "Left";
-  default: return "Left";
-  }
+  return boundaries;
 };
 
 const renderSegment = function(segment) {
-  const {x: x1, y: y1} = globalToViewbox(segment.o1.origin.x, segment.o1.origin.y);
-  const {x: x2, y: y2} = globalToViewbox(segment.o2.origin.x, segment.o2.origin.y);
-  const origin1 = boundaryCircleOrigin(segment.o1);
-  const globalNormal1 = origin1.clone().add(segment.exit);
+  const {x: x1, y: y1} = globalToViewbox(segment.obstacle1.origin.x, segment.obstacle1.origin.y);
+  const {x: x2, y: y2} = globalToViewbox(segment.obstacle2.origin.x, segment.obstacle2.origin.y);
+  const globalNormal1 = segment.boundaryCircle1.origin.clone().add(segment.exit);
   const {x: xn1, y: yn1} = globalToViewbox(globalNormal1.x, globalNormal1.y);
-  const origin2 = boundaryCircleOrigin(segment.o2);
-  const globalNormal2 = origin2.clone().add(segment.entry);
+  const globalNormal2 = segment.boundaryCircle2.origin.clone().add(segment.entry);
   const {x: xn2, y: yn2} = globalToViewbox(globalNormal2.x, globalNormal2.y);
   return `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="lightgray" stroke-width="0.25%" />` +
     `<line x1="${xn1}" y1="${yn1}" x2="${xn2}" y2="${yn2}" stroke="black" stroke-width="0.25%" />`;
 };
 
 const renderOrientationVector = function(obstacle) {
-  const x2 = obstacle.origin.x + (
-    obstacle.orientation === "E" ? 3 :
-      obstacle.orientation === "W" ? -3 : 0
-  );
-  const y2 = obstacle.origin.y + (
-    obstacle.orientation === "N" ? 3 :
-      obstacle.orientation === "S" ? -3 : 0
-  );
+  const orientation = obstacle.origin.clone().add(obstacle.orientation);
   const {x: x1b, y: y1b} = globalToViewbox(obstacle.origin.x, obstacle.origin.y);
-  const {x: x2b, y: y2b} = globalToViewbox(x2, y2);
+  const {x: x2b, y: y2b} = globalToViewbox(orientation.x, orientation.y);
   return `<line x1="${x1b}" y1="${y1b}" x2="${x2b}" y2="${y2b}" stroke="red" stroke-width="0.25%" />`;
 };
 
-const renderNormalVector = function(obstacle, localNormal) {
-  const origin = boundaryCircleOrigin(obstacle);
-  const {x: x1, y: y1} = globalToViewbox(origin.x, origin.y);
-  const globalNormal = origin.clone().add(localNormal);
+const renderNormalVector = function(boundaryCircle, localNormal) {
+  const {x: x1, y: y1} = globalToViewbox(boundaryCircle.origin.x, boundaryCircle.origin.y);
+  const globalNormal = boundaryCircle.origin.clone().add(localNormal);
   const {x: x2, y: y2} = globalToViewbox(globalNormal.x, globalNormal.y);
   return `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="green" stroke-width="0.25%" />`;
 };
@@ -116,7 +102,7 @@ const output = nunjucks.render('example_layout.njk', {
   renderedObstacleBoundaries: course.map(renderBoundary),
   renderedCourseSegments: courseSegments.map(renderSegment),
   renderedOrientationVectors: course.map(renderOrientationVector),
-  renderedExitVectors: courseSegments.map(segment => renderNormalVector(segment.o1, segment.exit)),
-  renderedEntryVectors: courseSegments.map(segment => renderNormalVector(segment.o2, segment.entry))
+  renderedExitVectors: courseSegments.map(segment => renderNormalVector(segment.boundaryCircle1, segment.exit)),
+  renderedEntryVectors: courseSegments.map(segment => renderNormalVector(segment.boundaryCircle2, segment.entry))
 });
 console.log(output);

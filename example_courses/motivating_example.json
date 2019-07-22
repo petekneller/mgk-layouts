@@ -34,6 +34,6 @@
     }, {
       "name": "FinishBox",
       "origin": { "x": 20, "y": 5 },
-      "orientation": "N"
+      "orientation": "S"
     }]
 }

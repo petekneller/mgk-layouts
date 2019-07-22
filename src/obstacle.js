@@ -85,7 +85,11 @@ const constructNamed = function(opts) {
   case Symbol.keyFor(FINISH_BOX):
   case Symbol.keyFor(GATE): {
     opts.entry = EITHER;
+    opts.leftEntryBoundaryOrigin = victor(-0.75, 0);
+    opts.rightEntryBoundaryOrigin = victor(0.75, 0);
     opts.exit = EITHER;
+    opts.leftExitBoundaryOrigin = victor(-0.75, 0);
+    opts.rightExitBoundaryOrigin = victor(0.75, 0);
     opts.radius = opts.radius || 0.75;
     break;
   }
