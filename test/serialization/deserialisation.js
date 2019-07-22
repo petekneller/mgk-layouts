@@ -94,7 +94,7 @@ t.describe('the deserialiser', () => {
     });
 
     t.context('should add a default value for', () => {
-      const obstacle1 = obstacleFor({});
+      const obstacle1 = obstacle();
 
       t.it('origin', () => {
         assert.exists(obstacle1.origin);
