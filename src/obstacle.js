@@ -49,6 +49,12 @@ const addDefaults = function(opts) {
   opts.origin = victor.fromObject(origin);
 
   opts.entry = directionFromString(opts.entry) || RIGHT;
+  if (opts.entry === obstacle.EITHER) {
+    const leftEntryBoundaryOrigin = opts.leftEntryBoundaryOrigin || { x: 0, y: 0 };
+    opts.leftEntryBoundaryOrigin = victor.fromObject(leftEntryBoundaryOrigin);
+    const rightEntryBoundaryOrigin = opts.rightEntryBoundaryOrigin || { x: 0, y: 0 };
+    opts.rightEntryBoundaryOrigin = victor.fromObject(rightEntryBoundaryOrigin);
+  }
 
   opts.exit = directionFromString(opts.exit) || RIGHT;
   if (opts.exit === obstacle.EITHER) {

@@ -7,17 +7,17 @@ const victor = require('victor');
 const obstacle = require('../../src/obstacle.js');
 const pathCalculator = require('../../src/path-calculator/path-calculator.js');
 
-t.describe('a path segment composed of a "either"-exit obstacle followed by a simple obstacle', () => {
+t.describe('a path segment composed of an "either"-exit obstacle followed by a simple obstacle', () => {
 
   t.context('when the either-obstacle has a northern orientation vector', () => {
-  const eitherObstacle = obstacle({ origin: { x: 0, y: 0 }, exit: obstacle.EITHER, leftExitBoundaryOrigin: { x: -1, y: 1 }, rightExitBoundaryOrigin: { x: 1, y: 1 } });
+    const eitherObstacle = obstacle({ origin: { x: 0, y: 0 }, exit: obstacle.EITHER, leftExitBoundaryOrigin: { x: -1, y: 0 }, rightExitBoundaryOrigin: { x: 1, y: 0 } });
 
     t.context('when the simple obstacle is to the left of the orientation vector', () => {
       const simpleObstacle = obstacle({ origin: { x: -10, y: 10 } });
       const segment = pathCalculator.calculateSegment(eitherObstacle, simpleObstacle);
 
       t.it('the path should be using the "left-hand" boundary circle of the either-obstacle', () => {
-        victorAssert.equalVectors(segment.boundaryCircle1.origin, victor(-1, 1));
+        victorAssert.equalVectors(segment.boundaryCircle1.origin, victor(-1, 0));
       });
 
       t.it('the path should have a right exit', () => {
@@ -30,7 +30,7 @@ t.describe('a path segment composed of a "either"-exit obstacle followed by a si
       const segment = pathCalculator.calculateSegment(eitherObstacle, simpleObstacle);
 
       t.it('the path should be using the "right-hand" boundary circle of the either-obstacle', () => {
-        victorAssert.equalVectors(segment.boundaryCircle1.origin, victor(1, 1));
+        victorAssert.equalVectors(segment.boundaryCircle1.origin, victor(1, 0));
       });
 
       t.it('the path should have a left exit', () => {
@@ -41,7 +41,7 @@ t.describe('a path segment composed of a "either"-exit obstacle followed by a si
   });
 
   t.context('when the simple obstacle is directly north of the either-obstacle', () => {
-    const eitherObstacle = obstacle({ origin: { x: 0, y: 0 }, exit: obstacle.EITHER, leftExitBoundaryOrigin: { x: -1, y: 1 }, rightExitBoundaryOrigin: { x: 1, y: 1 } });
+    const eitherObstacle = obstacle({ origin: { x: 0, y: 0 }, exit: obstacle.EITHER, leftExitBoundaryOrigin: { x: -1, y: 0 }, rightExitBoundaryOrigin: { x: 1, y: 0 } });
     const simpleObstacle = obstacle({ origin: { x: 0, y: 10 } });
 
     t.context('when the either obstacle has a north-east orientation vector', () => {
@@ -49,7 +49,7 @@ t.describe('a path segment composed of a "either"-exit obstacle followed by a si
       const segment = pathCalculator.calculateSegment(obstacle(eo), simpleObstacle);
 
       t.it('the path should be using the "left-hand" boundary circle of the either-obstacle', () => {
-        victorAssert.equalVectors(segment.boundaryCircle1.origin, victor(-1, 1));
+        victorAssert.equalVectors(segment.boundaryCircle1.origin, victor(-1, 0));
       });
 
       t.it('the path should have a right exit', () => {
@@ -62,7 +62,7 @@ t.describe('a path segment composed of a "either"-exit obstacle followed by a si
       const segment = pathCalculator.calculateSegment(obstacle(eo), simpleObstacle);
 
       t.it('the path should be using the "right-hand" boundary circle of the either-obstacle', () => {
-        victorAssert.equalVectors(segment.boundaryCircle1.origin, victor(1, 1));
+        victorAssert.equalVectors(segment.boundaryCircle1.origin, victor(1, 0));
       });
 
       t.it('the path should have a left exit', () => {
