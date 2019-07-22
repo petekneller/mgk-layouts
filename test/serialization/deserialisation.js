@@ -35,6 +35,11 @@ t.describe('the deserialiser', () => {
       victorAssert.equalVectors(obstacle1.origin, victor(1, 2));
     });
 
+    t.it('should be idempotent in converting the "origin" parameter', () => {
+      const obstacle1 = obstacleFor({ origin: victor(1, 2) });
+      victorAssert.equalVectors(obstacle1.origin, victor(1, 2));
+    });
+
     t.it('should convert the "entry" parameter into one of the recognised enums', () => {
       assert.equal(obstacleFor({ entry: 'Left' }).entry, obstacle.LEFT);
       assert.equal(obstacleFor({ entry: 'Right' }).entry, obstacle.RIGHT);
