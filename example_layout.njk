@@ -85,6 +85,8 @@
       <tr>
         <th>o1</th>
         <th>o2</th>
+        <th>b1</th>
+        <th>b2</th>
         <th>o12</th>
         <th>exit</th>
         <th>entry</th>
@@ -94,6 +96,8 @@
       <tr>
         <td>({{ segment.obstacle1.origin.x }},{{ segment.obstacle1.origin.y }})</td>
         <td>({{ segment.obstacle2.origin.x }},{{ segment.obstacle2.origin.y }})</td>
+        <td>({{ segment.boundaryCircle1.origin.x }},{{ segment.boundaryCircle1.origin.y }}), {{ segment.boundaryCircle1.exit }}</td>
+        <td>({{ segment.boundaryCircle2.origin.x }},{{ segment.boundaryCircle2.origin.y }}), {{ segment.boundaryCircle2.entry }}</td>
         <td>{{ segment.o12 }}</td>
         <td>{{ segment.exit }}</td>
         <td>{{ segment.entry }}</td>

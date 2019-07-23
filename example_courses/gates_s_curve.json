@@ -1,0 +1,27 @@
+{
+  "obstacles": [{
+      "name": "Gate",
+      "origin": { "x": 10, "y": 10 },
+      "orientation": 0
+    }, {
+      "name": "Gate",
+      "origin": { "x": 10, "y": 20 },
+      "orientation": 45
+    }, {
+      "name": "Gate",
+      "origin": { "x": 20, "y": 20 },
+      "orientation": 135
+    }, {
+      "name": "Gate",
+      "origin": { "x": 20, "y": 10 },
+      "orientation": 135
+    }, {
+      "name": "Gate",
+      "origin": { "x": 30, "y": 10 },
+      "orientation": 45
+    }, {
+      "name": "Gate",
+      "origin": { "x": 30, "y": 20 },
+      "orientation": 0
+    }]
+}

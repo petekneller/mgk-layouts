@@ -24,7 +24,13 @@ const renderObstacle = function(obstacle) {
   case "LeftTurn": return `<use xlink:href="#blue-cone" x="${x}" y="${y}" />`;
   case "RightTurn": return `<use xlink:href="#red-cone" x="${x}" y="${y}" />`;
   case "RightRotation": return `<use xlink:href="#red-stripe-cone" x="${x}" y="${y}" />`;
-  case "Gate": return `<use xlink:href="#gate" x="${x}" y="${y}" />`;
+  case "Gate": {
+    const leftCone = pathCalculator.obstacleLocalVectorToGlobal(obstacle, obstacle.leftExitBoundaryOrigin);
+    const {x: x1, y: y1} = globalToViewbox(leftCone.x, leftCone.y);
+    const rightCone = pathCalculator.obstacleLocalVectorToGlobal(obstacle, obstacle.rightExitBoundaryOrigin);
+    const {x: x2, y: y2} = globalToViewbox(rightCone.x, rightCone.y);
+    return `<use xlink:href="#yellow-cone" x="${x1}" y="${y1}" /><use xlink:href="#yellow-cone" x="${x2}" y="${y2}" />`;
+  }
   default: return "";
   }
 };
@@ -39,11 +45,11 @@ const renderBoundary = function(obstacle) {
 
   if (obstacle.entry === obstacleCtr.EITHER) {
     boundaries = boundaries.concat(renderBoundaryCircle({
-      origin: obstacle.origin.clone().add(obstacle.leftEntryBoundaryOrigin),
+      origin: pathCalculator.obstacleLocalVectorToGlobal(obstacle, obstacle.leftEntryBoundaryOrigin),
       radius: obstacle.radius
     }));
     boundaries = boundaries.concat(renderBoundaryCircle({
-      origin: obstacle.origin.clone().add(obstacle.rightEntryBoundaryOrigin),
+      origin: pathCalculator.obstacleLocalVectorToGlobal(obstacle, obstacle.rightEntryBoundaryOrigin),
       radius: obstacle.radius
     }));
   } else {
@@ -52,11 +58,11 @@ const renderBoundary = function(obstacle) {
 
   if (obstacle.exit === obstacleCtr.EITHER) {
     boundaries = boundaries.concat(renderBoundaryCircle({
-      origin: obstacle.origin.clone().add(obstacle.leftExitBoundaryOrigin),
+      origin: pathCalculator.obstacleLocalVectorToGlobal(obstacle, obstacle.leftExitBoundaryOrigin),
       radius: obstacle.radius
     }));
     boundaries = boundaries.concat(renderBoundaryCircle({
-      origin: obstacle.origin.clone().add(obstacle.rightExitBoundaryOrigin),
+      origin: pathCalculator.obstacleLocalVectorToGlobal(obstacle, obstacle.rightExitBoundaryOrigin),
       radius: obstacle.radius
     }));
   } else {
@@ -64,6 +70,8 @@ const renderBoundary = function(obstacle) {
   }
 
   return boundaries;
+
+  //return renderBoundaryCircle(segment.boundaryCircle1).concat(renderBoundaryCircle(segment.boundaryCircle2));
 };
 
 const renderSegment = function(segment) {
@@ -78,7 +86,7 @@ const renderSegment = function(segment) {
 };
 
 const renderOrientationVector = function(obstacle) {
-  const orientation = obstacle.origin.clone().add(obstacle.orientation);
+  const orientation = pathCalculator.obstacleLocalVectorToGlobal(obstacle, Victor(0, 1));
   const {x: x1b, y: y1b} = globalToViewbox(obstacle.origin.x, obstacle.origin.y);
   const {x: x2b, y: y2b} = globalToViewbox(orientation.x, orientation.y);
   return `<line x1="${x1b}" y1="${y1b}" x2="${x2b}" y2="${y2b}" stroke="red" stroke-width="0.25%" />`;
