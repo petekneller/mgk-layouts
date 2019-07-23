@@ -70,27 +70,27 @@ t.describe('the deserialiser', () => {
 
     t.context('should convert the "orientation" parameter', () => {
       t.it('if it is a string describing a cardinal point', () => {
-        victorAssert.equalVectors(obstacleFor({ orientation: 'N' }).orientation, victor(0, 1));
-        victorAssert.equalVectors(obstacleFor({ orientation: 'E' }).orientation, victor(1, 0));
-        victorAssert.equalVectors(obstacleFor({ orientation: 'S' }).orientation, victor(0, -1));
-        victorAssert.equalVectors(obstacleFor({ orientation: 'W' }).orientation, victor(-1, 0));
+        assert.equal(obstacleFor({ orientation: 'N' }).orientation, 0);
+        assert.equal(obstacleFor({ orientation: 'E' }).orientation, 90);
+        assert.equal(obstacleFor({ orientation: 'S' }).orientation, 180);
+        assert.equal(obstacleFor({ orientation: 'W' }).orientation, 270);
       });
 
       t.it('if it is a number describing a compass bearing', () => {
         const sqrtPointFive = Math.sqrt(0.5);
-        victorAssert.equalVectors(obstacleFor({ orientation: 0}).orientation, victor(0, 1));
-        victorAssert.equalVectors(obstacleFor({ orientation: 45 }).orientation, victor(sqrtPointFive, sqrtPointFive));
-        victorAssert.equalVectors(obstacleFor({ orientation: 90}).orientation, victor(1, 0));
-        victorAssert.equalVectors(obstacleFor({ orientation: 135 }).orientation, victor(sqrtPointFive, -1 * sqrtPointFive));
-        victorAssert.equalVectors(obstacleFor({ orientation: 180}).orientation, victor(0, -1));
-        victorAssert.equalVectors(obstacleFor({ orientation: 225 }).orientation, victor(-1 * sqrtPointFive, -1 * sqrtPointFive));
-        victorAssert.equalVectors(obstacleFor({ orientation: 270}).orientation, victor(-1, 0));
-        victorAssert.equalVectors(obstacleFor({ orientation: 315 }).orientation, victor(-1 * sqrtPointFive, sqrtPointFive));
+        assert.equal(obstacleFor({ orientation: 0}).orientation, 0);
+        assert.equal(obstacleFor({ orientation: 45 }).orientation, 45);
+        assert.equal(obstacleFor({ orientation: 90}).orientation, 90);
+        assert.equal(obstacleFor({ orientation: 135 }).orientation, 135);
+        assert.equal(obstacleFor({ orientation: 180}).orientation, 180);
+        assert.equal(obstacleFor({ orientation: 225 }).orientation, 225);
+        assert.equal(obstacleFor({ orientation: 270}).orientation, 270);
+        assert.equal(obstacleFor({ orientation: 315 }).orientation, 315);
       });
     });
 
     t.it('should be idempotent in converting the "orientation" parameter', () => {
-      victorAssert.equalVectors(obstacleFor({ orientation: victor(0, 1) }).orientation, victor(0, 1));
+      assert.equal(obstacleFor({ orientation: 45 }).orientation, 45);
     });
 
     t.context('should add a default value for', () => {

@@ -24,12 +24,6 @@ const orientationFromCardinal = function(orientation) {
     orientation;
 };
 
-const orientationFromBearing = function(orientation) {
-  return (typeof orientation === 'number') ?
-    victor(0, 1).rotate(-1 * orientation * Math.PI / 180):
-    orientation;
-};
-
 // Named (known) obstacles
 // TODO: this feels a bit sloppy having basially a
 // registry of known obstacles direction in the obstacle
@@ -59,7 +53,7 @@ const addDefaults = function(opts) {
     opts.rightExitBoundaryOrigin = opts.rightExitBoundaryOrigin || victor(0, 0);
   }
 
-  opts.orientation = opts.orientation || victor(0, 1);
+  opts.orientation = opts.orientation || 0;
   opts.radius = opts.radius || 1.0;
 
   return opts;
@@ -120,7 +114,7 @@ const deserializeTypes = function(opts) {
     opts.rightExitBoundaryOrigin = victor.fromObject(opts.rightExitBoundaryOrigin);
 
   if (opts.hasOwnProperty('orientation'))
-    opts.orientation = orientationFromBearing(orientationFromCardinal(opts.orientation));
+    opts.orientation = orientationFromCardinal(opts.orientation);
 
 
   return opts;

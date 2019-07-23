@@ -73,9 +73,12 @@ const normalizeAngle = function(angle) {
   return normalizeAngle(angle);
 };
 
+const obstacleLocalVectorToGlobalOrientation = function(obstacle, vector) {
+  return vector.clone().rotateDeg(-1 * obstacle.orientation);
+};
+
 const obstacleLocalVectorToGlobal = function(obstacle, vector) {
-  const vectorRotatedToObstacleOrientation = vector.rotate(obstacle.orientation.direction() - (Math.PI / 2));
-  return obstacle.origin.clone().add(vectorRotatedToObstacleOrientation);
+  return obstacle.origin.clone().add(obstacleLocalVectorToGlobalOrientation(obstacle, vector));
 };
 
 const testEntrySides = function(segment) {
@@ -106,10 +109,10 @@ const testEntrySides = function(segment) {
 
   const leftExitPoint = leftOutputSegment.boundaryCircle1.origin.clone().add(leftOutputSegment.exit);
   const obstacleOriginToLeftExitPoint = leftExitPoint.clone().subtract(obstacle2.origin);
-  const obstacleOrientation = obstacle2.orientation;
-  let entryAngle = normalizeAngle(obstacleOriginToLeftExitPoint.direction() - obstacleOrientation.direction());
+  const obstacleOrientationVector = obstacleLocalVectorToGlobalOrientation(obstacle2, victor(0, 1));
+  let entryAngle = normalizeAngle(obstacleOriginToLeftExitPoint.direction() - obstacleOrientationVector.direction());
 
-  console.info(`Using left-hand entry results in entry vector (${obstacle2.origin}) -> (${leftExitPoint}) with orientation (along x-axis) ${obstacleOrientation.direction()} and so entry angle ${entryAngle}`);
+  console.info(`Using left-hand entry results in entry vector (${obstacle2.origin}) -> (${leftExitPoint}) with orientation (along x-axis) ${obstacleOrientationVector.direction()} and so entry angle ${entryAngle}`);
 
   if (entryAngle >= 0 && entryAngle < Math.PI) {
     console.info('Taking left-hand side entry boundary');
@@ -149,10 +152,11 @@ const testExitSides = function(segment) {
 
   const leftEntryPoint = leftOutputSegment.boundaryCircle2.origin.clone().add(leftOutputSegment.entry);
   const obstacleOriginToLeftEntryPoint = leftEntryPoint.clone().subtract(obstacle1.origin);
-  const obstacleOrientation = obstacle1.orientation;
-  const exitAngle = normalizeAngle(obstacleOriginToLeftEntryPoint.direction() - obstacleOrientation.direction());
+  const obstacleOrientationVector = obstacleLocalVectorToGlobalOrientation(obstacle1, victor(0, 1));
+  const exitAngle = normalizeAngle(obstacleOriginToLeftEntryPoint.direction() -
+                                  obstacleOrientationVector.direction());
 
-  console.info(`Using left-hand exit results in exit vector (${obstacle1.origin}) -> (${leftEntryPoint}) with orientation (along x-axis) ${obstacleOrientation.direction()} and so exit angle ${exitAngle}`);
+  console.info(`Using left-hand exit results in exit vector (${obstacle1.origin}) -> (${leftEntryPoint}) with orientation (along x-axis) ${obstacleOrientationVector.direction()} and so exit angle ${exitAngle}`);
 
   if (exitAngle >= 0 && exitAngle < Math.PI) {
     console.info('Taking left-hand side exit boundary');
@@ -170,5 +174,6 @@ const calculateSegment = function(obstacle1, obstacle2) {
 };
 
 module.exports = {
-  calculateSegment
+  calculateSegment,
+  obstacleLocalVectorToGlobal
 };
