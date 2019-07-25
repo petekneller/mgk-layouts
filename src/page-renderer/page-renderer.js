@@ -107,6 +107,22 @@ const courseMaxExtents = function(course) {
   };
 };
 
+const renderGridlines = function(viewboxExtents, spacing, strokeColour, globalToViewbox) {
+  const numLinesHorz = Math.floor(viewboxExtents.x / spacing);
+  const vertLines = [...Array(numLinesHorz).keys()].map(idx => {
+    const { x } = globalToViewbox((idx+1) * spacing, 0);
+    return `<line x1="${x}" y1="0" x2="${x}" y2="${viewboxExtents.y}" style="stroke: ${strokeColour}; stroke-width: 0.2%;" />`;
+  });
+
+  const numLinesVert = Math.floor(viewboxExtents.y / spacing);
+  const horzLines = [...Array(numLinesVert).keys()].map(idx => {
+    const { y } = globalToViewbox(0, (idx+1) * spacing);
+    return `<line x1="0" y1="${y}" x2="${viewboxExtents.x}" y2="${y}" style="stroke: ${strokeColour}; stroke-width: 0.2%;" />`;
+  });
+
+  return vertLines.concat(horzLines).join('\n');
+};
+
 nunjucks.configure({});
 
 const pageRenderer = function(course) {
@@ -124,6 +140,8 @@ const pageRenderer = function(course) {
 
   return nunjucks.render(`${__dirname}/page.njk`, {
     viewboxExtents,
+    minorGridlines: renderGridlines(viewboxExtents, 1, "lightgrey", globalToViewbox),
+    majorGridlines: renderGridlines(viewboxExtents, 10, "darkgray", globalToViewbox),
     courseSegments,
     renderedObstacles: course.map(obstacle => renderObstacle(obstacle, globalToViewbox)),
     renderedObstacleBoundaries: course.map(obstacle => renderBoundary(obstacle, globalToViewbox)),
