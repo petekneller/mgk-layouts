@@ -13,7 +13,7 @@
       }
     </style>
     <div style="max-width:95vmin; max-height:95vmin; margin: 0 auto;">
-      <svg viewbox="0 0 40 40">
+      <svg viewbox="0 0 {{ viewboxExtents.x }} {{ viewboxExtents.y }}">
 
         <defs>
           <g id="yellow-cone">
@@ -43,10 +43,10 @@
 
         <g>
           <!-- View boundary -->
-          <line x1="0" y1="0" x2="40" y2="0" stroke="black" stroke-width="1%"/>
-          <line x1="40" y1="0" x2="40" y2="40" stroke="black" stroke-width="1%"/>
-          <line x1="40" y1="40" x2="0" y2="40" stroke="black" stroke-width="1%"/>
-          <line x1="0" y1="40" x2="0" y2="0" stroke="black" stroke-width="1%"/>
+          <line x1="0" y1="0" x2="{{ viewboxExtents.x }}" y2="0" stroke="black" stroke-width="1%"/>
+          <line x1="{{ viewboxExtents.x }}" y1="0" x2="{{ viewboxExtents.x }}" y2="{{ viewboxExtents.y }}" stroke="black" stroke-width="1%"/>
+          <line x1="{{ viewboxExtents.x }}" y1="{{ viewboxExtents.y }}" x2="0" y2="{{ viewboxExtents.y }}" stroke="black" stroke-width="1%"/>
+          <line x1="0" y1="{{ viewboxExtents.y }}" x2="0" y2="0" stroke="black" stroke-width="1%"/>
 
 
           <!-- obstacles -->
