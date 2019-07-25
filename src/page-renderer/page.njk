@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Example Layout</title>
+    <title>Motogymkhana Course Renderer</title>
   </head>
   <body>
     <style type="text/css">
@@ -12,99 +12,74 @@
           fill: none;
       }
     </style>
-    <svg
-      xmlns="http://www.w3.org/2001/XMLSchema"
-      xmlns:svg="http://www.w3.org/2000/svg"
-      xmlns:xlink="http://www.w3.org/1999/xlink"
-      xml:space="preserve"
-      width="600" height="600" viewbox="0 0 40 40">
+    <div style="max-width:95vmin; max-height:95vmin; margin: 0 auto;">
+      <svg viewbox="0 0 40 40">
 
-      <!-- View boundary -->
-      <line x1="0" y1="0" x2="40" y2="0" stroke="black" stroke-width="1%"/>
-      <line x1="40" y1="0" x2="40" y2="40" stroke="black" stroke-width="1%"/>
-      <line x1="40" y1="40" x2="0" y2="40" stroke="black" stroke-width="1%"/>
-      <line x1="0" y1="40" x2="0" y2="0" stroke="black" stroke-width="1%"/>
+        <defs>
+          <g id="yellow-cone">
+            <circle r="1%" cx="0" cy="0" stroke="black" stroke-width="0.25%" fill="yellow"/>
+          </g>
+          <g id="blue-cone">
+            <circle r="1%" cx="0" cy="0" stroke="black" stroke-width="0.25%" fill="blue"/>
+          </g>
+          <g id="red-cone">
+            <circle r="1%" cx="0" cy="0" stroke="black" stroke-width="0.25%" fill="red"/>
+          </g>
+          <g id="red-stripe-cone">
+            <circle r="1%" cx="0" cy="0" stroke="black" stroke-width="0.25%" fill="red"/>
+            <circle r="0.5%" cx="0" cy="0" fill="yellow"/>
+          </g>
+          <g id="gate">
+            <use href="#yellow-cone" x="-0.75" y="0" />
+            <use href="#yellow-cone" x="0.75" y="0" />
+          </g>
+          <g id="start-finish-box">
+            <use href="#yellow-cone" x="-0.75" y="0" />
+            <use href="#yellow-cone" x="0.75" y="0" />
+            <use href="#yellow-cone" x="-0.75" y="2" />
+            <use href="#yellow-cone" x="0.75" y="2" />
+          </g>
+        </defs>
 
-      <defs>
-        <g id="yellow-cone">
-          <circle r="1%" cx="0" cy="0" stroke="black" stroke-width="0.25%" fill="yellow"/>
+        <g>
+          <!-- View boundary -->
+          <line x1="0" y1="0" x2="40" y2="0" stroke="black" stroke-width="1%"/>
+          <line x1="40" y1="0" x2="40" y2="40" stroke="black" stroke-width="1%"/>
+          <line x1="40" y1="40" x2="0" y2="40" stroke="black" stroke-width="1%"/>
+          <line x1="0" y1="40" x2="0" y2="0" stroke="black" stroke-width="1%"/>
+
+
+          <!-- obstacles -->
+          {% for obstacle in renderedObstacles %}
+          {{- obstacle | safe -}}
+          {% endfor %}
+
+          <!-- boundaries -->
+          {% for boundary in renderedObstacleBoundaries %}
+          {{- boundary | safe }}
+          {% endfor %}
+
+          <!-- orientation vectors -->
+          {% for orientation in renderedOrientationVectors %}
+          {{- orientation | safe }}
+          {% endfor %}
+
+          <!-- course normal vectors -->
+          {% for vector in renderedExitVectors %}
+          {{- vector | safe }}
+          {% endfor %}
+          {% for vector in renderedEntryVectors %}
+          {{- vector | safe }}
+          {% endfor %}
+
+          <!-- course segments -->
+          {% for segment in renderedCourseSegments %}
+          {{- segment | safe }}
+          {% endfor %}
+
         </g>
-        <g id="blue-cone">
-          <circle r="1%" cx="0" cy="0" stroke="black" stroke-width="0.25%" fill="blue"/>
-        </g>
-        <g id="red-cone">
-          <circle r="1%" cx="0" cy="0" stroke="black" stroke-width="0.25%" fill="red"/>
-        </g>
-        <g id="red-stripe-cone">
-          <circle r="1%" cx="0" cy="0" stroke="black" stroke-width="0.25%" fill="red"/>
-          <circle r="0.5%" cx="0" cy="0" fill="yellow"/>
-        </g>
-        <g id="gate">
-          <use xlink:href="#yellow-cone" x="-0.75" y="0" />
-          <use xlink:href="#yellow-cone" x="0.75" y="0" />
-        </g>
-        <g id="start-finish-box">
-          <use xlink:href="#yellow-cone" x="-0.75" y="0" />
-          <use xlink:href="#yellow-cone" x="0.75" y="0" />
-          <use xlink:href="#yellow-cone" x="-0.75" y="2" />
-          <use xlink:href="#yellow-cone" x="0.75" y="2" />
-        </g>
-      </defs>
-
-      <!-- obstacles -->
-      {% for obstacle in renderedObstacles %}
-      {{- obstacle | safe -}}
-      {% endfor %}
-
-      <!-- boundaries -->
-      {% for boundary in renderedObstacleBoundaries %}
-        {{- boundary | safe }}
-      {% endfor %}
-
-      <!-- orientation vectors -->
-      {% for orientation in renderedOrientationVectors %}
-        {{- orientation | safe }}
-      {% endfor %}
-
-      <!-- course normal vectors -->
-      {% for vector in renderedExitVectors %}
-        {{- vector | safe }}
-      {% endfor %}
-      {% for vector in renderedEntryVectors %}
-        {{- vector | safe }}
-      {% endfor %}
-
-      <!-- course segments -->
-      {% for segment in renderedCourseSegments %}
-        {{- segment | safe }}
-      {% endfor %}
-
-    </svg>
-
-    <table>
-      <tr>
-        <th>o1</th>
-        <th>o2</th>
-        <th>b1</th>
-        <th>b2</th>
-        <th>o12</th>
-        <th>exit</th>
-        <th>entry</th>
-        <th>beta</th>
-      </tr>
-      {% for segment in courseSegments %}
-      <tr>
-        <td>({{ segment.obstacle1.origin.x }},{{ segment.obstacle1.origin.y }})</td>
-        <td>({{ segment.obstacle2.origin.x }},{{ segment.obstacle2.origin.y }})</td>
-        <td>({{ segment.boundaryCircle1.origin.x }},{{ segment.boundaryCircle1.origin.y }}), {{ segment.boundaryCircle1.exit }}</td>
-        <td>({{ segment.boundaryCircle2.origin.x }},{{ segment.boundaryCircle2.origin.y }}), {{ segment.boundaryCircle2.entry }}</td>
-        <td>{{ segment.o12 }}</td>
-        <td>{{ segment.exit }}</td>
-        <td>{{ segment.entry }}</td>
-        <td>{{ segment.beta }}</td>
-      </tr>
-      {% endfor %}
-    </table>
+      </svg>
+    </div>
 
   </body>
 </html>

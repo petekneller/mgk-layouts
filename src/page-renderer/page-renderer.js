@@ -14,17 +14,17 @@ const globalToViewbox = function(x, y) {
 const renderObstacle = function(obstacle) {
   const {x, y} = globalToViewbox(obstacle.origin.x, obstacle.origin.y);
   switch (obstacle.name) {
-  case "StartBox": return `<use xlink:href="#start-finish-box" x="${x}" y="${y}" />`;
-  case "FinishBox": return `<use xlink:href="#start-finish-box" x="${x}" y="${y}" />`;
-  case "LeftTurn": return `<use xlink:href="#blue-cone" x="${x}" y="${y}" />`;
-  case "RightTurn": return `<use xlink:href="#red-cone" x="${x}" y="${y}" />`;
-  case "RightRotation": return `<use xlink:href="#red-stripe-cone" x="${x}" y="${y}" />`;
+  case "StartBox": return `<use href="#start-finish-box" x="${x}" y="${y}" />`;
+  case "FinishBox": return `<use href="#start-finish-box" x="${x}" y="${y}" />`;
+  case "LeftTurn": return `<use href="#blue-cone" x="${x}" y="${y}" />`;
+  case "RightTurn": return `<use href="#red-cone" x="${x}" y="${y}" />`;
+  case "RightRotation": return `<use href="#red-stripe-cone" x="${x}" y="${y}" />`;
   case "Gate": {
     const leftCone = pathCalculator.obstacleLocalVectorToGlobal(obstacle, obstacle.leftExitBoundaryOrigin);
     const {x: x1, y: y1} = globalToViewbox(leftCone.x, leftCone.y);
     const rightCone = pathCalculator.obstacleLocalVectorToGlobal(obstacle, obstacle.rightExitBoundaryOrigin);
     const {x: x2, y: y2} = globalToViewbox(rightCone.x, rightCone.y);
-    return `<use xlink:href="#yellow-cone" x="${x1}" y="${y1}" /><use xlink:href="#yellow-cone" x="${x2}" y="${y2}" />`;
+    return `<use href="#yellow-cone" x="${x1}" y="${y1}" /><use href="#yellow-cone" x="${x2}" y="${y2}" />`;
   }
   default: return "";
   }
