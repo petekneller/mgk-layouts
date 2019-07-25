@@ -2,7 +2,7 @@
   "name": "mgk-layouts",
   "version": "0.0.1",
   "description": "",
-  "main": "run.js",
+  "main": "app.js",
   "dependencies": {
     "lodash": "^4.17.11",
     "nunjucks": "^3.2.0",
@@ -10,16 +10,20 @@
   },
   "devDependencies": {
     "chai": "^4.2.0",
+    "express": "^4.17.1",
     "fast-check": "^1.16.0",
     "npm-watch": "^0.6.0",
     "tap": "^14.4.1"
   },
   "watch": {
-    "test": "{src,test}/**/*.js"
+    "test": "**/*.js",
+    "serve": "**/*.js"
   },
   "scripts": {
     "test": "node_modules/.bin/tap -Rspec test/**/*.js",
-    "watch-tests": "npm-watch test"
+    "watch-tests": "npm-watch test",
+    "serve": "node app.js",
+    "watch-serve": "npm-watch serve"
   },
   "repository": {
     "type": "git",

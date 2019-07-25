@@ -1,14 +1,9 @@
 const nunjucks = require('nunjucks');
 const _ = require('lodash');
 const Victor = require('victor');
-const process = require('process');
-const fs = require('fs');
-const obstacleCtr = require('./src/obstacle.js');
-const pathCalculator = require('./src/path-calculator/path-calculator.js');
-const deserializer = require('./src/serialization/deserializer.js');
 
-const courseFile = process.argv.slice(2)[0]; // drop the js file path
-const course = deserializer(JSON.parse(fs.readFileSync(courseFile))).obstacles;
+const obstacleCtr = require('../obstacle.js');
+const pathCalculator = require('../path-calculator/path-calculator.js');
 
 const svgViewSize = { x: 40, y: 40};
 
@@ -99,18 +94,22 @@ const renderNormalVector = function(boundaryCircle, localNormal) {
   return `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="green" stroke-width="0.25%" />`;
 };
 
-//_.initial is necessary because _.zip will keep the last pair where the end segment is undefined
-const courseSegments = _.initial(_.zip(course, _.drop(course))).
-      map(([o1, o2]) => pathCalculator.calculateSegment(o1, o2));
-
 nunjucks.configure({});
-const output = nunjucks.render('example_layout.njk', {
-  courseSegments,
-  renderedObstacles: course.map(renderObstacle),
-  renderedObstacleBoundaries: course.map(renderBoundary),
-  renderedCourseSegments: courseSegments.map(renderSegment),
-  renderedOrientationVectors: course.map(renderOrientationVector),
-  renderedExitVectors: courseSegments.map(segment => renderNormalVector(segment.boundaryCircle1, segment.exit)),
-  renderedEntryVectors: courseSegments.map(segment => renderNormalVector(segment.boundaryCircle2, segment.entry))
-});
-console.log(output);
+
+const pageRenderer = function(course) {
+  //_.initial is necessary because _.zip will keep the last pair where the end segment is undefined
+  const courseSegments = _.initial(_.zip(course, _.drop(course))).
+        map(([o1, o2]) => pathCalculator.calculateSegment(o1, o2));
+
+  return nunjucks.render(`${__dirname}/page.njk`, {
+    courseSegments,
+    renderedObstacles: course.map(renderObstacle),
+    renderedObstacleBoundaries: course.map(renderBoundary),
+    renderedCourseSegments: courseSegments.map(renderSegment),
+    renderedOrientationVectors: course.map(renderOrientationVector),
+    renderedExitVectors: courseSegments.map(segment => renderNormalVector(segment.boundaryCircle1, segment.exit)),
+    renderedEntryVectors: courseSegments.map(segment => renderNormalVector(segment.boundaryCircle2, segment.entry))
+  });
+};
+
+module.exports = pageRenderer;
