@@ -16,18 +16,167 @@
       <svg viewbox="0 0 {{ viewboxExtents.x }} {{ viewboxExtents.y }}">
 
         <defs>
+
+          <!-- begin traffic cone -->
+          <g id="base-pylon" transform="scale(0.0075),translate(-86,-122.5)">
+            <g id="baseshadow" transform="translate(-256.82329,-414.84121)">
+              <filter
+                id="filter4044"
+                x="-0.12398025"
+                width="1.2479604"
+                y="-0.32837373"
+                height="1.6567475"
+                style="color-interpolation-filters:sRGB">
+                <feGaussianBlur stdDeviation="6.7771778" />
+              </filter>
+
+              <path
+                style="opacity:0.71028035;fill:black;stroke:none;filter:url(#filter4044)"
+                d="m 287.5,594.1479 c 0,0 -21.78571,-0.35715 -11.78571,10.35714 10,10.71428 22.85714,20 31.78571,27.14286 8.92857,7.14285 8.92857,18.92857 37.85714,6.78571 28.92857,-12.14286 45,-16.42857 52.14286,-20 7.14286,-3.57143 10,-6.78571 1.78571,-12.14286 -8.21428,-5.35714 -25,-8.92857 -25,-8.92857"
+                id="path3950"/>
+            </g>
+            <g id="base" transform="translate(-256.82329,-414.84121)">
+              <path
+                style="fill:var(--pylon-base-colour, #8f4e0b);fill-opacity:1;stroke:none"
+                d="m 258.85159,573.0448 -0.75761,9.09137 c 0,0 19.19289,17.1726 34.34518,30.30458 15.15229,13.13198 19.44544,27.52666 54.54824,15.15229 35.1028,-12.37437 51.77032,-17.1726 66.67007,-23.23351 14.89975,-6.06092 16.66751,-8.08122 14.89975,-18.68782 -1.76777,-10.60661 -77.02413,27.27411 -77.02413,27.27411 z"
+                id="path3765" />
+              <path
+                style="fill:var(--pylon-colour, #e27c11);fill-opacity:1;stroke:none"
+                d="m 297.48992,557.1349 c 0,0 -19.69797,5.55584 -27.02158,8.08122 -7.3236,2.52538 -17.67767,5.80837 -8.33375,14.64721 9.34391,8.83883 32.07234,27.77919 39.64848,34.59772 7.57615,6.81853 13.38452,17.42514 42.93149,7.57615 29.54696,-9.84899 58.58884,-19.95051 68.94291,-24.24366 10.35406,-4.29315 22.47589,-6.81853 10.10152,-16.66752 -12.37437,-9.84899 -39.39595,-24.24366 -39.39595,-24.24366 z"
+                id="path3786" />
+            </g>
+            <g id="coneshadow" transform="translate(-256.82329,-414.84121)">
+              <filter
+                id="filter3945"
+                x="-0.079715252"
+                width="1.1594305"
+                y="-0.19813617"
+                height="1.3962723"
+                style="color-interpolation-filters:sRGB">
+                <feGaussianBlur stdDeviation="3.6068295" />
+              </filter>
+
+              <path
+                transform="matrix(1,0,0,1.3468208,0,-210.74307)"
+                style="fill:black;fill-opacity:1;stroke:none;filter:url(#filter3945)"
+                d="m 395.97981,585.79797 c 0,14.68952 -24.30901,21.84455 -54.2957,21.84455 -29.98668,0 -54.2957,-6.2175 -54.2957,-21.84455 0,-12.06441 24.30902,-21.84455 54.2957,-21.84455 29.98669,0 54.2957,9.78014 54.2957,21.84455 z"
+                id="path3789" />
+
+            </g>
+            <g
+              id="conebasic" transform="translate(-256.82329,-414.84121)">
+              <path
+                style="fill:var(--pylon-colour, #e27c11);fill-opacity:1;stroke:none"
+                d="m 332.08765,418.49146 c 0,0 3.53553,-2.77792 8.5863,-3.03046 5.05076,-0.25254 10.35406,3.03046 10.35406,3.03046 0,0 37.13749,140.84325 40.65864,148.9975 3.24461,7.51385 8.08387,22.07096 -9.02687,31.39168 -8.19307,4.463 -21.22409,8.30934 -42.23837,8.50935 -31.58562,0.30062 -50.01501,-11.0076 -52.91677,-22.88599 -2.52822,-10.34932 4.65528,-20.70565 7.71244,-29.64195 4.39442,-12.84524 36.87057,-136.37059 36.87057,-136.37059 z"
+                id="path3845" />
+            </g>
+            <g
+              id="stripe" transform="translate(-256.82329,-414.84121)">
+              <path
+                style="fill:var(--pylon-stripe-colour, #e27c11);stroke:none"
+                d="m 312.5,490.93361 -16.07143,58.21429 c 0,0 -1.07143,20 46.07143,20 42.5,0 44.28571,-19.64286 44.28571,-19.64286 l -15.71428,-58.92857 c -1.14359,-5.17978 -0.24585,9.91575 -30.57121,9.84648 -26.89481,-0.0614 -26.52171,-13.48478 -28.00022,-9.48934 z"
+                id="path3875" />
+            </g>
+            <g style="opacity:0.42056077" id="shade" transform="translate(-256.82329,-414.84121)">
+              <linearGradient id="linearGradient3885">
+                <stop style="stop-color:#000000;stop-opacity:0;" offset="0" />
+                <stop style="stop-color:#000000;stop-opacity:1;" offset="1" />
+              </linearGradient>
+
+              <linearGradient
+                href="#linearGradient3885"
+                id="linearGradient3891"
+                x1="317.65979"
+                y1="511.42151"
+                x2="394.89078"
+                y2="511.42151"
+                gradientUnits="userSpaceOnUse" />
+
+              <path
+                id="path3883"
+                d="m 332.08765,418.49146 c 0,0 3.53553,-2.77792 8.5863,-3.03046 5.05076,-0.25254 10.35406,3.03046 10.35406,3.03046 0,0 37.13749,140.84325 40.65864,148.9975 3.24461,7.51385 8.08387,22.07096 -9.02687,31.39168 -8.19307,4.463 -21.22409,8.30934 -42.23837,8.50935 -31.58562,0.30062 -50.01501,-11.0076 -52.91677,-22.88599 -2.52822,-10.34932 4.65528,-20.70565 7.71244,-29.64195 4.39442,-12.84524 36.87057,-136.37059 36.87057,-136.37059 z"
+                style="fill:url(#linearGradient3891);fill-opacity:1;stroke:none" />
+            </g>
+            <g id="shine" transform="translate(-256.82329,-414.84121)">
+              <filter
+                id="filter3870"
+                x="-0.10856287"
+                width="1.2171257"
+                y="-0.023422765"
+                height="1.0468456"
+                style="color-interpolation-filters:sRGB">
+                <feGaussianBlur stdDeviation="0.94755108" />
+              </filter>
+
+              <path
+                style="opacity:0.5233645;fill:white;stroke:none;filter:url(#filter3870)"
+                d="m 335,421.29075 c 0,0 -17.85714,81.42857 -20.35714,91.07143 -2.5,9.64286 3.57143,7.5 6.42857,-5 C 323.92857,494.86218 335,421.29075 335,421.29075 Z"
+                id="path3856" />
+            </g>
+            <g id="tophole" transform="translate(-256.82329,-414.84121)">
+              <linearGradient id="linearGradient4051">
+                <stop style="stop-color:#000000;stop-opacity:0.64957267;" offset="0" />
+                <stop style="stop-color:#000000;stop-opacity:0;" offset="1" />
+              </linearGradient>
+
+              <linearGradient
+                href="#linearGradient4051"
+                id="linearGradient4057"
+                x1="342.10767"
+                y1="419.94769"
+                x2="342.10767"
+                y2="416.58182"
+                gradientUnits="userSpaceOnUse" />
+
+              <linearGradient id="linearGradient4075">
+                <stop style="stop-color:#ffffff;stop-opacity:0.56410259;" offset="0" />
+                <stop style="stop-color:#ffffff;stop-opacity:0;" offset="1" />
+              </linearGradient>
+
+              <linearGradient
+                href="#linearGradient4075"
+                id="linearGradient4081"
+                x1="343.5083"
+                y1="421.49597"
+                x2="342.10767"
+                y2="416.58182"
+                gradientUnits="userSpaceOnUse" />
+
+              <filter
+                id="filter4107"
+                x="-0.078374997"
+                width="1.15675"
+                y="-0.24534781"
+                height="1.4906956"
+                style="color-interpolation-filters:sRGB">
+                <feGaussianBlur stdDeviation="0.474841" />
+              </filter>
+
+              <ellipse
+                style="opacity:0.71028035;fill:url(#linearGradient4057);fill-opacity:1;stroke:url(#linearGradient4081);filter:url(#filter4107)"
+                id="path4049"
+                cx="341.63644"
+                cy="418.80328"
+                rx="7.2702928"
+                ry="2.3224547" />
+            </g>
+          </g>
+          <!-- end traffic cone -->
+
           <g id="yellow-cone">
-            <circle r="1%" cx="0" cy="0" stroke="black" stroke-width="0.25%" fill="yellow"/>
+            <use href="#base-pylon" style="--pylon-colour:yellow; --pylon-stripe-colour:yellow; --pylon-base-colour:darkyellow;" x="0" y="0" />
           </g>
           <g id="blue-cone">
-            <circle r="1%" cx="0" cy="0" stroke="black" stroke-width="0.25%" fill="blue"/>
+            <use href="#base-pylon" style="--pylon-colour:blue; --pylon-stripe-colour:blue; --pylon-base-colour:midnightblue;" x="0" y="0" />
+          </g>
+          <g id="blue-stripe-cone">
+            <use href="#base-pylon" style="--pylon-colour:blue; --pylon-stripe-colour:yellow; --pylon-base-colour:midnightblue;" x="0" y="0" />
           </g>
           <g id="red-cone">
-            <circle r="1%" cx="0" cy="0" stroke="black" stroke-width="0.25%" fill="red"/>
+            <use href="#base-pylon" style="--pylon-colour:red; --pylon-stripe-colour:red; --pylon-base-colour:darkred;" x="0" y="0" />
           </g>
           <g id="red-stripe-cone">
-            <circle r="1%" cx="0" cy="0" stroke="black" stroke-width="0.25%" fill="red"/>
-            <circle r="0.5%" cx="0" cy="0" fill="yellow"/>
+            <use href="#base-pylon" style="--pylon-colour:red; --pylon-stripe-colour:yellow; --pylon-base-colour:darkred;" x="0" y="0" />
           </g>
           <g id="gate">
             <use href="#yellow-cone" x="-0.75" y="0" />
@@ -58,10 +207,6 @@
                 style="stroke: black; stroke-width: 0.5%;"/>
           <line x1="0" y1="{{ viewboxExtents.y }}" x2="{{ viewboxExtents.x }}" y2="{{ viewboxExtents.y }}"
                 style="stroke: black; stroke-width: 0.5%;"/>
-          <!-- <line x1="0" y1="0" x2="{{ viewboxExtents.x }}" y2="0" -->
-          <!--       style="stroke: lightgray; stroke-width: 0.5%;"/> -->
-          <!-- <line x1="{{ viewboxExtents.x }}" y1="0" x2="{{ viewboxExtents.y }}" y2="{{ viewboxExtents.y }}" -->
-          <!--       style="stroke: lightgray; stroke-width: 0.5%;"/> -->
 
           <!-- obstacles -->
           {% for obstacle in renderedObstacles %}
