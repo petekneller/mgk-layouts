@@ -203,6 +203,11 @@
           {{- obstacle | safe -}}
           {% endfor %}
 
+          <!-- course segments -->
+          {% for segment in renderedCourseSegments %}
+          {{- segment | safe }}
+          {% endfor %}
+
           <!-- boundaries -->
           {% for boundary in renderedObstacleBoundaries %}
           {{- boundary | safe }}
@@ -221,10 +226,6 @@
           {{- vector | safe }}
           {% endfor %}
 
-          <!-- course segments -->
-          {% for segment in renderedCourseSegments %}
-          {{- segment | safe }}
-          {% endfor %}
 
         </g>
       </svg>
