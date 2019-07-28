@@ -16,8 +16,15 @@
     "tap": "^14.4.1"
   },
   "watch": {
-    "test": "**/*.js",
-    "serve": "**/*.js"
+    "test": {
+      "patterns": ["app", "src", "test"],
+      "extensions": "js,njk"
+    },
+    "serve": {
+      "patterns": ["."],
+      "extensions": "js,njk",
+      "ignore": ["test/"]
+    }
   },
   "scripts": {
     "test": "node_modules/.bin/tap -Rspec test/**/*.js",
