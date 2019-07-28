@@ -2,7 +2,7 @@
   "obstacles": [{
       "name": "StartBox",
       "origin": { "x": 15, "y": 5 },
-      "orientation": "N"
+      "orientation": 315
     }, {
       "name": "RightTurn",
       "origin": { "x": 10, "y": 10 },
@@ -34,6 +34,6 @@
     }, {
       "name": "FinishBox",
       "origin": { "x": 20, "y": 5 },
-      "orientation": "S"
+      "orientation": 225
     }]
 }
