@@ -208,6 +208,13 @@
           {{- segment | safe }}
           {% endfor %}
 
+          <!-- from here on down are debugging symbols/graphics -->
+
+          <!-- course debug segments - lines _directly_ between obstacles -->
+          {% for segment in renderedCourseDebugSegments %}
+          {{- segment | safe }}
+          {% endfor %}
+
           <!-- boundaries -->
           {% for boundary in renderedObstacleBoundaries %}
           {{- boundary | safe }}

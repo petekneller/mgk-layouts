@@ -20,7 +20,9 @@ Maybe a decent strategy:
 - the deserializer converts known non-string parameters (eg. entry, exit, name) into their native types, where they are given
 - the native object is then handed to the obstacle constructor to handle known obstacles and defaults
 ** =deserializer= needs to take string argument, rather than object
-** start/finish boxes, gates, should take width/depth params to define where the pylons are rendered
+** start/finish boxes, gates, should take width/depth params to define where the pylons are rendered (separately from where the boundary circles lie
+* rendering improvements
+** orientation vectors could do with arrow heads
 * to support further courses
 ** +convert to an express.js app and read course from path param?+
 ** +add axis/grid lines+

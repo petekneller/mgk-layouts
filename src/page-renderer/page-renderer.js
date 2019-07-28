@@ -95,18 +95,21 @@ const renderBoundary = function(obstacle, globalToViewbox) {
 };
 
 const renderSegment = function(segment, globalToViewbox) {
+  const globalNormal1 = segment.boundaryCircle1.origin.clone().add(segment.exit);
+  const {x: x1, y: y1} = globalToViewbox(globalNormal1.x, globalNormal1.y);
+  const globalNormal2 = segment.boundaryCircle2.origin.clone().add(segment.entry);
+  const {x: x2, y: y2} = globalToViewbox(globalNormal2.x, globalNormal2.y);
+  return `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="black" stroke-width="0.5%" />`;
+};
+
+const renderDebugSegment = function(segment, globalToViewbox) {
   const {x: x1, y: y1} = globalToViewbox(segment.obstacle1.origin.x, segment.obstacle1.origin.y);
   const {x: x2, y: y2} = globalToViewbox(segment.obstacle2.origin.x, segment.obstacle2.origin.y);
-  const globalNormal1 = segment.boundaryCircle1.origin.clone().add(segment.exit);
-  const {x: xn1, y: yn1} = globalToViewbox(globalNormal1.x, globalNormal1.y);
-  const globalNormal2 = segment.boundaryCircle2.origin.clone().add(segment.entry);
-  const {x: xn2, y: yn2} = globalToViewbox(globalNormal2.x, globalNormal2.y);
-  return `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="lightgray" stroke-width="0.25%" />` +
-    `<line x1="${xn1}" y1="${yn1}" x2="${xn2}" y2="${yn2}" stroke="black" stroke-width="0.25%" />`;
+  return `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="lightgray" stroke-width="0.25%" />`;
 };
 
 const renderOrientationVector = function(obstacle, globalToViewbox) {
-  const orientation = pathCalculator.obstacleLocalVectorToGlobal(obstacle, Victor(0, 1));
+  const orientation = pathCalculator.obstacleLocalVectorToGlobal(obstacle, Victor(0, 2));
   const {x: x1b, y: y1b} = globalToViewbox(obstacle.origin.x, obstacle.origin.y);
   const {x: x2b, y: y2b} = globalToViewbox(orientation.x, orientation.y);
   return `<line x1="${x1b}" y1="${y1b}" x2="${x2b}" y2="${y2b}" stroke="red" stroke-width="0.25%" />`;
@@ -156,7 +159,7 @@ const renderGridlines = function(viewboxExtents, spacing, strokeColour, globalTo
 
 nunjucks.configure({});
 
-const pageRenderer = function(course) {
+const pageRenderer = function(course, debug) {
   const { x: maxX, y: maxY } = courseMaxExtents(course);
   const maxViewbox = Math.floor(Math.max(maxX, maxY) * 1.1);
   const viewboxExtents = { x: maxViewbox, y: maxViewbox};
@@ -169,17 +172,24 @@ const pageRenderer = function(course) {
   const courseSegments = _.initial(_.zip(course, _.drop(course))).
         map(([o1, o2]) => pathCalculator.calculateSegment(o1, o2));
 
+  const renderedCourseDebugSegments = !!debug ? courseSegments.map(segment => renderDebugSegment(segment, globalToViewbox)): [];
+  const renderedObstacleBoundaries = !!debug ? course.map(obstacle => renderBoundary(obstacle, globalToViewbox)) : [];
+  const renderedOrientationVectors = !!debug ? course.map(obstacle => renderOrientationVector(obstacle, globalToViewbox)): [];
+  const renderedExitVectors = !!debug ? courseSegments.map(segment => renderNormalVector(segment.boundaryCircle1, segment.exit, globalToViewbox)): [];
+  const renderedEntryVectors = !!debug ? courseSegments.map(segment => renderNormalVector(segment.boundaryCircle2, segment.entry, globalToViewbox)): [];
+
   return nunjucks.render(`${__dirname}/page.njk`, {
     viewboxExtents,
     minorGridlines: renderGridlines(viewboxExtents, 1, "lightgrey", globalToViewbox),
     majorGridlines: renderGridlines(viewboxExtents, 10, "darkgray", globalToViewbox),
     courseSegments,
     renderedObstacles: course.map(obstacle => renderObstacle(obstacle, globalToViewbox)),
-    renderedObstacleBoundaries: course.map(obstacle => renderBoundary(obstacle, globalToViewbox)),
+    renderedObstacleBoundaries,
     renderedCourseSegments: courseSegments.map(segment => renderSegment(segment, globalToViewbox)),
-    renderedOrientationVectors: course.map(obstacle => renderOrientationVector(obstacle, globalToViewbox)),
-    renderedExitVectors: courseSegments.map(segment => renderNormalVector(segment.boundaryCircle1, segment.exit, globalToViewbox)),
-    renderedEntryVectors: courseSegments.map(segment => renderNormalVector(segment.boundaryCircle2, segment.entry, globalToViewbox))
+    renderedCourseDebugSegments,
+    renderedOrientationVectors,
+    renderedExitVectors,
+    renderedEntryVectors
   });
 };
 
