@@ -56,9 +56,30 @@ const renderObstacle = function(obstacle, globalToViewbox) {
   }
 };
 
+const renderBoundaryArc = function(boundaryCircle, segmentEntry, segmentExit, globalToViewbox) {
+  const entryNormal = boundaryCircle.origin.clone().add(segmentEntry);
+  const {x: x1, y: y1} = globalToViewbox(entryNormal.x, entryNormal.y);
+  const exitNormal = boundaryCircle.origin.clone().add(segmentExit);
+  const {x: x2, y: y2} = globalToViewbox(exitNormal.x, exitNormal.y);
+
+  const entryAngle = pathCalculator.normalizeAngle(segmentEntry.direction());
+  const exitAngle = pathCalculator.normalizeAngle(segmentExit.direction());
+  const angleTurnedThrough = pathCalculator.normalizeAngle(
+    boundaryCircle.entry === obstacleCtr.RIGHT ? (exitAngle - entryAngle) : (entryAngle - exitAngle)
+  );
+  const largeArcSweepFlag = (angleTurnedThrough > Math.PI) ? '1' : '0';
+
+  const sweepFlag = boundaryCircle.entry === obstacleCtr.RIGHT ? '0' : '1';
+  return `<path d="M ${x1} ${y1} A ${boundaryCircle.radius} ${boundaryCircle.radius} 0 ${largeArcSweepFlag} ${sweepFlag} ${x2} ${y2}" fill="none" stroke="black" stroke-width="0.5%" />`;
+};
+
 const renderObstaclePath = function(segment1, segment2, globalToViewbox) {
   const obstacle = segment1.obstacle2;
   switch(obstacle.name) {
+  case 'LeftTurn':
+  case 'RightTurn': {
+    return renderBoundaryArc(segment1.boundaryCircle2, segment1.entry, segment2.exit, globalToViewbox);
+  }
   case 'LeftRotation':
   case 'RightRotation': {
     const boundaryCircle = segment1.boundaryCircle2;
@@ -70,12 +91,7 @@ const renderObstaclePath = function(segment1, segment2, globalToViewbox) {
     const lessThanFullRotation = angleTurnedThrough >= (Math.PI * 2/2);
 
     if (lessThanFullRotation) {
-      const entryNormal = boundaryCircle.origin.clone().add(segment1.entry);
-      const {x: x1, y: y1} = globalToViewbox(entryNormal.x, entryNormal.y);
-      const exitNormal = boundaryCircle.origin.clone().add(segment2.exit);
-      const {x: x2, y: y2} = globalToViewbox(exitNormal.x, exitNormal.y);
-      const sweepFlag = boundaryCircle.entry === obstacleCtr.RIGHT ? '0' : '1';
-      return `<path d="M ${x1} ${y1} A ${boundaryCircle.radius} ${boundaryCircle.radius} 0 1 ${sweepFlag} ${x2} ${y2}" fill="none" stroke="black" stroke-width="0.5%" />`;
+      return renderBoundaryArc(boundaryCircle, segment1.entry, segment2.exit, globalToViewbox);
     } else {
       const { x: cx, y: cy } = globalToViewbox(boundaryCircle.origin.x, boundaryCircle.origin.y);
       return `<circle cx="${cx}" cy="${cy}" r="${boundaryCircle.radius}" fill="none" stroke="black" stroke-width="0.5%" />`;
