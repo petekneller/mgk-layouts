@@ -8,18 +8,18 @@ const pathCalculator = require('../path-calculator/path-calculator.js');
 const renderObstacle = function(obstacle, globalToViewbox) {
   const {x, y} = globalToViewbox(obstacle.origin.x, obstacle.origin.y);
   switch (obstacle.name) {
-  case "LeftTurn": return `<use href="#blue-cone" x="${x}" y="${y}" />`;
-  case "LeftRotation": return `<use href="#blue-stripe-cone" x="${x}" y="${y}" />`;
-  case "RightTurn": return `<use href="#red-cone" x="${x}" y="${y}" />`;
-  case "RightRotation": return `<use href="#red-stripe-cone" x="${x}" y="${y}" />`;
-  case "Gate": {
+  case 'LeftTurn': return `<use href="#blue-cone" x="${x}" y="${y}" />`;
+  case 'LeftRotation': return `<use href="#blue-stripe-cone" x="${x}" y="${y}" />`;
+  case 'RightTurn': return `<use href="#red-cone" x="${x}" y="${y}" />`;
+  case 'RightRotation': return `<use href="#red-stripe-cone" x="${x}" y="${y}" />`;
+  case 'Gate': {
     const leftCone = pathCalculator.obstacleLocalVectorToGlobal(obstacle, obstacle.leftExitBoundaryOrigin);
     const {x: x1, y: y1} = globalToViewbox(leftCone.x, leftCone.y);
     const rightCone = pathCalculator.obstacleLocalVectorToGlobal(obstacle, obstacle.rightExitBoundaryOrigin);
     const {x: x2, y: y2} = globalToViewbox(rightCone.x, rightCone.y);
     return `<use href="#yellow-cone" x="${x1}" y="${y1}" /><use href="#yellow-cone" x="${x2}" y="${y2}" />`;
   }
-  case "StartBox": {
+  case 'StartBox': {
     // NB. 'front'/'rear' and 'left'/'right' are on the bike, leaving the box
     const leftFrontCone = pathCalculator.obstacleLocalVectorToGlobal(obstacle, obstacle.leftExitBoundaryOrigin);
     const {x: x1, y: y1} = globalToViewbox(leftFrontCone.x, leftFrontCone.y);
@@ -35,7 +35,7 @@ const renderObstacle = function(obstacle, globalToViewbox) {
             <use href="#yellow-cone" x="${x3}" y="${y3}" />
             <use href="#yellow-cone" x="${x4}" y="${y4}" />`;
   }
-  case "FinishBox": {
+  case 'FinishBox': {
     // NB. 'front'/'rear' and 'left'/'right' are on the bike, entering the box
     const leftFrontCone = pathCalculator.obstacleLocalVectorToGlobal(obstacle, obstacle.leftEntryBoundaryOrigin);
     const {x: x1, y: y1} = globalToViewbox(leftFrontCone.x, leftFrontCone.y);
@@ -51,7 +51,7 @@ const renderObstacle = function(obstacle, globalToViewbox) {
             <use href="#yellow-cone" x="${x3}" y="${y3}" />
             <use href="#yellow-cone" x="${x4}" y="${y4}" />`;
   }
-  default: return "";
+  default: return '';
   }
 };
 
@@ -180,8 +180,8 @@ const pageRenderer = function(course, debug) {
 
   return nunjucks.render(`${__dirname}/page.njk`, {
     viewboxExtents,
-    minorGridlines: renderGridlines(viewboxExtents, 1, "lightgrey", globalToViewbox),
-    majorGridlines: renderGridlines(viewboxExtents, 10, "darkgray", globalToViewbox),
+    minorGridlines: renderGridlines(viewboxExtents, 1, 'lightgrey', globalToViewbox),
+    majorGridlines: renderGridlines(viewboxExtents, 10, 'darkgray', globalToViewbox),
     courseSegments,
     renderedObstacles: course.map(obstacle => renderObstacle(obstacle, globalToViewbox)),
     renderedObstacleBoundaries,
