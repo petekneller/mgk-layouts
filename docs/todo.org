@@ -27,6 +27,7 @@ Maybe a decent strategy:
 * rendering improvements
 ** orientation vectors could do with arrow heads
 ** have renderer/s output an SVG DSL rather than text? makes it testable
+** need to determine how to render the first/last obstacle - there is no pair of segments that border them, so the way I'm currently doing it doesn't work
 * to support further courses
 ** +convert to an express.js app and read course from path param?+
 ** +add axis/grid lines+
