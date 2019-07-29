@@ -27,7 +27,7 @@
     }
   },
   "scripts": {
-    "test": "node_modules/.bin/tap -Rspec test/**/*.js",
+    "test": "node_modules/.bin/tap -Rspec --test-ignore=test/victor-assert.js",
     "watch-tests": "npm-watch test",
     "serve": "node app.js",
     "watch-serve": "npm-watch serve"
