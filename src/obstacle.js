@@ -65,14 +65,14 @@ const constructNamed = function(opts) {
   case Symbol.keyFor(LEFT_ROTATION): {
     opts.entry = RIGHT;
     opts.exit = RIGHT;
-    opts.radius = opts.radius || 1.0;
+    opts.radius = opts.radius || 1.5;
     break;
   }
   case Symbol.keyFor(RIGHT_TURN):
   case Symbol.keyFor(RIGHT_ROTATION): {
     opts.entry = LEFT;
     opts.exit = LEFT;
-    opts.radius = opts.radius || 1.0;
+    opts.radius = opts.radius || 1.5;
     break;
   }
   case Symbol.keyFor(START_BOX):
@@ -80,13 +80,13 @@ const constructNamed = function(opts) {
   case Symbol.keyFor(GATE): {
     opts.width = opts.width || 1.5;
 
+    opts.radius = opts.radius || 2;
     opts.entry = EITHER;
-    opts.leftEntryBoundaryOrigin = victor(-0.75, 0);
-    opts.rightEntryBoundaryOrigin = victor(0.75, 0);
+    opts.leftEntryBoundaryOrigin = victor(-1 * opts.radius, 0);
+    opts.rightEntryBoundaryOrigin = victor(opts.radius, 0);
     opts.exit = EITHER;
-    opts.leftExitBoundaryOrigin = victor(-0.75, 0);
-    opts.rightExitBoundaryOrigin = victor(0.75, 0);
-    opts.radius = opts.radius || 0.75;
+    opts.leftExitBoundaryOrigin = victor(-1 * opts.radius, 0);
+    opts.rightExitBoundaryOrigin = victor(opts.radius, 0);
     break;
   }
   }
