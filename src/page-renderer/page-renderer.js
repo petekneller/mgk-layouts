@@ -56,6 +56,35 @@ const renderObstacle = function(obstacle, globalToViewbox) {
   }
 };
 
+const renderObstaclePath = function(segment1, segment2, globalToViewbox) {
+  const obstacle = segment1.obstacle2;
+  switch(obstacle.name) {
+  case 'LeftRotation':
+  case 'RightRotation': {
+    const boundaryCircle = segment1.boundaryCircle2;
+    const entryAngle = pathCalculator.normalizeAngle(segment1.entry.direction());
+    const exitAngle = pathCalculator.normalizeAngle(segment2.exit.direction());
+    const angleTurnedThrough = pathCalculator.normalizeAngle(
+      boundaryCircle.entry === obstacleCtr.RIGHT ? (exitAngle - entryAngle) : (entryAngle - exitAngle)
+    );
+    const lessThanFullRotation = angleTurnedThrough >= (Math.PI * 2/2);
+
+    if (lessThanFullRotation) {
+      const entryNormal = boundaryCircle.origin.clone().add(segment1.entry);
+      const {x: x1, y: y1} = globalToViewbox(entryNormal.x, entryNormal.y);
+      const exitNormal = boundaryCircle.origin.clone().add(segment2.exit);
+      const {x: x2, y: y2} = globalToViewbox(exitNormal.x, exitNormal.y);
+      const sweepFlag = boundaryCircle.entry === obstacleCtr.RIGHT ? '0' : '1';
+      return `<path d="M ${x1} ${y1} A ${boundaryCircle.radius} ${boundaryCircle.radius} 0 1 ${sweepFlag} ${x2} ${y2}" fill="none" stroke="black" stroke-width="0.5%" />`;
+    } else {
+      const { x: cx, y: cy } = globalToViewbox(boundaryCircle.origin.x, boundaryCircle.origin.y);
+      return `<circle cx="${cx}" cy="${cy}" r="${boundaryCircle.radius}" fill="none" stroke="black" stroke-width="0.5%" />`;
+    }
+  }
+  default: return '';
+  }
+};
+
 const renderBoundaryCircle = function(obstacle, globalToViewbox) {
   const {x, y} = globalToViewbox(obstacle.origin.x, obstacle.origin.y);
   return `<circle r="${obstacle.radius}" cx="${x}" cy="${y}" class="boundaryCircle" />`;
@@ -95,7 +124,7 @@ const renderBoundary = function(obstacle, globalToViewbox) {
   //return renderBoundaryCircle(segment.boundaryCircle1).concat(renderBoundaryCircle(segment.boundaryCircle2));
 };
 
-const renderSegment = function(segment, globalToViewbox) {
+const renderSegmentPath = function(segment, globalToViewbox) {
   const globalNormal1 = segment.boundaryCircle1.origin.clone().add(segment.exit);
   const {x: x1, y: y1} = globalToViewbox(globalNormal1.x, globalNormal1.y);
   const globalNormal2 = segment.boundaryCircle2.origin.clone().add(segment.entry);
@@ -185,7 +214,8 @@ const pageRenderer = function(course, debug) {
     courseSegments,
     renderedObstacles: course.map(obstacle => renderObstacle(obstacle, globalToViewbox)),
     renderedObstacleBoundaries,
-    renderedCourseSegments: courseSegments.map(segment => renderSegment(segment, globalToViewbox)),
+    renderedSegmentPaths: courseSegments.map(segment => renderSegmentPath(segment, globalToViewbox)),
+    renderedObstaclePaths: arrays.zipAdjacent(courseSegments).map(([segment1, segment2]) => renderObstaclePath(segment1, segment2, globalToViewbox)),
     renderedCourseDebugSegments,
     renderedOrientationVectors,
     renderedExitVectors,

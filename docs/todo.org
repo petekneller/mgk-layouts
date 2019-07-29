@@ -5,6 +5,9 @@
 ** +fast-check arbitrary for vectors/obstacles+
 ** +tests for unknown entry and exit strategy+
 ** needs a =calculateSegments= (plural) method
+** add the calc of angle turned through (rotations, etc) to the calculator rather than having the render manage it
+** add calc of (approximate) course distance?
+** =obstacleLocalVectorToGlobal= and =normalizeAngle= need tests
 * deserialisation
 ** separate deserialisation concerns from the =obstacle= constructor
    :PROPERTIES:
@@ -23,6 +26,7 @@ Maybe a decent strategy:
 ** start/finish boxes, gates, should take width/depth params to define where the pylons are rendered (separately from where the boundary circles lie
 * rendering improvements
 ** orientation vectors could do with arrow heads
+** have renderer/s output an SVG DSL rather than text? makes it testable
 * to support further courses
 ** +convert to an express.js app and read course from path param?+
 ** +add axis/grid lines+

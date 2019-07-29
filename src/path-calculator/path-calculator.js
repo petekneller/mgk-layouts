@@ -63,12 +63,12 @@ const toBoundaryCircle = function(obstacle) {
 };
 
 const normalizeAngle = function(angle) {
-  if (angle <= Math.PI && angle >= (-1 * Math.PI))
+  if (angle < (2 * Math.PI) && angle >= 0)
     return angle;
 
-  if (angle > Math.PI)
+  if (angle >= (2 * Math.PI))
     angle = angle - (2 * Math.PI);
-  if (angle < (-1 * Math.PI))
+  if (angle < 0)
     angle = angle + (2 * Math.PI);
   return normalizeAngle(angle);
 };
@@ -175,5 +175,6 @@ const calculateSegment = function(obstacle1, obstacle2) {
 
 module.exports = {
   calculateSegment,
-  obstacleLocalVectorToGlobal
+  obstacleLocalVectorToGlobal,
+  normalizeAngle
 };

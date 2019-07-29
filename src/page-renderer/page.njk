@@ -203,16 +203,21 @@
           {{- obstacle | safe -}}
           {% endfor %}
 
-          <!-- course segments -->
-          {% for segment in renderedCourseSegments %}
-          {{- segment | safe }}
+          <!-- path around the course segments -->
+          {% for path in renderedSegmentPaths %}
+          {{- path | safe }}
+          {% endfor %}
+
+          <!-- path around the obstacles -->
+          {% for path in renderedObstaclePaths %}
+          {{- path | safe }}
           {% endfor %}
 
           <!-- from here on down are debugging symbols/graphics -->
 
           <!-- course debug segments - lines _directly_ between obstacles -->
-          {% for segment in renderedCourseDebugSegments %}
-          {{- segment | safe }}
+          {% for graphics in renderedCourseDebugSegments %}
+          {{- graphics | safe }}
           {% endfor %}
 
           <!-- boundaries -->
