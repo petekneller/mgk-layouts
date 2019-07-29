@@ -2,6 +2,7 @@ const nunjucks = require('nunjucks');
 const _ = require('lodash');
 const Victor = require('victor');
 
+const arrays = require('../arrays.js');
 const obstacleCtr = require('../obstacle.js');
 const pathCalculator = require('../path-calculator/path-calculator.js');
 
@@ -168,8 +169,7 @@ const pageRenderer = function(course, debug) {
     return { x: x, y: (viewboxExtents.y - y) };
   };
 
-  //_.initial is necessary because _.zip will keep the last pair where the end segment is undefined
-  const courseSegments = _.initial(_.zip(course, _.drop(course))).
+  const courseSegments = arrays.zipAdjacent(course).
         map(([o1, o2]) => pathCalculator.calculateSegment(o1, o2));
 
   const renderedCourseDebugSegments = !!debug ? courseSegments.map(segment => renderDebugSegment(segment, globalToViewbox)): [];
