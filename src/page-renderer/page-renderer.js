@@ -14,22 +14,23 @@ const renderObstacle = function(obstacle, globalToViewbox) {
   case 'RightTurn': return `<use href="#red-cone" x="${x}" y="${y}" />`;
   case 'RightRotation': return `<use href="#red-stripe-cone" x="${x}" y="${y}" />`;
   case 'Gate': {
-    const leftCone = pathCalculator.obstacleLocalVectorToGlobal(obstacle, obstacle.leftExitBoundaryOrigin);
+    const leftCone = pathCalculator.obstacleLocalVectorToGlobal(obstacle, Victor(-0.5 * obstacle.width, 0));
     const {x: x1, y: y1} = globalToViewbox(leftCone.x, leftCone.y);
-    const rightCone = pathCalculator.obstacleLocalVectorToGlobal(obstacle, obstacle.rightExitBoundaryOrigin);
+    const rightCone = pathCalculator.obstacleLocalVectorToGlobal(obstacle, Victor(0.5 * obstacle.width, 0));
     const {x: x2, y: y2} = globalToViewbox(rightCone.x, rightCone.y);
     return `<use href="#yellow-cone" x="${x1}" y="${y1}" /><use href="#yellow-cone" x="${x2}" y="${y2}" />`;
   }
   case 'StartBox': {
     // NB. 'front'/'rear' and 'left'/'right' are on the bike, leaving the box
-    const leftFrontCone = pathCalculator.obstacleLocalVectorToGlobal(obstacle, obstacle.leftExitBoundaryOrigin);
+    const depth = 3;
+    const leftFrontCone = pathCalculator.obstacleLocalVectorToGlobal(obstacle, Victor(-0.5 * obstacle.width, 0));
     const {x: x1, y: y1} = globalToViewbox(leftFrontCone.x, leftFrontCone.y);
-    const rightFrontCone = pathCalculator.obstacleLocalVectorToGlobal(obstacle, obstacle.rightExitBoundaryOrigin);
+    const rightFrontCone = pathCalculator.obstacleLocalVectorToGlobal(obstacle, Victor(0.5 * obstacle.width, 0));
     const {x: x2, y: y2} = globalToViewbox(rightFrontCone.x, rightFrontCone.y);
     const leftRearCone = pathCalculator.obstacleLocalVectorToGlobal(obstacle,
-                                                                    obstacle.leftExitBoundaryOrigin.clone().add(Victor(0,-2)));
+                                                                    Victor(-0.5 * obstacle.width, -1 * depth));
     const {x: x3, y: y3} = globalToViewbox(leftRearCone.x, leftRearCone.y);
-    const rightRearCone = pathCalculator.obstacleLocalVectorToGlobal(obstacle, obstacle.rightExitBoundaryOrigin.clone().add(Victor(0,-2)));
+    const rightRearCone = pathCalculator.obstacleLocalVectorToGlobal(obstacle, Victor(0.5 * obstacle.width, -1 * depth));
     const {x: x4, y: y4} = globalToViewbox(rightRearCone.x, rightRearCone.y);
     return `<use href="#yellow-cone" x="${x1}" y="${y1}" />
             <use href="#yellow-cone" x="${x2}" y="${y2}" />
@@ -37,15 +38,16 @@ const renderObstacle = function(obstacle, globalToViewbox) {
             <use href="#yellow-cone" x="${x4}" y="${y4}" />`;
   }
   case 'FinishBox': {
+    const depth = 3;
     // NB. 'front'/'rear' and 'left'/'right' are on the bike, entering the box
-    const leftFrontCone = pathCalculator.obstacleLocalVectorToGlobal(obstacle, obstacle.leftEntryBoundaryOrigin);
+    const leftFrontCone = pathCalculator.obstacleLocalVectorToGlobal(obstacle, Victor(-0.5 * obstacle.width, 0));
     const {x: x1, y: y1} = globalToViewbox(leftFrontCone.x, leftFrontCone.y);
-    const rightFrontCone = pathCalculator.obstacleLocalVectorToGlobal(obstacle, obstacle.rightEntryBoundaryOrigin);
+    const rightFrontCone = pathCalculator.obstacleLocalVectorToGlobal(obstacle, Victor(0.5 * obstacle.width, 0));
     const {x: x2, y: y2} = globalToViewbox(rightFrontCone.x, rightFrontCone.y);
     const leftRearCone = pathCalculator.obstacleLocalVectorToGlobal(obstacle,
-                                                                    obstacle.leftExitBoundaryOrigin.clone().add(Victor(0,2)));
+                                                                    Victor(-0.5 * obstacle.width, depth));
     const {x: x3, y: y3} = globalToViewbox(leftRearCone.x, leftRearCone.y);
-    const rightRearCone = pathCalculator.obstacleLocalVectorToGlobal(obstacle, obstacle.rightExitBoundaryOrigin.clone().add(Victor(0,2)));
+    const rightRearCone = pathCalculator.obstacleLocalVectorToGlobal(obstacle, Victor(0.5 * obstacle.width, depth));
     const {x: x4, y: y4} = globalToViewbox(rightRearCone.x, rightRearCone.y);
     return `<use href="#yellow-cone" x="${x1}" y="${y1}" />
             <use href="#yellow-cone" x="${x2}" y="${y2}" />

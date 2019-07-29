@@ -199,6 +199,7 @@ t.describe('the deserialiser', () => {
         assert.equal(obstacle1.name, 'Gate');
         assert.equal(obstacle1.entry, obstacle.EITHER);
         assert.equal(obstacle1.exit, obstacle.EITHER);
+        assert.isNumber(obstacle1.width);
       });
 
     });
