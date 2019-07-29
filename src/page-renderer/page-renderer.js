@@ -97,6 +97,17 @@ const renderObstaclePath = function(segment1, segment2, globalToViewbox) {
       return `<circle cx="${cx}" cy="${cy}" r="${boundaryCircle.radius}" fill="none" stroke="black" stroke-width="0.5%" />`;
     }
   }
+  case 'Gate': {
+    // Gates can be considered 2 arcs - one from the entry to the point central between the boundary circles (which should be the origin) and from that point to the exit
+    const originLocalToBoundaryCircle = ((segment1.boundaryCircle2.entry === obstacleCtr.LEFT) ?
+                                           segment1.obstacle2.rightEntryBoundaryOrigin :
+                                          segment1.obstacle2.leftEntryBoundaryOrigin).clone().invert();
+    const originAfterOrientation = pathCalculator.obstacleLocalVectorToGlobalOrientation(segment1.obstacle2, originLocalToBoundaryCircle);
+
+    const arc1 = renderBoundaryArc(segment1.boundaryCircle2, segment1.entry, originAfterOrientation, globalToViewbox);
+    const arc2 = renderBoundaryArc(segment1.boundaryCircle2, originAfterOrientation, segment2.exit, globalToViewbox);
+    return `${arc1}\n${arc2}`;
+  }
   default: return '';
   }
 };
@@ -172,8 +183,8 @@ const courseMaxExtents = function(course) {
   const obstacleExtents = course.map(obstacle => {
     // a basic heuristic: the boundary can't be offset by more than the largest of the
     // x or y of the offset. Assumes symmetrical offsets.
-    const maxBoundaryOffset = obstacle.leftBoundaryCircleOffset ?
-          Math.max(obstacle.leftBoundaryCircleOffset.x, obstacle.leftBoundaryCircleOffset.y) : 0;
+    const maxBoundaryOffset = obstacle.leftEntryBoundaryOrigin ?
+          Math.max(obstacle.leftEntryBoundaryOrigin.x, obstacle.leftEntryBoundaryOrigin.y) : 0;
 
     return {
       x: obstacle.origin.x + obstacle.radius + maxBoundaryOffset,

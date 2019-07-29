@@ -176,5 +176,6 @@ const calculateSegment = function(obstacle1, obstacle2) {
 module.exports = {
   calculateSegment,
   obstacleLocalVectorToGlobal,
+  obstacleLocalVectorToGlobalOrientation,
   normalizeAngle
 };
