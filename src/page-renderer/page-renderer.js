@@ -13,6 +13,7 @@ const renderObstacle = function(obstacle, globalToViewbox) {
   case 'LeftRotation': return `<use href="#blue-stripe-cone" x="${x}" y="${y}" />`;
   case 'RightTurn': return `<use href="#red-cone" x="${x}" y="${y}" />`;
   case 'RightRotation': return `<use href="#red-stripe-cone" x="${x}" y="${y}" />`;
+  case 'OutOfBounds': return `<use href="#yellow-stripe-cone" x="${x}" y="${y}" />`;
   case 'Gate': {
     const leftCone = pathCalculator.obstacleLocalVectorToGlobal(obstacle, Victor(-0.5 * obstacle.width, 0));
     const {x: x1, y: y1} = globalToViewbox(leftCone.x, leftCone.y);
@@ -225,8 +226,7 @@ const pageRenderer = function(course, debug) {
     return { x: x, y: (viewboxExtents.y - y) };
   };
 
-  const courseSegments = arrays.zipAdjacent(course).
-        map(([o1, o2]) => pathCalculator.calculateSegment(o1, o2));
+  const courseSegments = pathCalculator.calculateSegments(course);
 
   const renderedCourseDebugSegments = !!debug ? courseSegments.map(segment => renderDebugSegment(segment, globalToViewbox)): [];
   const renderedObstacleBoundaries = !!debug ? course.map(obstacle => renderBoundary(obstacle, globalToViewbox)) : [];

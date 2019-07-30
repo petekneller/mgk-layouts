@@ -206,6 +206,13 @@ t.describe('the deserialiser', () => {
         assert.isNumber(obstacle1.width);
       });
 
+      t.it('such as "OutOfBounds"', () => {
+        const input = { obstacles: [{ name: 'OutOfBounds' }] };
+        const obstacle1 = deserializer(input).obstacles[0];
+        assert.equal(obstacle1.name, 'OutOfBounds');
+        assert.equal(obstacle1.partOfCourse, false);
+      });
+
     });
   });
 

@@ -36,6 +36,7 @@ const RIGHT_ROTATION = Symbol.for('RightRotation');
 const START_BOX = Symbol.for('StartBox');
 const FINISH_BOX = Symbol.for('FinishBox');
 const GATE = Symbol.for('Gate');
+const OUT_OF_BOUNDS = Symbol.for('OutOfBounds');
 
 
 const addDefaults = function(opts) {
@@ -96,6 +97,10 @@ const constructNamed = function(opts) {
     opts.depth = opts.depth || 3;
     opts.radius = opts.radius || 2;
     eitherOpts(opts);
+    break;
+  }
+  case Symbol.keyFor(OUT_OF_BOUNDS): {
+    opts.partOfCourse = opts.partOfCourse || false;
     break;
   }
   }

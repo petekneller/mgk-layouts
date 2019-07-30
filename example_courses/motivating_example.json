@@ -2,7 +2,7 @@
   "obstacles": [{
       "name": "StartBox",
       "origin": { "x": 15, "y": 5 },
-      "orientation": 315
+      "orientation": 0
     }, {
       "name": "RightTurn",
       "origin": { "x": 10, "y": 10 },
@@ -34,6 +34,18 @@
     }, {
       "name": "FinishBox",
       "origin": { "x": 20, "y": 5 },
-      "orientation": 225
+      "orientation": 180
+    }, {
+      "name": "OutOfBounds",
+      "origin": { "x": 16, "y": 20 }
+    }, {
+      "name": "OutOfBounds",
+      "origin": { "x": 20, "y": 20 }
+    }, {
+      "name": "OutOfBounds",
+      "origin": { "x": 20, "y": 16 }
+    }, {
+      "name": "OutOfBounds",
+      "origin": { "x": 16, "y": 16 }
     }]
 }

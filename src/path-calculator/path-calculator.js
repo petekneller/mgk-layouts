@@ -1,6 +1,7 @@
 const _ = require('lodash');
 const victor = require('victor');
 const obstacle = require('../obstacle.js');
+const arrays = require('../arrays.js');
 
 const _calculateSegment = function(segment) {
 
@@ -173,8 +174,15 @@ const calculateSegment = function(obstacle1, obstacle2) {
   return testExitSides(segment);
 };
 
+const calculateSegments = function(course) {
+  const participatingObstacles = course.filter(obstacle => obstacle.partOfCourse != false);
+  return arrays.zipAdjacent(participatingObstacles).
+    map(([o1, o2]) => calculateSegment(o1, o2));
+};
+
 module.exports = {
   calculateSegment,
+  calculateSegments,
   obstacleLocalVectorToGlobal,
   obstacleLocalVectorToGlobalOrientation,
   normalizeAngle
