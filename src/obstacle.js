@@ -59,6 +59,15 @@ const addDefaults = function(opts) {
   return opts;
 };
 
+const eitherOpts = function(opts) {
+  opts.entry = EITHER;
+  opts.leftEntryBoundaryOrigin = victor(-1 * opts.radius, 0);
+  opts.rightEntryBoundaryOrigin = victor(opts.radius, 0);
+  opts.exit = EITHER;
+  opts.leftExitBoundaryOrigin = victor(-1 * opts.radius, 0);
+  opts.rightExitBoundaryOrigin = victor(opts.radius, 0);
+};
+
 const constructNamed = function(opts) {
   switch (opts.name) {
   case Symbol.keyFor(LEFT_TURN):
@@ -75,18 +84,18 @@ const constructNamed = function(opts) {
     opts.radius = opts.radius || 1.5;
     break;
   }
-  case Symbol.keyFor(START_BOX):
-  case Symbol.keyFor(FINISH_BOX):
   case Symbol.keyFor(GATE): {
     opts.width = opts.width || 1.5;
-
     opts.radius = opts.radius || 2;
-    opts.entry = EITHER;
-    opts.leftEntryBoundaryOrigin = victor(-1 * opts.radius, 0);
-    opts.rightEntryBoundaryOrigin = victor(opts.radius, 0);
-    opts.exit = EITHER;
-    opts.leftExitBoundaryOrigin = victor(-1 * opts.radius, 0);
-    opts.rightExitBoundaryOrigin = victor(opts.radius, 0);
+    eitherOpts(opts);
+    break;
+  }
+  case Symbol.keyFor(START_BOX):
+  case Symbol.keyFor(FINISH_BOX): {
+    opts.width = opts.width || 1.5;
+    opts.depth = opts.depth || 3;
+    opts.radius = opts.radius || 2;
+    eitherOpts(opts);
     break;
   }
   }

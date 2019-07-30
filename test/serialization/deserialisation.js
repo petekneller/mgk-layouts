@@ -183,6 +183,8 @@ t.describe('the deserialiser', () => {
         assert.equal(obstacle1.name, 'StartBox');
         assert.equal(obstacle1.entry, obstacle.EITHER);
         assert.equal(obstacle1.exit, obstacle.EITHER);
+        assert.isNumber(obstacle1.width);
+        assert.isNumber(obstacle1.depth);
       });
 
       t.it('such as "FinishBox"', () => {
@@ -191,6 +193,8 @@ t.describe('the deserialiser', () => {
         assert.equal(obstacle1.name, 'FinishBox');
         assert.equal(obstacle1.entry, obstacle.EITHER);
         assert.equal(obstacle1.exit, obstacle.EITHER);
+        assert.isNumber(obstacle1.width);
+        assert.isNumber(obstacle1.depth);
       });
 
       t.it('such as "Gate"', () => {
