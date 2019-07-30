@@ -95,7 +95,7 @@ const constructNamed = function(opts) {
   case Symbol.keyFor(FINISH_BOX): {
     opts.width = opts.width || 1.5;
     opts.depth = opts.depth || 3;
-    opts.radius = opts.radius || 2;
+    opts.radius = opts.radius || 0.1;
     eitherOpts(opts);
     break;
   }
