@@ -239,7 +239,7 @@ const pageRenderer = function(course, debug) {
     minorGridlines: renderGridlines(viewboxExtents, 1, 'lightgrey', globalToViewbox),
     majorGridlines: renderGridlines(viewboxExtents, 10, 'darkgray', globalToViewbox),
     courseSegments,
-    renderedObstacles: course.map(obstacle => renderObstacle(obstacle, globalToViewbox)),
+    renderedObstacles: course.filter(o => o.visible != false).map(o => renderObstacle(o, globalToViewbox)),
     renderedObstacleBoundaries,
     renderedSegmentPaths: courseSegments.map(segment => renderSegmentPath(segment, globalToViewbox)),
     renderedObstaclePaths: arrays.zipAdjacent(courseSegments).map(([segment1, segment2]) => renderObstaclePath(segment1, segment2, globalToViewbox)),
