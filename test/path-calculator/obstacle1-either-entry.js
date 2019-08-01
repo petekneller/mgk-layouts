@@ -10,7 +10,7 @@ const pathCalculator = require('../../src/path-calculator/path-calculator.js');
 t.describe('a path segment composed of a simple obstacle followed by an "either"-entry obstacle', () => {
 
   t.context('when the either-obstacle has a northern orientation vector', () => {
-    const eitherObstacle = obstacle({ origin: { x: 0, y: 10 }, entry: obstacle.EITHER, leftEntryBoundaryOrigin: { x: -1, y: 0 }, rightEntryBoundaryOrigin: { x: 1, y: 0 } });
+    const eitherObstacle = obstacle({ origin: { x: 0, y: 10 }, entry: obstacle.EITHER, leftEntryBoundary: { offset: { x: -1, y: 0 } }, rightEntryBoundary: { offset: { x: 1, y: 0 } } });
 
     t.context('when the simple obstacle is to the left of the orientation vector', () => {
       const simpleObstacle = obstacle({ origin: { x: -10, y: 0 } });
@@ -41,7 +41,7 @@ t.describe('a path segment composed of a simple obstacle followed by an "either"
   });
 
   t.context('when the simple obstacle is directly south of the either-obstacle', () => {
-    const eitherObstacle = obstacle({ origin: { x: 0, y: 10 }, entry: obstacle.EITHER, leftEntryBoundaryOrigin: { x: -1, y: 0 }, rightEntryBoundaryOrigin: { x: 1, y: 0 } });
+    const eitherObstacle = obstacle({ origin: { x: 0, y: 10 }, entry: obstacle.EITHER, leftEntryBoundary: { offset: { x: -1, y: 0 } }, rightEntryBoundary: { offset: { x: 1, y: 0 } } });
     const simpleObstacle = obstacle({ origin: { x: 0, y: 0 } });
     const sqrtPointFive = Math.sqrt(0.5);
 

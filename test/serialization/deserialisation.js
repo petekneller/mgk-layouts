@@ -114,21 +114,21 @@ t.describe('the deserialiser', () => {
 
       t.context('if the entry is "either"', () => {
         const obstacle1 = obstacle({ entry: obstacle.EITHER });
-        t.it('the leftEntryBoundaryOrigin', () => {
-          assert.exists(obstacle1.leftEntryBoundaryOrigin);
+        t.it('the leftEntryBoundary', () => {
+          assert.exists(obstacle1.leftEntryBoundary);
         });
-        t.it('the rightEntryBoundaryOrigin', () => {
-          assert.exists(obstacle1.rightEntryBoundaryOrigin);
+        t.it('the rightEntryBoundary', () => {
+          assert.exists(obstacle1.rightEntryBoundary);
         });
       });
 
       t.context('if the exit is "either"', () => {
         const obstacle1 = obstacle({ exit: obstacle.EITHER });
-        t.it('the leftExitBoundaryOrigin', () => {
-          assert.exists(obstacle1.leftExitBoundaryOrigin);
+        t.it('the leftExitBoundary', () => {
+          assert.exists(obstacle1.leftExitBoundary);
         });
-        t.it('the rightExitBoundaryOrigin', () => {
-          assert.exists(obstacle1.rightExitBoundaryOrigin);
+        t.it('the rightExitBoundary', () => {
+          assert.exists(obstacle1.rightExitBoundary);
         });
       });
 

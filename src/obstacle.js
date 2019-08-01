@@ -44,14 +44,18 @@ const addDefaults = function(opts) {
 
   opts.entry = opts.entry || RIGHT;
   if (opts.entry === obstacle.EITHER) {
-    opts.leftEntryBoundaryOrigin = opts.leftEntryBoundaryOrigin || victor(0, 0);
-    opts.rightEntryBoundaryOrigin = opts.rightEntryBoundaryOrigin || victor(0, 0);
+    opts.leftEntryBoundary = opts.leftEntryBoundary || {};
+    opts.leftEntryBoundary.offset = opts.leftEntryBoundary.offset || victor(0, 0);
+    opts.rightEntryBoundary = opts.rightEntryBoundary || {};
+    opts.rightEntryBoundary.offset = opts.rightEntryBoundary.offset || victor(0, 0);
   }
 
   opts.exit = opts.exit || RIGHT;
   if (opts.exit === obstacle.EITHER) {
-    opts.leftExitBoundaryOrigin = opts.leftExitBoundaryOrigin || victor(0, 0);
-    opts.rightExitBoundaryOrigin = opts.rightExitBoundaryOrigin || victor(0, 0);
+    opts.leftExitBoundary = opts.leftExitBoundary || {};
+    opts.leftExitBoundary.offset = opts.leftExitBoundary.offset || victor(0, 0);
+    opts.rightExitBoundary = opts.rightExitBoundary || {};
+    opts.rightExitBoundary.offset = opts.rightExitBoundary.offset || victor(0, 0);
   }
 
   opts.orientation = opts.orientation || 0;
@@ -62,11 +66,16 @@ const addDefaults = function(opts) {
 
 const eitherOpts = function(opts) {
   opts.entry = EITHER;
-  opts.leftEntryBoundaryOrigin = victor(-1 * opts.radius, 0);
-  opts.rightEntryBoundaryOrigin = victor(opts.radius, 0);
+  opts.leftEntryBoundary = {};
+  opts.leftEntryBoundary.offset = victor(-1 * opts.radius, 0);
+  opts.rightEntryBoundary = {};
+  opts.rightEntryBoundary.offset = victor(opts.radius, 0);
+
   opts.exit = EITHER;
-  opts.leftExitBoundaryOrigin = victor(-1 * opts.radius, 0);
-  opts.rightExitBoundaryOrigin = victor(opts.radius, 0);
+  opts.leftExitBoundary = {};
+  opts.leftExitBoundary.offset = victor(-1 * opts.radius, 0);
+  opts.rightExitBoundary = {};
+  opts.rightExitBoundary.offset = victor(opts.radius, 0);
 };
 
 const constructNamed = function(opts) {
@@ -114,20 +123,20 @@ const deserializeTypes = function(opts) {
   if (opts.hasOwnProperty('entry'))
     opts.entry = directionFromString(opts.entry);
 
-  if (opts.hasOwnProperty('leftEntryBoundaryOrigin'))
-    opts.leftEntryBoundaryOrigin = victor.fromObject(opts.leftEntryBoundaryOrigin);
+  if (opts.hasOwnProperty('leftEntryBoundary'))
+    opts.leftEntryBoundary.offset = victor.fromObject(opts.leftEntryBoundary.offset);
 
-  if (opts.hasOwnProperty('rightEntryBoundaryOrigin'))
-    opts.rightEntryBoundaryOrigin = victor.fromObject(opts.rightEntryBoundaryOrigin);
+  if (opts.hasOwnProperty('rightEntryBoundary'))
+    opts.rightEntryBoundary.offset = victor.fromObject(opts.rightEntryBoundary.offset);
 
   if (opts.hasOwnProperty('exit'))
     opts.exit = directionFromString(opts.exit);
 
-  if (opts.hasOwnProperty('leftExitBoundaryOrigin'))
-    opts.leftExitBoundaryOrigin = victor.fromObject(opts.leftExitBoundaryOrigin);
+  if (opts.hasOwnProperty('leftExitBoundary'))
+    opts.leftExitBoundary.offset = victor.fromObject(opts.leftExitBoundary.offset);
 
-  if (opts.hasOwnProperty('rightExitBoundaryOrigin'))
-    opts.rightExitBoundaryOrigin = victor.fromObject(opts.rightExitBoundaryOrigin);
+  if (opts.hasOwnProperty('rightExitBoundary'))
+    opts.rightExitBoundary.offset = victor.fromObject(opts.rightExitBoundary.offset);
 
   if (opts.hasOwnProperty('orientation'))
     opts.orientation = orientationFromCardinal(opts.orientation);

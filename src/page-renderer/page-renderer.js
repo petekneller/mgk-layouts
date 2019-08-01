@@ -101,8 +101,8 @@ const renderObstaclePath = function(segment1, segment2, globalToViewbox) {
   case 'Gate': {
     // Gates can be considered 2 arcs - one from the entry to the point central between the boundary circles (which should be the origin) and from that point to the exit
     const originLocalToBoundaryCircle = ((segment1.boundaryCircle2.entry === obstacleCtr.LEFT) ?
-                                           segment1.obstacle2.rightEntryBoundaryOrigin :
-                                          segment1.obstacle2.leftEntryBoundaryOrigin).clone().invert();
+                                           segment1.obstacle2.rightEntryBoundary.offset :
+                                          segment1.obstacle2.leftEntryBoundary.offset).clone().invert();
     const originAfterOrientation = pathCalculator.obstacleLocalVectorToGlobalOrientation(segment1.obstacle2, originLocalToBoundaryCircle);
 
     const arc1 = renderBoundaryArc(segment1.boundaryCircle2, segment1.entry, originAfterOrientation, globalToViewbox);
@@ -123,11 +123,11 @@ const renderBoundary = function(obstacle, globalToViewbox) {
 
   if (obstacle.entry === obstacleCtr.EITHER) {
     boundaries = boundaries.concat(renderBoundaryCircle({
-      origin: pathCalculator.obstacleLocalVectorToGlobal(obstacle, obstacle.leftEntryBoundaryOrigin),
+      origin: pathCalculator.obstacleLocalVectorToGlobal(obstacle, obstacle.leftEntryBoundary.offset),
       radius: obstacle.radius
     }, globalToViewbox));
     boundaries = boundaries.concat(renderBoundaryCircle({
-      origin: pathCalculator.obstacleLocalVectorToGlobal(obstacle, obstacle.rightEntryBoundaryOrigin),
+      origin: pathCalculator.obstacleLocalVectorToGlobal(obstacle, obstacle.rightEntryBoundary.offset),
       radius: obstacle.radius
     }, globalToViewbox));
   } else {
@@ -136,11 +136,11 @@ const renderBoundary = function(obstacle, globalToViewbox) {
 
   if (obstacle.exit === obstacleCtr.EITHER) {
     boundaries = boundaries.concat(renderBoundaryCircle({
-      origin: pathCalculator.obstacleLocalVectorToGlobal(obstacle, obstacle.leftExitBoundaryOrigin),
+      origin: pathCalculator.obstacleLocalVectorToGlobal(obstacle, obstacle.leftExitBoundary.offset),
       radius: obstacle.radius
     }, globalToViewbox));
     boundaries = boundaries.concat(renderBoundaryCircle({
-      origin: pathCalculator.obstacleLocalVectorToGlobal(obstacle, obstacle.rightExitBoundaryOrigin),
+      origin: pathCalculator.obstacleLocalVectorToGlobal(obstacle, obstacle.rightExitBoundary.offset),
       radius: obstacle.radius
     }, globalToViewbox));
   } else {
@@ -184,8 +184,8 @@ const courseMaxExtents = function(course) {
   const obstacleExtents = course.map(obstacle => {
     // a basic heuristic: the boundary can't be offset by more than the largest of the
     // x or y of the offset. Assumes symmetrical offsets.
-    const maxBoundaryOffset = obstacle.leftEntryBoundaryOrigin ?
-          Math.max(obstacle.leftEntryBoundaryOrigin.x, obstacle.leftEntryBoundaryOrigin.y) : 0;
+    const maxBoundaryOffset = obstacle.leftEntryBoundary ?
+          Math.max(obstacle.leftEntryBoundary.offset.x, obstacle.leftEntryBoundary.offset.y) : 0;
 
     return {
       x: obstacle.origin.x + obstacle.radius + maxBoundaryOffset,
