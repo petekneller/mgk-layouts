@@ -1,3 +1,4 @@
+* add posthoc tests for EITHER obstacles being forced LEFT/RIGHT
 * path calculator
 ** +same radius, entry/exit on same side+
 ** +add tests for entry/exit on opposite side+

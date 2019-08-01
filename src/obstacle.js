@@ -45,26 +45,26 @@ const addDefaults = function(opts) {
   opts.radius = opts.radius || 1.0;
 
   opts.entry = opts.entry || RIGHT;
-  if (opts.entry === obstacle.EITHER) {
-    opts.leftEntryBoundary = opts.leftEntryBoundary || {};
-    opts.leftEntryBoundary.offset = opts.leftEntryBoundary.offset || victor(0, 0);
-    opts.leftEntryBoundary.radius = opts.leftEntryBoundary.radius || opts.radius;
+  opts.leftEntryBoundary = opts.leftEntryBoundary || {};
+  opts.leftEntryBoundary.offset = opts.leftEntryBoundary.offset || victor(0, 0);
+  opts.leftEntryBoundary.radius = opts.leftEntryBoundary.radius || opts.radius;
+  opts.leftEntryBoundary.entry = opts.leftEntryBoundary.entry || opts.entry;
 
-    opts.rightEntryBoundary = opts.rightEntryBoundary || {};
-    opts.rightEntryBoundary.offset = opts.rightEntryBoundary.offset || victor(0, 0);
-    opts.rightEntryBoundary.radius = opts.rightEntryBoundary.radius || opts.radius;
-  }
+  opts.rightEntryBoundary = opts.rightEntryBoundary || {};
+  opts.rightEntryBoundary.offset = opts.rightEntryBoundary.offset || victor(0, 0);
+  opts.rightEntryBoundary.radius = opts.rightEntryBoundary.radius || opts.radius;
+  opts.rightEntryBoundary.entry = opts.rightEntryBoundary.entry || opts.entry;
 
   opts.exit = opts.exit || RIGHT;
-  if (opts.exit === obstacle.EITHER) {
-    opts.leftExitBoundary = opts.leftExitBoundary || {};
-    opts.leftExitBoundary.offset = opts.leftExitBoundary.offset || victor(0, 0);
-    opts.leftExitBoundary.radius = opts.leftExitBoundary.radius || opts.radius;
+  opts.leftExitBoundary = opts.leftExitBoundary || {};
+  opts.leftExitBoundary.offset = opts.leftExitBoundary.offset || victor(0, 0);
+  opts.leftExitBoundary.radius = opts.leftExitBoundary.radius || opts.radius;
+  opts.leftExitBoundary.exit = opts.leftExitBoundary.exit || opts.exit;
 
-    opts.rightExitBoundary = opts.rightExitBoundary || {};
-    opts.rightExitBoundary.offset = opts.rightExitBoundary.offset || victor(0, 0);
-    opts.rightExitBoundary.radius = opts.rightExitBoundary.radius || opts.radius;
-  }
+  opts.rightExitBoundary = opts.rightExitBoundary || {};
+  opts.rightExitBoundary.offset = opts.rightExitBoundary.offset || victor(0, 0);
+  opts.rightExitBoundary.radius = opts.rightExitBoundary.radius || opts.radius;
+  opts.rightExitBoundary.exit = opts.rightExitBoundary.exit || opts.exit;
 
   return opts;
 };

@@ -54,15 +54,6 @@ const _calculateSegment = function(segment) {
   return segment;
 };
 
-const toBoundaryCircle = function(obstacle) {
-  return {
-    origin: obstacle.origin,
-    radius: obstacle.radius,
-    entry: obstacle.entry,
-    exit: obstacle.exit
-  };
-};
-
 const normalizeAngle = function(angle) {
   if (angle < (2 * Math.PI) && angle >= 0)
     return angle;
@@ -83,14 +74,21 @@ const obstacleLocalVectorToGlobal = function(obstacle, vector) {
 };
 
 const testEntrySides = function(segment) {
-  if (segment.obstacle2.entry !== obstacle.EITHER) {
-    segment.boundaryCircle2 = toBoundaryCircle(segment.obstacle2);
+  const obstacle1 = segment.obstacle1;
+  const obstacle2 = segment.obstacle2;
+
+  if (obstacle2.entry !== obstacle.EITHER) {
+    segment.boundaryCircle2 = {};
+    const boundaryCircle = obstacle2.entry === obstacle.LEFT ?
+          obstacle2.leftEntryBoundary:
+          obstacle2.rightEntryBoundary;
+    segment.boundaryCircle2.entry = boundaryCircle.entry;
+    segment.boundaryCircle2.radius = boundaryCircle.radius;
+    segment.boundaryCircle2.origin = obstacleLocalVectorToGlobal(obstacle2, boundaryCircle.offset);
+
     return _calculateSegment(segment);
   }
   console.info('Entry has side "either" so testing both sides...');
-
-  const obstacle1 = segment.obstacle1;
-  const obstacle2 = segment.obstacle2;
 
   const leftInputSegment = _.clone(segment);
   leftInputSegment.boundaryCircle2 = {
@@ -126,14 +124,21 @@ const testEntrySides = function(segment) {
 };
 
 const testExitSides = function(segment) {
-  if (segment.obstacle1.exit !== obstacle.EITHER) {
-    segment.boundaryCircle1 = toBoundaryCircle(segment.obstacle1);
+  const obstacle1 = segment.obstacle1;
+  const obstacle2 = segment.obstacle2;
+
+  if (obstacle1.exit !== obstacle.EITHER) {
+    segment.boundaryCircle1 = {};
+    const boundaryCircle = obstacle1.exit === obstacle.LEFT ?
+          obstacle1.leftExitBoundary:
+          obstacle1.rightExitBoundary;
+    segment.boundaryCircle1.radius = boundaryCircle.radius;
+    segment.boundaryCircle1.exit = boundaryCircle.exit;
+    segment.boundaryCircle1.origin = obstacleLocalVectorToGlobal(obstacle1, boundaryCircle.offset);
+
     return testEntrySides(segment);
   }
   console.info('Exit has side "either" so testing both sides...');
-
-  const obstacle1 = segment.obstacle1;
-  const obstacle2 = segment.obstacle2;
 
   const leftInputSegment = _.clone(segment);
   leftInputSegment.boundaryCircle1 = {
