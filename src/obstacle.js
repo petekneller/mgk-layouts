@@ -70,7 +70,13 @@ const addDefaults = function(opts) {
 };
 
 const eitherOpts = function(opts) {
-  opts.entry = EITHER;
+  // For none of the 'either' obstacles is it desirable at the moment
+  // to allow overriding the setup of the left/right/entry/exit
+  // boundaries - its too complicated.
+  // However it is desirable to be able to override the either-ness
+  // of the obtacle. ie. force the entry/exit to a particular side
+  opts.entry = opts.entry || EITHER;
+  opts.exit = opts.exit || EITHER;
 
   opts.leftEntryBoundary = {};
   opts.leftEntryBoundary.offset = victor(-1 * opts.radius, 0);
@@ -79,8 +85,6 @@ const eitherOpts = function(opts) {
   opts.rightEntryBoundary = {};
   opts.rightEntryBoundary.offset = victor(opts.radius, 0);
   opts.rightEntryBoundary.entry = obstacle.LEFT;
-
-  opts.exit = EITHER;
 
   opts.leftExitBoundary = {};
   opts.leftExitBoundary.offset = victor(-1 * opts.radius, 0);
