@@ -88,6 +88,10 @@
       "name": "RightTurn",
       "origin": { "x": 20, "y": 7.5 }
     }, {
+      "name": "GapEntry",
+      "origin": { "x": 17.5, "y": 7 },
+      "orientation": 300
+    }, {
       "name": "OutOfBounds",
       "origin": { "x": 15, "y": 10 }
     }, {
@@ -96,6 +100,10 @@
     }, {
       "name": "OutOfBounds",
       "origin": { "x": 10, "y": 12 }
+    }, {
+      "name": "GapExit",
+      "origin": { "x": 8, "y": 8 },
+      "orientation": 300
     }, {
       "name": "RightRotation",
       "origin": { "x": 5, "y": 10 }
@@ -194,9 +202,9 @@
       "origin": { "x": 70, "y": 22 },
       "orientation": "S"
     }, {
-      "name": "RightTurn",
-      "origin": { "x": 70, "y": 15 },
-      "radius": 0.1
+      "name": "GapEntry",
+      "origin": { "x": 70, "y": 20 },
+      "orientation": "S"
     }, {
       "name": "OutOfBounds",
       "origin": { "x": 69, "y": 14 }
@@ -209,6 +217,10 @@
     }, {
       "name": "OutOfBounds",
       "origin": { "x": 71, "y": 16 }
+    }, {
+      "name": "GapExit",
+      "origin": { "x": 65, "y": 13 },
+      "orientation": 225
     }, {
       "name": "RightRotation",
       "origin": { "x": 60, "y": 12 }
