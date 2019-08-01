@@ -37,6 +37,8 @@ const START_BOX = Symbol.for('StartBox');
 const FINISH_BOX = Symbol.for('FinishBox');
 const GATE = Symbol.for('Gate');
 const OUT_OF_BOUNDS = Symbol.for('OutOfBounds');
+const GAP_ENTRY = Symbol.for('GapEntry');
+const GAP_EXIT = Symbol.for('GapExit');
 
 
 const addDefaults = function(opts) {
@@ -127,6 +129,11 @@ const constructNamed = function(opts) {
   }
   case Symbol.keyFor(OUT_OF_BOUNDS): {
     opts.partOfCourse = opts.partOfCourse || false;
+    break;
+  }
+  case Symbol.keyFor(GAP_ENTRY):
+  case Symbol.keyFor(GAP_EXIT): {
+    opts.radius = opts.radius || 0.01;
     break;
   }
   }

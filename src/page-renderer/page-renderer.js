@@ -53,6 +53,12 @@ const renderObstacle = function(obstacle, globalToViewbox) {
             <use href="#yellow-cone" x="${x3}" y="${y3}" />
             <use href="#yellow-cone" x="${x4}" y="${y4}" />`;
   }
+  case 'GapEntry': {
+    return `<polygon points="-0.75,0.75 0.75,0.75 0,-0.75" transform="translate(${x},${y}) rotate(${obstacle.orientation})" />`;
+  }
+  case 'GapExit': {
+    return `<circle cx="${x}" cy="${y}" r="0.5" />`;
+  }
   default: return '';
   }
 };
@@ -241,7 +247,7 @@ const pageRenderer = function(course, debug) {
     courseSegments,
     renderedObstacles: course.filter(o => o.visible != false).map(o => renderObstacle(o, globalToViewbox)),
     renderedObstacleBoundaries,
-    renderedSegmentPaths: courseSegments.map(segment => renderSegmentPath(segment, globalToViewbox)),
+    renderedSegmentPaths: courseSegments.filter(s => !(s.obstacle1.name === 'GapEntry' && s.obstacle2.name === 'GapExit')).map(s => renderSegmentPath(s, globalToViewbox)),
     renderedObstaclePaths: arrays.zipAdjacent(courseSegments).map(([segment1, segment2]) => renderObstaclePath(segment1, segment2, globalToViewbox)),
     renderedCourseDebugSegments,
     renderedOrientationVectors,
