@@ -41,41 +41,54 @@ const OUT_OF_BOUNDS = Symbol.for('OutOfBounds');
 
 const addDefaults = function(opts) {
   opts.origin = opts.origin || victor(0, 0);
+  opts.orientation = opts.orientation || 0;
+  opts.radius = opts.radius || 1.0;
 
   opts.entry = opts.entry || RIGHT;
   if (opts.entry === obstacle.EITHER) {
     opts.leftEntryBoundary = opts.leftEntryBoundary || {};
     opts.leftEntryBoundary.offset = opts.leftEntryBoundary.offset || victor(0, 0);
+    opts.leftEntryBoundary.radius = opts.leftEntryBoundary.radius || opts.radius;
+
     opts.rightEntryBoundary = opts.rightEntryBoundary || {};
     opts.rightEntryBoundary.offset = opts.rightEntryBoundary.offset || victor(0, 0);
+    opts.rightEntryBoundary.radius = opts.rightEntryBoundary.radius || opts.radius;
   }
 
   opts.exit = opts.exit || RIGHT;
   if (opts.exit === obstacle.EITHER) {
     opts.leftExitBoundary = opts.leftExitBoundary || {};
     opts.leftExitBoundary.offset = opts.leftExitBoundary.offset || victor(0, 0);
+    opts.leftExitBoundary.radius = opts.leftExitBoundary.radius || opts.radius;
+
     opts.rightExitBoundary = opts.rightExitBoundary || {};
     opts.rightExitBoundary.offset = opts.rightExitBoundary.offset || victor(0, 0);
+    opts.rightExitBoundary.radius = opts.rightExitBoundary.radius || opts.radius;
   }
-
-  opts.orientation = opts.orientation || 0;
-  opts.radius = opts.radius || 1.0;
 
   return opts;
 };
 
 const eitherOpts = function(opts) {
   opts.entry = EITHER;
+
   opts.leftEntryBoundary = {};
   opts.leftEntryBoundary.offset = victor(-1 * opts.radius, 0);
+  opts.leftEntryBoundary.entry = obstacle.RIGHT;
+
   opts.rightEntryBoundary = {};
   opts.rightEntryBoundary.offset = victor(opts.radius, 0);
+  opts.rightEntryBoundary.entry = obstacle.LEFT;
 
   opts.exit = EITHER;
+
   opts.leftExitBoundary = {};
   opts.leftExitBoundary.offset = victor(-1 * opts.radius, 0);
+  opts.leftExitBoundary.exit = obstacle.RIGHT;
+
   opts.rightExitBoundary = {};
   opts.rightExitBoundary.offset = victor(opts.radius, 0);
+  opts.rightExitBoundary.exit = obstacle.LEFT;
 };
 
 const constructNamed = function(opts) {
@@ -123,20 +136,28 @@ const deserializeTypes = function(opts) {
   if (opts.hasOwnProperty('entry'))
     opts.entry = directionFromString(opts.entry);
 
-  if (opts.hasOwnProperty('leftEntryBoundary'))
+  if (opts.hasOwnProperty('leftEntryBoundary')) {
     opts.leftEntryBoundary.offset = victor.fromObject(opts.leftEntryBoundary.offset);
+    opts.leftEntryBoundary.entry = directionFromString(opts.leftEntryBoundary.entry);
+  }
 
-  if (opts.hasOwnProperty('rightEntryBoundary'))
+  if (opts.hasOwnProperty('rightEntryBoundary')) {
     opts.rightEntryBoundary.offset = victor.fromObject(opts.rightEntryBoundary.offset);
+    opts.rightEntryBoundary.entry = directionFromString(opts.rightEntryBoundary.entry);
+  }
 
   if (opts.hasOwnProperty('exit'))
     opts.exit = directionFromString(opts.exit);
 
-  if (opts.hasOwnProperty('leftExitBoundary'))
+  if (opts.hasOwnProperty('leftExitBoundary')) {
     opts.leftExitBoundary.offset = victor.fromObject(opts.leftExitBoundary.offset);
+    opts.leftExitBoundary.exit = directionFromString(opts.leftExitBoundary.exit);
+  }
 
-  if (opts.hasOwnProperty('rightExitBoundary'))
+  if (opts.hasOwnProperty('rightExitBoundary')) {
     opts.rightExitBoundary.offset = victor.fromObject(opts.rightExitBoundary.offset);
+    opts.rightExitBoundary.exit = directionFromString(opts.rightExitBoundary.exit);
+  }
 
   if (opts.hasOwnProperty('orientation'))
     opts.orientation = orientationFromCardinal(opts.orientation);

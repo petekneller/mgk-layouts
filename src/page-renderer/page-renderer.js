@@ -113,9 +113,9 @@ const renderObstaclePath = function(segment1, segment2, globalToViewbox) {
   }
 };
 
-const renderBoundaryCircle = function(obstacle, globalToViewbox) {
-  const {x, y} = globalToViewbox(obstacle.origin.x, obstacle.origin.y);
-  return `<circle r="${obstacle.radius}" cx="${x}" cy="${y}" class="boundaryCircle" />`;
+const renderBoundaryCircle = function(circle, globalToViewbox) {
+  const {x, y} = globalToViewbox(circle.origin.x, circle.origin.y);
+  return `<circle r="${circle.radius}" cx="${x}" cy="${y}" class="boundaryCircle" />`;
 };
 
 const renderBoundary = function(obstacle, globalToViewbox) {
@@ -124,11 +124,11 @@ const renderBoundary = function(obstacle, globalToViewbox) {
   if (obstacle.entry === obstacleCtr.EITHER) {
     boundaries = boundaries.concat(renderBoundaryCircle({
       origin: pathCalculator.obstacleLocalVectorToGlobal(obstacle, obstacle.leftEntryBoundary.offset),
-      radius: obstacle.radius
+      radius: obstacle.leftEntryBoundary.radius
     }, globalToViewbox));
     boundaries = boundaries.concat(renderBoundaryCircle({
       origin: pathCalculator.obstacleLocalVectorToGlobal(obstacle, obstacle.rightEntryBoundary.offset),
-      radius: obstacle.radius
+      radius: obstacle.rightEntryBoundary.radius
     }, globalToViewbox));
   } else {
     boundaries = boundaries.concat(renderBoundaryCircle(obstacle, globalToViewbox));
@@ -137,11 +137,11 @@ const renderBoundary = function(obstacle, globalToViewbox) {
   if (obstacle.exit === obstacleCtr.EITHER) {
     boundaries = boundaries.concat(renderBoundaryCircle({
       origin: pathCalculator.obstacleLocalVectorToGlobal(obstacle, obstacle.leftExitBoundary.offset),
-      radius: obstacle.radius
+      radius: obstacle.leftExitBoundary.radius
     }, globalToViewbox));
     boundaries = boundaries.concat(renderBoundaryCircle({
       origin: pathCalculator.obstacleLocalVectorToGlobal(obstacle, obstacle.rightExitBoundary.offset),
-      radius: obstacle.radius
+      radius: obstacle.rightExitBoundary.radius
     }, globalToViewbox));
   } else {
     boundaries = boundaries.concat(renderBoundaryCircle(obstacle, globalToViewbox));

@@ -10,7 +10,7 @@ const pathCalculator = require('../../src/path-calculator/path-calculator.js');
 t.describe('a path segment composed of an "either"-exit obstacle followed by a simple obstacle', () => {
 
   t.context('when the either-obstacle has a northern orientation vector', () => {
-    const eitherObstacle = obstacle({ origin: { x: 0, y: 0 }, exit: obstacle.EITHER, leftExitBoundary: { offset: { x: -1, y: 0 } }, rightExitBoundary: { offset: { x: 1, y: 0 } } });
+    const eitherObstacle = obstacle({ origin: { x: 0, y: 0 }, exit: obstacle.EITHER, leftExitBoundary: { offset: { x: -1, y: 0 }, exit: obstacle.RIGHT }, rightExitBoundary: { offset: { x: 1, y: 0 }, exit: obstacle.LEFT } });
 
     t.context('when the simple obstacle is to the left of the orientation vector', () => {
       const simpleObstacle = obstacle({ origin: { x: -10, y: 10 } });
@@ -41,7 +41,7 @@ t.describe('a path segment composed of an "either"-exit obstacle followed by a s
   });
 
   t.context('when the simple obstacle is directly north of the either-obstacle', () => {
-    const eitherObstacle = obstacle({ origin: { x: 0, y: 0 }, exit: obstacle.EITHER, leftExitBoundary: { offset: { x: -1, y: 0 } }, rightExitBoundary: { offset: { x: 1, y: 0 } } });
+    const eitherObstacle = obstacle({ origin: { x: 0, y: 0 }, exit: obstacle.EITHER, leftExitBoundary: { offset: { x: -1, y: 0 }, exit: obstacle.RIGHT }, rightExitBoundary: { offset: { x: 1, y: 0 }, exit: obstacle.LEFT } });
     const simpleObstacle = obstacle({ origin: { x: 0, y: 10 } });
     const sqrtPointFive = Math.sqrt(0.5);
 

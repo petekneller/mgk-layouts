@@ -95,16 +95,16 @@ const testEntrySides = function(segment) {
   const leftInputSegment = _.clone(segment);
   leftInputSegment.boundaryCircle2 = {
     origin: obstacleLocalVectorToGlobal(obstacle2, obstacle2.leftEntryBoundary.offset),
-    radius: obstacle2.radius,
-    entry: obstacle.RIGHT
+    radius: obstacle2.leftEntryBoundary.radius,
+    entry: obstacle2.leftEntryBoundary.entry
   };
   const leftOutputSegment = _calculateSegment(leftInputSegment);
 
   const rightInputSegment = _.clone(segment);
   rightInputSegment.boundaryCircle2 = {
     origin: obstacleLocalVectorToGlobal(obstacle2, obstacle2.rightEntryBoundary.offset),
-    radius: obstacle2.radius,
-    entry: obstacle.LEFT
+    radius: obstacle2.rightEntryBoundary.radius,
+    entry: obstacle2.rightEntryBoundary.entry
   };
   const rightOutputSegment = _calculateSegment(rightInputSegment);
 
@@ -138,16 +138,16 @@ const testExitSides = function(segment) {
   const leftInputSegment = _.clone(segment);
   leftInputSegment.boundaryCircle1 = {
     origin: obstacleLocalVectorToGlobal(obstacle1, obstacle1.leftExitBoundary.offset),
-    radius: obstacle1.radius,
-    exit: obstacle.RIGHT
+    radius: obstacle1.leftExitBoundary.radius,
+    exit: obstacle1.leftExitBoundary.exit
   };
   const leftOutputSegment = testEntrySides(leftInputSegment);
 
   const rightInputSegment = _.clone(segment);
   rightInputSegment.boundaryCircle1 = {
     origin: obstacleLocalVectorToGlobal(obstacle1, obstacle1.rightExitBoundary.offset),
-    radius: obstacle1.radius,
-    exit: obstacle.LEFT
+    radius: obstacle1.rightExitBoundary.radius,
+    exit: obstacle1.rightExitBoundary.exit
   };
   const rightOutputSegment = testEntrySides(rightInputSegment);
 
