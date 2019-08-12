@@ -4,7 +4,7 @@
   "description": "",
   "main": "app.js",
   "dependencies": {
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.15",
     "nunjucks": "^3.2.0",
     "victor": "^1.1.0"
   },
@@ -17,13 +17,21 @@
   },
   "watch": {
     "test": {
-      "patterns": ["app", "src", "test"],
+      "patterns": [
+        "app",
+        "src",
+        "test"
+      ],
       "extensions": "js,njk"
     },
     "serve": {
-      "patterns": ["."],
+      "patterns": [
+        "."
+      ],
       "extensions": "js,njk",
-      "ignore": ["test/"]
+      "ignore": [
+        "test/"
+      ]
     }
   },
   "scripts": {
