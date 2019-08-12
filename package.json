@@ -9,11 +9,13 @@
     "victor": "^1.1.0"
   },
   "devDependencies": {
+    "@types/node": "^12.7.1",
     "chai": "^4.2.0",
     "express": "^4.17.1",
     "fast-check": "^1.16.0",
     "npm-watch": "^0.6.0",
-    "tap": "^14.6.1"
+    "tap": "^14.6.1",
+    "typescript": "^3.5.3"
   },
   "watch": {
     "test": {
@@ -35,6 +37,7 @@
     }
   },
   "scripts": {
+    "clean" : "rm -rf dist/",
     "test": "node_modules/.bin/tap -Rspec --test-ignore=test/victor-assert.js",
     "watch-tests": "npm-watch test",
     "serve": "node app.js",
