@@ -3,7 +3,7 @@ const assert = require('chai').assert;
 const victorAssert = require('../victor-assert.js');
 
 const victor = require('victor');
-const obstacle = require('../../src/obstacle.js');
+const obstacle = require('../../src/obstacles');
 
 t.describe('the obstacle constructor', () => {
 
@@ -11,41 +11,82 @@ t.describe('the obstacle constructor', () => {
       const obstacle1 = obstacle();
 
       t.it('origin', () => {
-        assert.exists(obstacle1.origin);
+        victorAssert.isVector(obstacle1.origin);
       });
       t.it('boundary circle radius', () => {
-        assert.exists(obstacle1.radius);
+        assert.isNumber(obstacle1.radius);
       });
       t.it('entry side', () => {
-        assert.exists(obstacle1.exit);
+        assert.typeOf(obstacle1.exit, 'symbol');
       });
       t.it('exit side', () => {
-        assert.exists(obstacle1.entry);
+        assert.typeOf(obstacle1.entry, 'symbol');
       });
       t.it('orientation', () => {
-        assert.exists(obstacle1.orientation);
+        assert.isNumber(obstacle1.orientation);
+      });
+
+      const testBoundary = b => {
+        t.it('has an offset', () => {
+          assert.isObject(b.offset);
+        });
+        t.it('has a radius', () => {
+          assert.isNumber(b.radius);
+        });
+        // TODO: can't test entry/exit because it won't have both....
+        // .... can if I were to unify it to 'side'
+      };
+
+      t.context('the leftEntryBoundary', () => {
+        testBoundary(obstacle1.leftEntryBoundary);
+      });
+      t.context('the rightEntryBoundary', () => {
+        testBoundary(obstacle1.rightEntryBoundary);
+      });
+      t.context('the leftExitBoundary', () => {
+        testBoundary(obstacle1.leftExitBoundary);
+      });
+      t.context('the rightExitBoundary', () => {
+        testBoundary(obstacle1.rightExitBoundary);
       });
 
       t.context('if the entry is "either"', () => {
         const obstacle1 = obstacle({ entry: obstacle.EITHER });
-        t.it('the leftEntryBoundary', () => {
-          assert.exists(obstacle1.leftEntryBoundary);
+
+        t.context('the leftEntryBoundary', () => {
+          testBoundary(obstacle1.leftEntryBoundary);
+          t.it('has an entry of RIGHT', () => {
+            assert.equal(obstacle1.leftEntryBoundary.entry, obstacle.RIGHT);
+          });
         });
-        t.it('the rightEntryBoundary', () => {
-          assert.exists(obstacle1.rightEntryBoundary);
+
+        t.context('the rightEntryBoundary', () => {
+          testBoundary(obstacle1.rightEntryBoundary);
+          t.it('has an entry of LEFT', () => {
+            assert.equal(obstacle1.rightEntryBoundary.entry, obstacle.LEFT);
+          });
         });
+
       });
 
       t.context('if the exit is "either"', () => {
         const obstacle1 = obstacle({ exit: obstacle.EITHER });
-        t.it('the leftExitBoundary', () => {
-          assert.exists(obstacle1.leftExitBoundary);
-        });
-        t.it('the rightExitBoundary', () => {
-          assert.exists(obstacle1.rightExitBoundary);
-        });
-      });
 
+        t.context('the leftExitBoundary', () => {
+          testBoundary(obstacle1.leftExitBoundary);
+          t.it('has an exit of RIGHT', () => {
+            assert.equal(obstacle1.leftExitBoundary.exit, obstacle.RIGHT);
+          });
+        });
+
+        t.context('the rightExitBoundary', () => {
+          testBoundary(obstacle1.rightExitBoundary);
+          t.it('has an entry of LEFT', () => {
+            assert.equal(obstacle1.rightExitBoundary.exit, obstacle.LEFT);
+          });
+        });
+
+      });
     });
 
     t.it('should pass through other parameters unmodified', () => {

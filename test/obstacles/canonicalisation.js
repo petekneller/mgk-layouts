@@ -1,20 +1,25 @@
 const t = require('tap').mocha;
 const assert = require('chai').assert;
 const victorAssert = require('../victor-assert.js');
+const fc = require('fast-check');
 
 const victor = require('victor');
-const obstacle = require('../../src/obstacle.js');
+const obstacle = require('../../src/obstacles');
 
 t.describe('the obstacle constructor', () => {
 
     t.it('should convert the (x,y) "origin" parameter into a vector', () => {
-      const obstacle1 = obstacle({ origin: { x: 1, y: 2 } });
-      victorAssert.equalVectors(obstacle1.origin, victor(1, 2));
+      fc.assert(fc.property(fc.nat(), fc.nat(), (x, y) => {
+        const obstacle1 = obstacle({ origin: { x, y } });
+        victorAssert.equalVectors(obstacle1.origin, victor(x, y));
+      }));
     });
 
     t.it('should be idempotent in converting the "origin" parameter', () => {
-      const obstacle1 = obstacle({ origin: victor(1, 2) });
-      victorAssert.equalVectors(obstacle1.origin, victor(1, 2));
+      fc.assert(fc.property(fc.nat(), fc.nat(), (x, y) => {
+        const obstacle1 = obstacle({ origin: victor(x, y) });
+        victorAssert.equalVectors(obstacle1.origin, victor(x, y));
+      }));
     });
 
     t.it('should convert the "entry" parameter into one of the recognised enums', () => {
@@ -25,6 +30,8 @@ t.describe('the obstacle constructor', () => {
 
     t.it('should be idempotent in converting the "entry" parameter', () => {
       assert.equal(obstacle({ entry: obstacle.LEFT }).entry, obstacle.LEFT);
+      assert.equal(obstacle({ entry: obstacle.RIGHT }).entry, obstacle.RIGHT);
+      assert.equal(obstacle({ entry: obstacle.EITHER }).entry, obstacle.EITHER);
     });
 
     t.it('should ignore unknown "entry" parameters', () => {
@@ -39,6 +46,8 @@ t.describe('the obstacle constructor', () => {
 
     t.it('should be idempotent in converting the "exit" parameter', () => {
       assert.equal(obstacle({ exit: obstacle.LEFT }).exit, obstacle.LEFT);
+      assert.equal(obstacle({ exit: obstacle.RIGHT }).exit, obstacle.RIGHT);
+      assert.equal(obstacle({ exit: obstacle.EITHER }).exit, obstacle.EITHER);
     });
 
     t.it('should ignore unknown "exit" parameters', () => {
@@ -54,20 +63,10 @@ t.describe('the obstacle constructor', () => {
       });
 
       t.it('if it is a number describing a compass bearing', () => {
-        const sqrtPointFive = Math.sqrt(0.5);
-        assert.equal(obstacle({ orientation: 0}).orientation, 0);
-        assert.equal(obstacle({ orientation: 45 }).orientation, 45);
-        assert.equal(obstacle({ orientation: 90}).orientation, 90);
-        assert.equal(obstacle({ orientation: 135 }).orientation, 135);
-        assert.equal(obstacle({ orientation: 180}).orientation, 180);
-        assert.equal(obstacle({ orientation: 225 }).orientation, 225);
-        assert.equal(obstacle({ orientation: 270}).orientation, 270);
-        assert.equal(obstacle({ orientation: 315 }).orientation, 315);
+        fc.assert(fc.property(fc.double(360.0), bearing => {
+          assert.equal(obstacle({ orientation: bearing}).orientation, bearing);
+        }));
       });
-    });
-
-    t.it('should be idempotent in converting the "orientation" parameter', () => {
-      assert.equal(obstacle({ orientation: 45 }).orientation, 45);
     });
 
 });

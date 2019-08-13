@@ -4,7 +4,7 @@ const victorAssert = require('../victor-assert.js');
 const fc = require('fast-check');
 
 const pathCalculator = require('../../src/path-calculator/path-calculator.js');
-const obstacle = require('../../src/obstacle.js');
+const obstacle = require('../../src/obstacles');
 const victor = require('victor');
 
 t.describe('a segment of two obstacles, having different size boundary circles and entry/exit on the same side', () => {

@@ -10,7 +10,7 @@
 ** add calc of (approximate) course distance?
 ** =obstacleLocalVectorToGlobal= and =normalizeAngle= need tests
 * deserialisation
-** separate deserialisation concerns from the =obstacle= constructor
+** +separate deserialisation concerns from the =obstacle= constructor+
    :PROPERTIES:
    :ID:       a5a32318-a1f8-4e8c-9ac3-c2defead89b4
    :END:
@@ -23,8 +23,8 @@ The /first/ is perfectly reasonable, and what I originally intended the construc
 Maybe a decent strategy:
 - the deserializer converts known non-string parameters (eg. entry, exit, name) into their native types, where they are given
 - the native object is then handed to the obstacle constructor to handle known obstacles and defaults
+** +start/finish boxes, gates, should take width/depth params to define where the pylons are rendered (separately from where the boundary circles lie+
 ** =deserializer= needs to take string argument, rather than object
-** start/finish boxes, gates, should take width/depth params to define where the pylons are rendered (separately from where the boundary circles lie
 * rendering improvements
 ** orientation vectors could do with arrow heads
 ** have renderer/s output an SVG DSL rather than text? makes it testable

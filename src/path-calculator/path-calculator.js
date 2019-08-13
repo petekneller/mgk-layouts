@@ -1,6 +1,6 @@
 const _ = require('lodash');
 const victor = require('victor');
-const obstacle = require('../obstacle.js');
+const obstacle = require('../obstacles');
 const arrays = require('../arrays.js');
 
 const _calculateSegment = function(segment) {

@@ -4,13 +4,13 @@ const victorAssert = require('../victor-assert.js');
 
 const _ = require('lodash');
 const victor = require('victor');
-const obstacle = require('../../src/obstacle.js');
+const obstacle = require('../../src/obstacles');
 const pathCalculator = require('../../src/path-calculator/path-calculator.js');
 
 t.describe('a path segment composed of a simple obstacle followed by an "either"-entry obstacle', () => {
 
   t.context('when the either-obstacle has a northern orientation vector', () => {
-    const eitherObstacle = obstacle({ origin: { x: 0, y: 10 }, entry: obstacle.EITHER, leftEntryBoundary: { offset: { x: -1, y: 0 }, entry: obstacle.RIGHT }, rightEntryBoundary: { offset: { x: 1, y: 0 }, entry: obstacle.LEFT } });
+    const eitherObstacle = obstacle({ origin: { x: 0, y: 10 }, entry: obstacle.EITHER, exit: obstacle.EITHER, radius: 1 });
 
     t.context('when the simple obstacle is to the left of the orientation vector', () => {
       const simpleObstacle = obstacle({ origin: { x: -10, y: 0 } });
@@ -41,7 +41,7 @@ t.describe('a path segment composed of a simple obstacle followed by an "either"
   });
 
   t.context('when the simple obstacle is directly south of the either-obstacle', () => {
-    const eitherObstacle = obstacle({ origin: { x: 0, y: 10 }, entry: obstacle.EITHER, leftEntryBoundary: { offset: { x: -1, y: 0 }, entry: obstacle.RIGHT }, rightEntryBoundary: { offset: { x: 1, y: 0 }, entry: obstacle.LEFT } });
+    const eitherObstacle = obstacle({ origin: { x: 0, y: 10 }, name: 'Gate', radius: 1 });
     const simpleObstacle = obstacle({ origin: { x: 0, y: 0 } });
     const sqrtPointFive = Math.sqrt(0.5);
 

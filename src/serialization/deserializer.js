@@ -1,4 +1,4 @@
-const obstacle = require('../obstacle');
+const obstacle = require('../obstacles');
 
 const deserializer = function(course) {
   if (!course.hasOwnProperty('obstacles')) {

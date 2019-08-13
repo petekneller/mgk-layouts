@@ -2,7 +2,7 @@ const t = require('tap').mocha;
 const assert = require('chai').assert;
 
 const pathCalculator = require('../../src/path-calculator/path-calculator.js');
-const obstacle = require('../../src/obstacle.js');
+const obstacle = require('../../src/obstacles');
 
 t.describe('pathCalculator.calculateSegments', () => {
   t.context('when the input contains obstacle marked as not participating in the course', () => {

@@ -3,15 +3,15 @@ const assert = require('chai').assert;
 const victorAssert = require('../victor-assert.js');
 
 const victor = require('victor');
-const obstacle = require('../../src/obstacle.js');
+const obstacle = require('../../src/obstacles');
 const pathCalculator = require('../../src/path-calculator/path-calculator.js');
 
 t.describe('a path segment composed of two "either" obstacles', () => {
 
-  const obstacle1 = obstacle({ origin: { x: 0, y: 0 }, exit: obstacle.EITHER, leftExitBoundary: { offset: { x: -1, y: 0 }, exit: obstacle.RIGHT }, rightExitBoundary: { offset: { x: 1, y: 0 }, exit: obstacle.LEFT } });
+  const obstacle1 = obstacle({ origin: { x: 0, y: 0 }, entry: obstacle.EITHER, exit: obstacle.EITHER, radius: 1 });
 
     t.context('when obstacle 2 is to the left of obstacle 1', () => {
-      const obstacle2 = obstacle({ origin: { x: -10, y: 10 }, entry: obstacle.EITHER, leftEntryBoundary: { offset: { x: -1, y: 0 }, entry: obstacle.RIGHT }, rightEntryBoundary: { offset: { x: 1, y: 0 }, entry: obstacle.LEFT } });
+      const obstacle2 = obstacle({ origin: { x: -10, y: 10 }, entry: obstacle.EITHER, exit: obstacle.EITHER, radius: 1 });
       const segment = pathCalculator.calculateSegment(obstacle1, obstacle2);
 
       t.it('the path should be using the "left-hand" boundary circle of obstacle 1', () => {
@@ -32,7 +32,7 @@ t.describe('a path segment composed of two "either" obstacles', () => {
     });
 
     t.context('when obstacle 2 is to the right of obstacle 1', () => {
-      const obstacle2 = obstacle({ origin: { x: 10, y: 10 }, entry: obstacle.EITHER, leftEntryBoundary: { offset: { x: -1, y: 0 }, entry: obstacle.RIGHT }, rightEntryBoundary: { offset: { x: 1, y: 0 }, entry: obstacle.LEFT } });
+      const obstacle2 = obstacle({ origin: { x: 10, y: 10 }, entry: obstacle.EITHER, exit: obstacle.EITHER, radius: 1 });
       const segment = pathCalculator.calculateSegment(obstacle1, obstacle2);
 
       t.it('the path should be using the "right-hand" boundary circle of obstacle 1', () => {
