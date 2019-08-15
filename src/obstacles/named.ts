@@ -1,5 +1,5 @@
-const vector = require('victor');
-const directions = require('./directions.js');
+import vector from 'victor';
+import * as directions from './directions';
 
 const LEFT_TURN = Symbol.for('LeftTurn');
 const LEFT_ROTATION = Symbol.for('LeftRotation');
@@ -81,4 +81,4 @@ const constructNamed = function(opts) {
   return opts;
 };
 
-module.exports = constructNamed;
+export default constructNamed;

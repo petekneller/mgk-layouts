@@ -3,7 +3,7 @@ const assert = require('chai').assert;
 const victorAssert = require('../victor-assert.js');
 
 const pathCalculator = require('../../src/path-calculator/path-calculator.js');
-const obstacle = require('../../src/obstacles');
+import obstacle from '../../src/obstacles';
 const victor = require('victor');
 
 t.describe('the segment object returned by pathCalculator.calculateSegment should contain intermediate calculations and debugging information', () => {

@@ -3,7 +3,7 @@ const _ = require('lodash');
 const Victor = require('victor');
 
 const arrays = require('../arrays.js');
-const obstacleCtr = require('../obstacles');
+import obstacleCtr from '../obstacles';
 const pathCalculator = require('../path-calculator/path-calculator.js');
 
 const renderObstacle = function(obstacle, globalToViewbox) {
@@ -256,4 +256,4 @@ const pageRenderer = function(course, debug) {
   });
 };
 
-module.exports = pageRenderer;
+export default pageRenderer;

@@ -1,7 +1,7 @@
 const express = require('express');
 
-const deserializer = require('./src/serialization/deserializer.js');
-const pageRenderer = require('./src/page-renderer/page-renderer.js');
+import deserializer from './src/serialization/deserializer.js';
+import pageRenderer from './src/page-renderer/page-renderer.js';
 
 const app = express();
 

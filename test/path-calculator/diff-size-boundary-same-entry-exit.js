@@ -3,7 +3,7 @@ const assert = require('chai').assert;
 const fc = require('fast-check');
 
 const pathCalculator = require('../../src/path-calculator/path-calculator.js');
-const obstacle = require('../../src/obstacles');
+import obstacle from '../../src/obstacles';
 const victor = require('victor');
 
 t.describe('a segment of two obstacles, having different size boundary circles and entry/exit on the same side', () => {

@@ -2,7 +2,7 @@ const t = require('tap').mocha;
 const assert = require('chai').assert;
 const victorAssert = require('../victor-assert.js');
 
-const obstacle = require('../../src/obstacles');
+import obstacle from '../../src/obstacles';
 
 t.describe('the obstacle constructor', () => {
 

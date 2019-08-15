@@ -4,7 +4,7 @@ const victorAssert = require('../victor-assert.js');
 const fc = require('fast-check');
 
 const victor = require('victor');
-const obstacle = require('../../src/obstacles');
+import obstacle from '../../src/obstacles';
 
 t.describe('the obstacle constructor', () => {
 

@@ -1,4 +1,4 @@
-const obstacle = require('../obstacles');
+import obstacle from '../obstacles';
 
 const deserializer = function(course) {
   if (!course.hasOwnProperty('obstacles')) {
@@ -11,4 +11,4 @@ const deserializer = function(course) {
   return course;
 };
 
-module.exports = deserializer;
+export default deserializer;

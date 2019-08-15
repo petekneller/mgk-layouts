@@ -13,7 +13,7 @@ const directionFromString = function(s) {
   return s;
 };
 
-module.exports = {
+export {
   LEFT,
   RIGHT,
   EITHER,

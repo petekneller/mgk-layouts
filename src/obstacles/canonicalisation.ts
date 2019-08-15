@@ -1,5 +1,5 @@
-const vector = require('victor');
-const directions = require('./directions.js');
+import vector from 'victor';
+import * as directions from './directions';
 
 const orientationFromCardinal = function(orientation) {
   return orientation === 'N' ? 0 :
@@ -25,4 +25,4 @@ const canonicalise = function(opts) {
   return opts;
 };
 
-module.exports = canonicalise;
+export default canonicalise;

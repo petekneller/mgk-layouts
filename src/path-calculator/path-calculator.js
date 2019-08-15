@@ -1,6 +1,6 @@
 const _ = require('lodash');
 const victor = require('victor');
-const obstacle = require('../obstacles');
+import obstacle from '../obstacles';
 const arrays = require('../arrays.js');
 
 const _calculateSegment = function(segment) {
@@ -183,7 +183,7 @@ const calculateSegments = function(course) {
     map(([o1, o2]) => calculateSegment(o1, o2));
 };
 
-module.exports = {
+export {
   calculateSegment,
   calculateSegments,
   obstacleLocalVectorToGlobal,

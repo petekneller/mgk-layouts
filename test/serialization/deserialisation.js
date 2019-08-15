@@ -1,7 +1,7 @@
 const t = require('tap').mocha;
 const assert = require('chai').assert;
 
-const deserializer = require('../../src/serialization/deserializer.js');
+import deserializer from '../../src/serialization/deserializer.js';
 
 t.describe('the deserialiser', () => {
 
