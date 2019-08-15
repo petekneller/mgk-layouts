@@ -24,23 +24,25 @@
         "src",
         "test"
       ],
-      "extensions": "js,njk"
+      "extensions": "js,ts,njk"
     },
     "serve": {
       "patterns": [
         "."
       ],
-      "extensions": "js,njk",
+      "extensions": "js,ts,njk",
       "ignore": [
         "test/"
       ]
     }
   },
   "scripts": {
-    "clean" : "rm -rf dist/",
-    "test": "node_modules/.bin/tap -Rspec --test-ignore=test/victor-assert.js",
+    "clean": "rm -rf dist/",
+    "ts": "npx tsc",
+    "build": "cp src/page-renderer/page.njk dist/src/page-renderer/ && npm run-script ts",
+    "test": "npm run-script build && npx tap -Rspec --test-ignore=dist/test/victor-assert.js dist/test/",
     "watch-tests": "npm-watch test",
-    "serve": "node app.js",
+    "serve": "npm run-script build && node dist/app.js",
     "watch-serve": "npm-watch serve"
   },
   "repository": {
