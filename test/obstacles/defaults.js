@@ -2,7 +2,6 @@ const t = require('tap').mocha;
 const assert = require('chai').assert;
 const victorAssert = require('../victor-assert.js');
 
-const victor = require('victor');
 const obstacle = require('../../src/obstacles');
 
 t.describe('the obstacle constructor', () => {

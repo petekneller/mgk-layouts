@@ -12,6 +12,7 @@ app.get('/course', (req, res) => {
   res.send(pageRenderer(course, debug));
 });
 
+// @ts-ignore: unused args
 app.use((req, res, next) => res.status(404).send("Sorry can't find that!"));
 
 const port = 3000;

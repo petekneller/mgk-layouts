@@ -1,6 +1,5 @@
 const t = require('tap').mocha;
 const assert = require('chai').assert;
-const victorAssert = require('../victor-assert.js');
 
 const deserializer = require('../../src/serialization/deserializer.js');
 

@@ -74,7 +74,6 @@ const obstacleLocalVectorToGlobal = function(obstacle, vector) {
 };
 
 const testEntrySides = function(segment) {
-  const obstacle1 = segment.obstacle1;
   const obstacle2 = segment.obstacle2;
 
   if (obstacle2.entry !== obstacle.EITHER) {
@@ -125,7 +124,6 @@ const testEntrySides = function(segment) {
 
 const testExitSides = function(segment) {
   const obstacle1 = segment.obstacle1;
-  const obstacle2 = segment.obstacle2;
 
   if (obstacle1.exit !== obstacle.EITHER) {
     segment.boundaryCircle1 = {};

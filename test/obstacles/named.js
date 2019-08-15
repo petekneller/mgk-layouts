@@ -1,9 +1,7 @@
 const t = require('tap').mocha;
 const assert = require('chai').assert;
-const victorAssert = require('../victor-assert.js');
 const fc = require('fast-check');
 
-const victor = require('victor');
 const obstacle = require('../../src/obstacles');
 
 t.describe('the obstacle constructor', () => {
