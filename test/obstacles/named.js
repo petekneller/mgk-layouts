@@ -95,15 +95,14 @@ t.describe('the obstacle constructor', () => {
 
       t.context('should allow overriding of', () => {
         const names = ['LeftTurn', 'LeftRotation', 'RightTurn', 'RightRotation', 'Gate', 'StartBox', 'FinishBox'];
-
-        t.it('the "radius" parameter', () => {
-          fc.assert(fc.property(fc.double(1000), (r) => {
-            names.map(n => {
+        names.map(n => {
+          t.it(`the "radius" parameter for ${n} obstacles`, () => {
+            fc.assert(fc.property(fc.double(1000), (r) => {
               const o = obstacle({ name: n, radius: r });
               assert.equal(o.name, n);
               assert.equal(o.radius, r);
-            });
-          }));
+            }));
+          });
         });
       });
 

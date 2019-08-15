@@ -1,6 +1,7 @@
 const t = require('tap').mocha;
 const assert = require('chai').assert;
 const victorAssert = require('../victor-assert.js');
+const fc = require('fast-check');
 
 import obstacle from '../../src/obstacles';
 
@@ -91,6 +92,17 @@ t.describe('the obstacle constructor', () => {
   t.it('should pass through other parameters unmodified', () => {
     const obstacle1 = obstacle({ foo: 'bar' });
     assert.equal(obstacle1.foo, 'bar');
+  });
+
+  t.context('should set boundaries on properties', () => {
+
+    t.it('radius should be > 0', () => {
+      assert.isAbove(obstacle({ radius: 0 }).radius, 0);
+      fc.assert(fc.property(fc.double(Number.MIN_VALUE, Number.MAX_VALUE), r => {
+        assert.isAbove(obstacle({ radius: r }).radius, 0);
+      }));
+    });
+
   });
 
 });
