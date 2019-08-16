@@ -4,7 +4,7 @@ const Victor = require('victor');
 
 const arrays = require('../arrays.js');
 import obstacleCtr, { localVectorToGlobalOrientation, localVectorToGlobal} from '../obstacles';
-const pathCalculator = require('../path-calculator/path-calculator.js');
+const pathCalculator = require('../path-calculator');
 
 const renderObstacle = function(obstacle, globalToViewbox) {
   const {x, y} = globalToViewbox(obstacle.origin.x, obstacle.origin.y);

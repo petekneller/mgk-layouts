@@ -5,7 +5,7 @@ const victorAssert = require('../victor-assert.js');
 const _ = require('lodash');
 const victor = require('victor');
 import obstacle from '../../src/obstacles';
-const pathCalculator = require('../../src/path-calculator/path-calculator.js');
+const pathCalculator = require('../../src/path-calculator');
 
 t.describe('a path segment composed of a simple obstacle followed by an "either"-entry obstacle', () => {
 

@@ -1,7 +1,7 @@
 const t = require('tap').mocha;
 const assert = require('chai').assert;
 
-const pathCalculator = require('../../src/path-calculator/path-calculator.js');
+const pathCalculator = require('../../src/path-calculator');
 import obstacle from '../../src/obstacles';
 
 t.describe('pathCalculator.calculateSegments', () => {

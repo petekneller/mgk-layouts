@@ -4,7 +4,7 @@ const victorAssert = require('../victor-assert.js');
 
 const victor = require('victor');
 import obstacle from '../../src/obstacles';
-const pathCalculator = require('../../src/path-calculator/path-calculator.js');
+const pathCalculator = require('../../src/path-calculator');
 
 t.describe('a path segment composed of two "either" obstacles', () => {
 

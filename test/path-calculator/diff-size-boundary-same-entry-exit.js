@@ -2,7 +2,7 @@ const t = require('tap').mocha;
 const assert = require('chai').assert;
 const fc = require('fast-check');
 
-const pathCalculator = require('../../src/path-calculator/path-calculator.js');
+const pathCalculator = require('../../src/path-calculator');
 import obstacle from '../../src/obstacles';
 const victor = require('victor');
 
