@@ -4,7 +4,6 @@ export interface ObstacleOpts {
     radius?: number,
     entry?: string | symbol,
     exit?: string | symbol,
-    [x: string]: any
 };
 
 export interface Obstacle {
@@ -13,5 +12,4 @@ export interface Obstacle {
     radius: number,
     entry: symbol,
     exit: symbol,
-    [x: string]: any
 };

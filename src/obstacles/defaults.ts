@@ -1,9 +1,10 @@
 import vector from '../vectors';
 import * as directions from './directions';
 
+type OpenObject = import('../types').OpenObject;
 type Obstacle = import('./types').Obstacle;
 
-const addDefaults = function(opts: { [x: string]: any }): Obstacle {
+const addDefaults = function(opts: OpenObject): Obstacle {
   const origin = opts.origin || vector(0, 0);
   const orientation = opts.orientation || 0;
   const radius = opts.radius || 1.0;

@@ -3,10 +3,11 @@ import canonicalise from './canonicalisation';
 import addDefaults from './defaults';
 import constructNamed from './named';
 
+type OpenObject = import('../types').OpenObject;
 type ObstacleOpts = import('./types').ObstacleOpts;
 type Obstacle = import('./types').Obstacle;
 
-const constructor = function(opts: ObstacleOpts = {}): Obstacle {
+const constructor = function(opts: ObstacleOpts | OpenObject = {}): Obstacle {
   return addDefaults(constructNamed(canonicalise(opts)));
 };
 
