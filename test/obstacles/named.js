@@ -98,6 +98,7 @@ t.describe('the obstacle constructor', () => {
         names.map(n => {
           t.it(`the "radius" parameter for ${n} obstacles`, () => {
             fc.assert(fc.property(fc.double(1000), (r) => {
+              fc.pre(r > 0);
               const o = obstacle({ name: n, radius: r });
               assert.equal(o.name, n);
               assert.equal(o.radius, r);
