@@ -5,38 +5,38 @@ const fc = require('fast-check');
 
 const pathCalculator = require('../../src/path-calculator');
 import obstacle from '../../src/obstacles';
-const victor = require('victor');
+import vector from '../../src/vectors';
 
 t.describe('a segment of two obstacles, both with the same boundary circle radius and having entry/exit on opposite sides', () => {
 
   t.context('when obstacle 1 is at (0,0), obstacle 2 is at (0,10), boundary circle radius = 1 and entry = left, exit = right', () => {
-    const o1 = obstacle({ origin: victor(0, 0), exit: obstacle.RIGHT });
-    const o2 = obstacle({ origin: victor(0, 10), entry: obstacle.LEFT });
+    const o1 = obstacle({ origin: vector(0, 0), exit: obstacle.RIGHT });
+    const o2 = obstacle({ origin: vector(0, 10), entry: obstacle.LEFT });
     const segment = pathCalculator.calculateSegment(o1, o2);
 
     t.it('exit vector should be have magnitude of 1 and angle of 0.201 radians', () => {
-      const expected = victor(1, 0).rotate(0.201);
+      const expected = vector(1, 0).rotate(0.201);
       victorAssert.equalVectors(segment.exit, expected);
     });
 
     t.it('entry vector should be have magnitude of 1 and angle of 0.201 radians from -x axis', () => {
-      const expected = victor(-1, 0).rotate(0.201);
+      const expected = vector(-1, 0).rotate(0.201);
       victorAssert.equalVectors(segment.entry, expected);
     });
   });
 
   t.context('when obstacle 1 is at (0,0), obstacle 2 is at (-10,-10), boundary circle radius = 1 and entry = right, exit = left', () => {
-    const o1 = obstacle({ origin: victor(0, 0), exit: obstacle.LEFT });
-    const o2 = obstacle({ origin: victor(-10, -10), entry: obstacle.RIGHT });
+    const o1 = obstacle({ origin: vector(0, 0), exit: obstacle.LEFT });
+    const o2 = obstacle({ origin: vector(-10, -10), entry: obstacle.RIGHT });
     const segment = pathCalculator.calculateSegment(o1, o2);
 
     t.it('exit vector should be have magnitude of 1 and angle of -0.142 radians from -PI/4', () => {
-      const expected = victor(1, 0).rotate(-1/4 * Math.PI).rotate(-0.142);
+      const expected = vector(1, 0).rotate(-1/4 * Math.PI).rotate(-0.142);
       victorAssert.equalVectors(segment.exit, expected);
     });
 
     t.it('entry vector should be have magnitude of 1 and angle of -0.142 radians from 3/4 PI', () => {
-      const expected = victor(1, 0).rotate(3/4 * Math.PI).rotate(-0.142);
+      const expected = vector(1, 0).rotate(3/4 * Math.PI).rotate(-0.142);
       victorAssert.equalVectors(segment.entry, expected);
     });
   });
@@ -50,8 +50,8 @@ t.describe('a segment of two obstacles, both with the same boundary circle radiu
 
         const entry = b ? obstacle.LEFT : obstacle.RIGHT;
         const exit = entry === obstacle.LEFT ? obstacle.RIGHT : obstacle.LEFT;
-        const o1 = obstacle({ origin: victor(o1x, o1y), radius: r, exit });
-        const o2 = obstacle({ origin: victor(o2x, o2y), radius: r, entry });
+        const o1 = obstacle({ origin: vector(o1x, o1y), radius: r, exit });
+        const o2 = obstacle({ origin: vector(o2x, o2y), radius: r, entry });
         const segment = pathCalculator.calculateSegment(o1, o2);
         cb(segment);
       });

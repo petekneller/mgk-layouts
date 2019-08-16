@@ -3,7 +3,7 @@ const assert = require('chai').assert;
 const victorAssert = require('../victor-assert.js');
 
 const _ = require('lodash');
-const victor = require('victor');
+import vector from '../../src/vectors';
 import obstacle from '../../src/obstacles';
 const pathCalculator = require('../../src/path-calculator');
 
@@ -17,7 +17,7 @@ t.describe('a path segment composed of an "either"-exit obstacle followed by a s
       const segment = pathCalculator.calculateSegment(eitherObstacle, simpleObstacle);
 
       t.it('the path should be using the "left-hand" boundary circle of the either-obstacle', () => {
-        victorAssert.equalVectors(segment.boundaryCircle1.origin, victor(-1, 0));
+        victorAssert.equalVectors(segment.boundaryCircle1.origin, vector(-1, 0));
       });
 
       t.it('the path should have a right exit', () => {
@@ -30,7 +30,7 @@ t.describe('a path segment composed of an "either"-exit obstacle followed by a s
       const segment = pathCalculator.calculateSegment(eitherObstacle, simpleObstacle);
 
       t.it('the path should be using the "right-hand" boundary circle of the either-obstacle', () => {
-        victorAssert.equalVectors(segment.boundaryCircle1.origin, victor(1, 0));
+        victorAssert.equalVectors(segment.boundaryCircle1.origin, vector(1, 0));
       });
 
       t.it('the path should have a left exit', () => {
@@ -50,7 +50,7 @@ t.describe('a path segment composed of an "either"-exit obstacle followed by a s
       const segment = pathCalculator.calculateSegment(obstacle(eo), simpleObstacle);
 
       t.it('the path should be using the "left-hand" boundary circle of the either-obstacle', () => {
-        victorAssert.equalVectors(segment.boundaryCircle1.origin, victor(-1 * sqrtPointFive, sqrtPointFive));
+        victorAssert.equalVectors(segment.boundaryCircle1.origin, vector(-1 * sqrtPointFive, sqrtPointFive));
       });
 
       t.it('the path should have a right exit', () => {
@@ -63,7 +63,7 @@ t.describe('a path segment composed of an "either"-exit obstacle followed by a s
       const segment = pathCalculator.calculateSegment(obstacle(eo), simpleObstacle);
 
       t.it('the path should be using the "right-hand" boundary circle of the either-obstacle', () => {
-        victorAssert.equalVectors(segment.boundaryCircle1.origin, victor(sqrtPointFive, sqrtPointFive));
+        victorAssert.equalVectors(segment.boundaryCircle1.origin, vector(sqrtPointFive, sqrtPointFive));
       });
 
       t.it('the path should have a left exit', () => {

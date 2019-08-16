@@ -2,7 +2,7 @@ const t = require('tap').mocha;
 const assert = require('chai').assert;
 const victorAssert = require('../victor-assert.js');
 
-const victor = require('victor');
+import vector from '../../src/vectors';
 import obstacle from '../../src/obstacles';
 const pathCalculator = require('../../src/path-calculator');
 
@@ -15,7 +15,7 @@ t.describe('a path segment composed of two "either" obstacles', () => {
       const segment = pathCalculator.calculateSegment(obstacle1, obstacle2);
 
       t.it('the path should be using the "left-hand" boundary circle of obstacle 1', () => {
-        victorAssert.equalVectors(segment.boundaryCircle1.origin, victor(-1, 0));
+        victorAssert.equalVectors(segment.boundaryCircle1.origin, vector(-1, 0));
       });
 
       t.it('the path should have a right exit', () => {
@@ -23,7 +23,7 @@ t.describe('a path segment composed of two "either" obstacles', () => {
       });
 
       t.it('the path should be using the "right-hand" boundary circle of obstacle 2', () => {
-        victorAssert.equalVectors(segment.boundaryCircle2.origin, victor(-9, 10));
+        victorAssert.equalVectors(segment.boundaryCircle2.origin, vector(-9, 10));
       });
 
       t.it('the path should have a left entry', () => {
@@ -36,7 +36,7 @@ t.describe('a path segment composed of two "either" obstacles', () => {
       const segment = pathCalculator.calculateSegment(obstacle1, obstacle2);
 
       t.it('the path should be using the "right-hand" boundary circle of obstacle 1', () => {
-        victorAssert.equalVectors(segment.boundaryCircle1.origin, victor(1, 0));
+        victorAssert.equalVectors(segment.boundaryCircle1.origin, vector(1, 0));
       });
 
       t.it('the path should have a left exit', () => {
@@ -44,7 +44,7 @@ t.describe('a path segment composed of two "either" obstacles', () => {
       });
 
       t.it('the path should be using the "left-hand" boundary circle of obstacle 2', () => {
-        victorAssert.equalVectors(segment.boundaryCircle2.origin, victor(9, 10));
+        victorAssert.equalVectors(segment.boundaryCircle2.origin, vector(9, 10));
       });
 
       t.it('the path should have a right entry', () => {

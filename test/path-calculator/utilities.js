@@ -4,11 +4,11 @@ const victorAssert = require('../victor-assert.js');
 
 const pathCalculator = require('../../src/path-calculator');
 import obstacle from '../../src/obstacles';
-const victor = require('victor');
+import vector from '../../src/vectors';
 
 t.describe('the segment object returned by pathCalculator.calculateSegment should contain intermediate calculations and debugging information', () => {
-  const o1 = obstacle({ origin: victor(0, 0) });
-  const o2 = obstacle({ origin: victor(0, 10) });
+  const o1 = obstacle({ origin: vector(0, 0) });
+  const o2 = obstacle({ origin: vector(0, 10) });
   const segment = pathCalculator.calculateSegment(o1, o2);
 
   t.it('should contain both the original obstacles', () => {
@@ -18,7 +18,7 @@ t.describe('the segment object returned by pathCalculator.calculateSegment shoul
 
   t.it('should contain the vector "o12" between the two obstacle origins', () => {
     assert.exists(segment.o12);
-    victorAssert.equalVectors(segment.o12, victor(0, 10));
+    victorAssert.equalVectors(segment.o12, vector(0, 10));
   });
 
   t.it('should contain the data on the boundary circles used for each obstacle', () => {

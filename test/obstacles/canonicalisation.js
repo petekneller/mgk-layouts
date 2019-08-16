@@ -3,7 +3,7 @@ const assert = require('chai').assert;
 const victorAssert = require('../victor-assert.js');
 const fc = require('fast-check');
 
-const victor = require('victor');
+import vector from '../../src/vectors';
 import obstacle from '../../src/obstacles';
 
 t.describe('the obstacle constructor', () => {
@@ -11,14 +11,14 @@ t.describe('the obstacle constructor', () => {
     t.it('should convert the (x,y) "origin" parameter into a vector', () => {
       fc.assert(fc.property(fc.nat(), fc.nat(), (x, y) => {
         const obstacle1 = obstacle({ origin: { x, y } });
-        victorAssert.equalVectors(obstacle1.origin, victor(x, y));
+        victorAssert.equalVectors(obstacle1.origin, vector(x, y));
       }));
     });
 
     t.it('should be idempotent in converting the "origin" parameter', () => {
       fc.assert(fc.property(fc.nat(), fc.nat(), (x, y) => {
-        const obstacle1 = obstacle({ origin: victor(x, y) });
-        victorAssert.equalVectors(obstacle1.origin, victor(x, y));
+        const obstacle1 = obstacle({ origin: vector(x, y) });
+        victorAssert.equalVectors(obstacle1.origin, vector(x, y));
       }));
     });
 

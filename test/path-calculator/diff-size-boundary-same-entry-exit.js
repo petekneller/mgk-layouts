@@ -4,13 +4,13 @@ const fc = require('fast-check');
 
 const pathCalculator = require('../../src/path-calculator');
 import obstacle from '../../src/obstacles';
-const victor = require('victor');
+import vector from '../../src/vectors';
 
 t.describe('a segment of two obstacles, having different size boundary circles and entry/exit on the same side', () => {
 
   t.context('when obstacle 1 is at (0,0) with radius 2, obstacle 2 is at (0,10) with radius 1, and entry = exit = right', () => {
-    const o1 = obstacle({ origin: victor(0, 0), radius: 2.0, exit: obstacle.RIGHT });
-    const o2 = obstacle({ origin: victor(0, 10), radius: 1.0, entry: obstacle.RIGHT });
+    const o1 = obstacle({ origin: vector(0, 0), radius: 2.0, exit: obstacle.RIGHT });
+    const o2 = obstacle({ origin: vector(0, 10), radius: 1.0, entry: obstacle.RIGHT });
     const segment = pathCalculator.calculateSegment(o1, o2);
 
     t.it('exit vector should have magnitude equal to 2', () => {
@@ -29,8 +29,8 @@ t.describe('a segment of two obstacles, having different size boundary circles a
   });
 
   t.context('when obstacle 1 is at (0,0) with radius 1, obstacle 2 is at (0,10) with radius 2, and entry = exit = left', () => {
-    const o1 = obstacle({ origin: victor(0, 0), radius: 1.0, exit: obstacle.LEFT });
-    const o2 = obstacle({ origin: victor(0, 10), radius: 2.0, entry: obstacle.LEFT });
+    const o1 = obstacle({ origin: vector(0, 0), radius: 1.0, exit: obstacle.LEFT });
+    const o2 = obstacle({ origin: vector(0, 10), radius: 2.0, entry: obstacle.LEFT });
     const segment = pathCalculator.calculateSegment(o1, o2);
 
     t.it('exit vector should have magnitude equal to 1', () => {
@@ -56,8 +56,8 @@ t.describe('a segment of two obstacles, having different size boundary circles a
         fc.pre(Math.abs(o1y - o2y) >= r1+r2);
 
         const entryAndExit = b ? obstacle.LEFT : obstacle.RIGHT;
-        const o1 = obstacle({ origin: victor(o1x, o1y), radius: r1, exit: entryAndExit });
-        const o2 = obstacle({ origin: victor(o2x, o2y), radius: r2, entry: entryAndExit });
+        const o1 = obstacle({ origin: vector(o1x, o1y), radius: r1, exit: entryAndExit });
+        const o2 = obstacle({ origin: vector(o2x, o2y), radius: r2, entry: entryAndExit });
         cb(o1, o2);
       });
     };

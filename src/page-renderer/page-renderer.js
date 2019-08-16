@@ -1,6 +1,6 @@
 const nunjucks = require('nunjucks');
 const _ = require('lodash');
-const Victor = require('victor');
+import vector from '../vectors';
 
 const arrays = require('../arrays.js');
 import obstacleCtr, { localVectorToGlobalOrientation, localVectorToGlobal} from '../obstacles';
@@ -15,22 +15,22 @@ const renderObstacle = function(obstacle, globalToViewbox) {
   case 'RightRotation': return `<use href="#red-stripe-cone" x="${x}" y="${y}" />`;
   case 'OutOfBounds': return `<use href="#yellow-stripe-cone" x="${x}" y="${y}" />`;
   case 'Gate': {
-    const leftCone = pathCalculator.localVectorToGlobal(obstacle, Victor(-0.5 * obstacle.width, 0));
+    const leftCone = localVectorToGlobal(obstacle, vector(-0.5 * obstacle.width, 0));
     const {x: x1, y: y1} = globalToViewbox(leftCone.x, leftCone.y);
-    const rightCone = pathCalculator.localVectorToGlobal(obstacle, Victor(0.5 * obstacle.width, 0));
+    const rightCone = localVectorToGlobal(obstacle, vector(0.5 * obstacle.width, 0));
     const {x: x2, y: y2} = globalToViewbox(rightCone.x, rightCone.y);
     return `<use href="#yellow-cone" x="${x1}" y="${y1}" /><use href="#yellow-cone" x="${x2}" y="${y2}" />`;
   }
   case 'StartBox': {
     // NB. 'front'/'rear' and 'left'/'right' are on the bike, leaving the box
-    const leftFrontCone = pathCalculator.localVectorToGlobal(obstacle, Victor(-0.5 * obstacle.width, 0));
+    const leftFrontCone = localVectorToGlobal(obstacle, vector(-0.5 * obstacle.width, 0));
     const {x: x1, y: y1} = globalToViewbox(leftFrontCone.x, leftFrontCone.y);
-    const rightFrontCone = pathCalculator.localVectorToGlobal(obstacle, Victor(0.5 * obstacle.width, 0));
+    const rightFrontCone = localVectorToGlobal(obstacle, vector(0.5 * obstacle.width, 0));
     const {x: x2, y: y2} = globalToViewbox(rightFrontCone.x, rightFrontCone.y);
-    const leftRearCone = pathCalculator.localVectorToGlobal(obstacle,
-                                                                    Victor(-0.5 * obstacle.width, -1 * obstacle.depth));
+    const leftRearCone = localVectorToGlobal(obstacle,
+                                                                    vector(-0.5 * obstacle.width, -1 * obstacle.depth));
     const {x: x3, y: y3} = globalToViewbox(leftRearCone.x, leftRearCone.y);
-    const rightRearCone = pathCalculator.localVectorToGlobal(obstacle, Victor(0.5 * obstacle.width, -1 * obstacle.depth));
+    const rightRearCone = localVectorToGlobal(obstacle, vector(0.5 * obstacle.width, -1 * obstacle.depth));
     const {x: x4, y: y4} = globalToViewbox(rightRearCone.x, rightRearCone.y);
     return `<use href="#yellow-cone" x="${x1}" y="${y1}" />
             <use href="#yellow-cone" x="${x2}" y="${y2}" />
@@ -39,14 +39,14 @@ const renderObstacle = function(obstacle, globalToViewbox) {
   }
   case 'FinishBox': {
     // NB. 'front'/'rear' and 'left'/'right' are on the bike, entering the box
-    const leftFrontCone = pathCalculator.localVectorToGlobal(obstacle, Victor(-0.5 * obstacle.width, 0));
+    const leftFrontCone = localVectorToGlobal(obstacle, vector(-0.5 * obstacle.width, 0));
     const {x: x1, y: y1} = globalToViewbox(leftFrontCone.x, leftFrontCone.y);
-    const rightFrontCone = pathCalculator.localVectorToGlobal(obstacle, Victor(0.5 * obstacle.width, 0));
+    const rightFrontCone = localVectorToGlobal(obstacle, vector(0.5 * obstacle.width, 0));
     const {x: x2, y: y2} = globalToViewbox(rightFrontCone.x, rightFrontCone.y);
-    const leftRearCone = pathCalculator.localVectorToGlobal(obstacle,
-                                                                    Victor(-0.5 * obstacle.width, obstacle.depth));
+    const leftRearCone = localVectorToGlobal(obstacle,
+                                                                    vector(-0.5 * obstacle.width, obstacle.depth));
     const {x: x3, y: y3} = globalToViewbox(leftRearCone.x, leftRearCone.y);
-    const rightRearCone = pathCalculator.localVectorToGlobal(obstacle, Victor(0.5 * obstacle.width, obstacle.depth));
+    const rightRearCone = localVectorToGlobal(obstacle, vector(0.5 * obstacle.width, obstacle.depth));
     const {x: x4, y: y4} = globalToViewbox(rightRearCone.x, rightRearCone.y);
     return `<use href="#yellow-cone" x="${x1}" y="${y1}" />
             <use href="#yellow-cone" x="${x2}" y="${y2}" />
@@ -109,7 +109,7 @@ const renderObstaclePath = function(segment1, segment2, globalToViewbox) {
     const originLocalToBoundaryCircle = ((segment1.boundaryCircle2.entry === obstacleCtr.LEFT) ?
                                            segment1.obstacle2.rightEntryBoundary.offset :
                                           segment1.obstacle2.leftEntryBoundary.offset).clone().invert();
-    const originAfterOrientation = pathCalculator.localVectorToGlobalOrientation(segment1.obstacle2, originLocalToBoundaryCircle);
+    const originAfterOrientation = localVectorToGlobalOrientation(segment1.obstacle2, originLocalToBoundaryCircle);
 
     const arc1 = renderBoundaryArc(segment1.boundaryCircle2, segment1.entry, originAfterOrientation, globalToViewbox);
     const arc2 = renderBoundaryArc(segment1.boundaryCircle2, originAfterOrientation, segment2.exit, globalToViewbox);
@@ -129,11 +129,11 @@ const renderBoundary = function(obstacle, globalToViewbox) {
 
   if (obstacle.entry === obstacleCtr.EITHER) {
     boundaries = boundaries.concat(renderBoundaryCircle({
-      origin: pathCalculator.localVectorToGlobal(obstacle, obstacle.leftEntryBoundary.offset),
+      origin: localVectorToGlobal(obstacle, obstacle.leftEntryBoundary.offset),
       radius: obstacle.leftEntryBoundary.radius
     }, globalToViewbox));
     boundaries = boundaries.concat(renderBoundaryCircle({
-      origin: pathCalculator.localVectorToGlobal(obstacle, obstacle.rightEntryBoundary.offset),
+      origin: localVectorToGlobal(obstacle, obstacle.rightEntryBoundary.offset),
       radius: obstacle.rightEntryBoundary.radius
     }, globalToViewbox));
   } else {
@@ -142,11 +142,11 @@ const renderBoundary = function(obstacle, globalToViewbox) {
 
   if (obstacle.exit === obstacleCtr.EITHER) {
     boundaries = boundaries.concat(renderBoundaryCircle({
-      origin: pathCalculator.localVectorToGlobal(obstacle, obstacle.leftExitBoundary.offset),
+      origin: localVectorToGlobal(obstacle, obstacle.leftExitBoundary.offset),
       radius: obstacle.leftExitBoundary.radius
     }, globalToViewbox));
     boundaries = boundaries.concat(renderBoundaryCircle({
-      origin: pathCalculator.localVectorToGlobal(obstacle, obstacle.rightExitBoundary.offset),
+      origin: localVectorToGlobal(obstacle, obstacle.rightExitBoundary.offset),
       radius: obstacle.rightExitBoundary.radius
     }, globalToViewbox));
   } else {
@@ -173,7 +173,7 @@ const renderDebugSegment = function(segment, globalToViewbox) {
 };
 
 const renderOrientationVector = function(obstacle, globalToViewbox) {
-  const orientation = pathCalculator.localVectorToGlobal(obstacle, Victor(0, 2));
+  const orientation = localVectorToGlobal(obstacle, vector(0, 2));
   const {x: x1b, y: y1b} = globalToViewbox(obstacle.origin.x, obstacle.origin.y);
   const {x: x2b, y: y2b} = globalToViewbox(orientation.x, orientation.y);
   return `<line x1="${x1b}" y1="${y1b}" x2="${x2b}" y2="${y2b}" stroke="red" stroke-width="0.25%" />`;

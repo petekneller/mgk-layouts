@@ -1,5 +1,5 @@
 const _ = require('lodash');
-const victor = require('victor');
+import vector from '../vectors';
 import obstacle, { localVectorToGlobalOrientation, localVectorToGlobal } from '../obstacles';
 const arrays = require('../arrays.js');
 
@@ -99,7 +99,7 @@ const testEntrySides = function(segment) {
 
   const leftExitPoint = leftOutputSegment.boundaryCircle1.origin.clone().add(leftOutputSegment.exit);
   const obstacleOriginToLeftExitPoint = leftExitPoint.clone().subtract(obstacle2.origin);
-  const obstacleOrientationVector = localVectorToGlobalOrientation(obstacle2, victor(0, 1));
+  const obstacleOrientationVector = localVectorToGlobalOrientation(obstacle2, vector(0, 1));
   let entryAngle = normalizeAngle(obstacleOriginToLeftExitPoint.direction() - obstacleOrientationVector.direction());
 
   console.info(`Using left-hand entry results in entry vector (${obstacle2.origin}) -> (${leftExitPoint}) with orientation (along x-axis) ${obstacleOrientationVector.direction()} and so entry angle ${entryAngle}`);
@@ -148,7 +148,7 @@ const testExitSides = function(segment) {
 
   const leftEntryPoint = leftOutputSegment.boundaryCircle2.origin.clone().add(leftOutputSegment.entry);
   const obstacleOriginToLeftEntryPoint = leftEntryPoint.clone().subtract(obstacle1.origin);
-  const obstacleOrientationVector = localVectorToGlobalOrientation(obstacle1, victor(0, 1));
+  const obstacleOrientationVector = localVectorToGlobalOrientation(obstacle1, vector(0, 1));
   const exitAngle = normalizeAngle(obstacleOriginToLeftEntryPoint.direction() -
                                   obstacleOrientationVector.direction());
 

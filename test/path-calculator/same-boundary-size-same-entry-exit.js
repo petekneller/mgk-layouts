@@ -5,29 +5,29 @@ const fc = require('fast-check');
 
 const pathCalculator = require('../../src/path-calculator');
 import obstacle from '../../src/obstacles';
-const victor = require('victor');
+import vector from '../../src/vectors';
 
 t.describe('a segment of two obstacles, both with the same boundary circle radius and having entry/exit on the same side', () => {
 
   t.context('when obstacle 1 is at (0,0), obstacle 2 is at (0,10), boundary circle radius = 1 and entry = exit = right', () => {
-    const o1 = obstacle({ origin: victor(0, 0), exit: obstacle.RIGHT });
-    const o2 = obstacle({ origin: victor(0, 10), entry: obstacle.RIGHT });
+    const o1 = obstacle({ origin: vector(0, 0), exit: obstacle.RIGHT });
+    const o2 = obstacle({ origin: vector(0, 10), entry: obstacle.RIGHT });
     const segment = pathCalculator.calculateSegment(o1, o2);
 
     t.it('both entry and exit vectors should be equal to (1,0)', () => {
-      const expected = victor(1, 0);
+      const expected = vector(1, 0);
       victorAssert.equalVectors(segment.exit, expected);
       victorAssert.equalVectors(segment.entry, expected);
     });
   });
 
   t.context('when obstacle 1 is at (0,0), obstacle 2 is at (-10,-10), boundary circle radius = 1 and entry = exit = left', () => {
-    const o1 = obstacle({ origin: victor(0, 0), exit: obstacle.LEFT });
-    const o2 = obstacle({ origin: victor(-10, -10), entry: obstacle.LEFT });
+    const o1 = obstacle({ origin: vector(0, 0), exit: obstacle.LEFT });
+    const o2 = obstacle({ origin: vector(-10, -10), entry: obstacle.LEFT });
     const segment = pathCalculator.calculateSegment(o1, o2);
 
     t.it('both entry and exit vectors should be equal to (√0.5, -√0.5)', () => {
-      const expected = victor(Math.sqrt(0.5), -1 * Math.sqrt(0.5));
+      const expected = vector(Math.sqrt(0.5), -1 * Math.sqrt(0.5));
       victorAssert.equalVectors(segment.exit, expected);
       victorAssert.equalVectors(segment.entry, expected);
     });
@@ -41,8 +41,8 @@ t.describe('a segment of two obstacles, both with the same boundary circle radiu
         fc.pre(Math.abs(o1y - o2y) >= 2*r);
 
         const entryAndExit = b ? obstacle.LEFT : obstacle.RIGHT;
-        const o1 = obstacle({ origin: victor(o1x, o1y), radius: r, exit: entryAndExit });
-        const o2 = obstacle({ origin: victor(o2x, o2y), radius: r, entry: entryAndExit });
+        const o1 = obstacle({ origin: vector(o1x, o1y), radius: r, exit: entryAndExit });
+        const o2 = obstacle({ origin: vector(o2x, o2y), radius: r, entry: entryAndExit });
         const segment = pathCalculator.calculateSegment(o1, o2);
         cb(segment);
       });

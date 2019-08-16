@@ -3,7 +3,7 @@ const assert = require('chai').assert;
 const victorAssert = require('../victor-assert.js');
 
 const _ = require('lodash');
-const victor = require('victor');
+import vector from '../../src/vectors';
 import obstacle from '../../src/obstacles';
 const pathCalculator = require('../../src/path-calculator');
 
@@ -17,7 +17,7 @@ t.describe('a path segment composed of a simple obstacle followed by an "either"
       const segment = pathCalculator.calculateSegment(simpleObstacle, eitherObstacle);
 
       t.it('the path should be using the "left-hand" boundary circle of the either-obstacle', () => {
-        victorAssert.equalVectors(segment.boundaryCircle2.origin, victor(-1, 10));
+        victorAssert.equalVectors(segment.boundaryCircle2.origin, vector(-1, 10));
       });
 
       t.it('the path should have a right entry', () => {
@@ -30,7 +30,7 @@ t.describe('a path segment composed of a simple obstacle followed by an "either"
       const segment = pathCalculator.calculateSegment(simpleObstacle, eitherObstacle);
 
       t.it('the path should be using the "right-hand" boundary circle of the either-obstacle', () => {
-        victorAssert.equalVectors(segment.boundaryCircle2.origin, victor(1, 10));
+        victorAssert.equalVectors(segment.boundaryCircle2.origin, vector(1, 10));
       });
 
       t.it('the path should have a left entry', () => {
@@ -50,7 +50,7 @@ t.describe('a path segment composed of a simple obstacle followed by an "either"
       const segment = pathCalculator.calculateSegment(simpleObstacle, obstacle(eo));
 
       t.it('the path should be using the "left-hand" boundary circle of the either-obstacle', () => {
-        victorAssert.equalVectors(segment.boundaryCircle2.origin, victor(-1 * sqrtPointFive, 10 - sqrtPointFive));
+        victorAssert.equalVectors(segment.boundaryCircle2.origin, vector(-1 * sqrtPointFive, 10 - sqrtPointFive));
       });
 
       t.it('the path should have a right entry', () => {
@@ -63,7 +63,7 @@ t.describe('a path segment composed of a simple obstacle followed by an "either"
       const segment = pathCalculator.calculateSegment(simpleObstacle, obstacle(eo));
 
       t.it('the path should be using the "right-hand" boundary circle of the either-obstacle', () => {
-        victorAssert.equalVectors(segment.boundaryCircle2.origin, victor(sqrtPointFive, 10 - sqrtPointFive));
+        victorAssert.equalVectors(segment.boundaryCircle2.origin, vector(sqrtPointFive, 10 - sqrtPointFive));
       });
 
       t.it('the path should have a left entry', () => {
