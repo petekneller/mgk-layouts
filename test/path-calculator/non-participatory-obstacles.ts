@@ -4,6 +4,9 @@ const assert = require('chai').assert;
 const pathCalculator = require('../../src/path-calculator');
 import obstacle from '../../src/obstacles';
 
+type OpenObject = import('../../src/types').OpenObject;
+type Obstacle = import('../../src/obstacles').Obstacle;
+
 t.describe('pathCalculator.calculateSegments', () => {
   t.context('when the input contains obstacle marked as not participating in the course', () => {
 
@@ -16,8 +19,8 @@ t.describe('pathCalculator.calculateSegments', () => {
 
       const segments = pathCalculator.calculateSegments(course);
       assert.lengthOf(segments, 1);
-      assert.equal(segments[0].obstacle1.id, 1);
-      assert.equal(segments[0].obstacle2.id, 3);
+      assert.equal((segments[0].obstacle1 as Obstacle & OpenObject).id, 1);
+      assert.equal((segments[0].obstacle2 as Obstacle & OpenObject).id, 3);
     });
 
   });

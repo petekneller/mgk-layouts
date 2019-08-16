@@ -16,16 +16,18 @@ constructor.LEFT = directions.LEFT;
 constructor.RIGHT = directions.RIGHT;
 constructor.EITHER = directions.EITHER;
 
-const localVectorToGlobalOrientation = function(obstacle: Obstacle, vector: Victor) {
+const localVectorToGlobalOrientation = function(obstacle: Obstacle, vector: Victor): Victor {
   return vector.clone().rotateDeg(-1 * obstacle.orientation);
 };
 
-const localVectorToGlobal = function(obstacle: Obstacle, vector: Victor) {
+const localVectorToGlobal = function(obstacle: Obstacle, vector: Victor): Victor {
   return obstacle.origin.clone().add(localVectorToGlobalOrientation(obstacle, vector));
 };
 
 export default constructor;
 export {
+  ObstacleOpts,
+  Obstacle,
   localVectorToGlobalOrientation,
   localVectorToGlobal
 }

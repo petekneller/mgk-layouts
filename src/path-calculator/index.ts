@@ -1,83 +1,29 @@
 const _ = require('lodash');
 import vector from '../vectors';
 import obstacle, { localVectorToGlobalOrientation, localVectorToGlobal } from '../obstacles';
-const arrays = require('../arrays.js');
+import { normalizeAngle } from './util'
+import segmentCalculator from './segment-calculator';
+import { Segment, Stage1Segment, Stage2Segment } from './types';
+import { zipAdjacent } from '../arrays';
 
-const _calculateSegment = function(segment) {
+type Obstacle = import('../obstacles/types').Obstacle;
 
-  const boundary1 = segment.boundaryCircle1;
-  const boundary2 = segment.boundaryCircle2;
-
-  const o12 = boundary2.origin.clone().subtract(boundary1.origin);
-  const r12 = boundary1.exit === boundary2.entry ?
-        Math.abs(boundary1.radius - boundary2.radius) :
-       (boundary1.radius + boundary2.radius);
-  const t12 = Math.sqrt(Math.pow(o12.magnitude(), 2) - Math.pow(r12, 2));
-  const beta = Math.atan2(t12, r12);
-
-  let exitTheta, entryTheta;
-  if (boundary1.exit !== boundary2.entry) {
-    exitTheta = (boundary1.exit === obstacle.LEFT) ?
-      beta :
-      -1 * beta;
-
-    entryTheta = (boundary2.entry === obstacle.LEFT) ?
-      (Math.PI - beta) :
-      (Math.PI + beta);
-  } else if (boundary1.radius >= boundary2.radius) {
-    entryTheta = exitTheta = (boundary1.exit === obstacle.LEFT) ?
-      beta :
-      -1 * beta;
-  } else {
-    entryTheta = exitTheta = Math.PI +
-      ((boundary1.exit === obstacle.RIGHT) ?
-        beta :
-        -1 * beta);
-  }
-
-  const exit = o12.
-        clone().
-        normalize().
-        multiplyScalar(boundary1.radius).
-        rotate(exitTheta);
-
-  const entry = o12.
-        clone().
-        normalize().
-        multiplyScalar(boundary2.radius).
-        rotate(entryTheta);
-
-  segment.o12 = o12;
-  segment.beta = beta;
-  segment.exit = exit;
-  segment.entry = entry;
-  return segment;
-};
-
-const normalizeAngle = function(angle) {
-  if (angle < (2 * Math.PI) && angle >= 0)
-    return angle;
-
-  if (angle >= (2 * Math.PI))
-    angle = angle - (2 * Math.PI);
-  if (angle < 0)
-    angle = angle + (2 * Math.PI);
-  return normalizeAngle(angle);
-};
-
-const testEntrySides = function(segment) {
+const testEntrySides = function(segment: Stage2Segment) {
   const obstacle2 = segment.obstacle2;
 
   if (obstacle2.entry !== obstacle.EITHER) {
-    segment.boundaryCircle2 = {};
     const boundaryCircle = obstacle2.entry === obstacle.LEFT ?
           obstacle2.leftEntryBoundary:
           obstacle2.rightEntryBoundary;
-    segment.boundaryCircle2.entry = boundaryCircle.entry;
-    segment.boundaryCircle2.radius = boundaryCircle.radius;
-    segment.boundaryCircle2.origin = localVectorToGlobal(obstacle2, boundaryCircle.offset);
 
-    return _calculateSegment(segment);
+    return segmentCalculator({
+      ...segment,
+      boundaryCircle2: {
+        entry: boundaryCircle.entry,
+        radius: boundaryCircle.radius,
+        origin: localVectorToGlobal(obstacle2, boundaryCircle.offset)
+      }
+    });
   }
   console.info('Entry has side "either" so testing both sides...');
 
@@ -87,7 +33,7 @@ const testEntrySides = function(segment) {
     radius: obstacle2.leftEntryBoundary.radius,
     entry: obstacle2.leftEntryBoundary.entry
   };
-  const leftOutputSegment = _calculateSegment(leftInputSegment);
+  const leftOutputSegment = segmentCalculator(leftInputSegment);
 
   const rightInputSegment = _.clone(segment);
   rightInputSegment.boundaryCircle2 = {
@@ -95,7 +41,7 @@ const testEntrySides = function(segment) {
     radius: obstacle2.rightEntryBoundary.radius,
     entry: obstacle2.rightEntryBoundary.entry
   };
-  const rightOutputSegment = _calculateSegment(rightInputSegment);
+  const rightOutputSegment = segmentCalculator(rightInputSegment);
 
   const leftExitPoint = leftOutputSegment.boundaryCircle1.origin.clone().add(leftOutputSegment.exit);
   const obstacleOriginToLeftExitPoint = leftExitPoint.clone().subtract(obstacle2.origin);
@@ -114,19 +60,22 @@ const testEntrySides = function(segment) {
   }
 };
 
-const testExitSides = function(segment) {
+const testExitSides = function(segment: Stage1Segment): Segment {
   const obstacle1 = segment.obstacle1;
 
   if (obstacle1.exit !== obstacle.EITHER) {
-    segment.boundaryCircle1 = {};
     const boundaryCircle = obstacle1.exit === obstacle.LEFT ?
           obstacle1.leftExitBoundary:
           obstacle1.rightExitBoundary;
-    segment.boundaryCircle1.radius = boundaryCircle.radius;
-    segment.boundaryCircle1.exit = boundaryCircle.exit;
-    segment.boundaryCircle1.origin = localVectorToGlobal(obstacle1, boundaryCircle.offset);
 
-    return testEntrySides(segment);
+    return testEntrySides({
+      ...segment,
+      boundaryCircle1: {
+        radius: boundaryCircle.radius,
+        exit: boundaryCircle.exit,
+        origin: localVectorToGlobal(obstacle1, boundaryCircle.offset)
+      }
+    });
   }
   console.info('Exit has side "either" so testing both sides...');
 
@@ -164,18 +113,19 @@ const testExitSides = function(segment) {
   }
 };
 
-const calculateSegment = function(obstacle1, obstacle2) {
+const calculateSegment = function(obstacle1: Obstacle, obstacle2: Obstacle): Segment {
   const segment = { obstacle1, obstacle2 };
   return testExitSides(segment);
 };
 
-const calculateSegments = function(course) {
+const calculateSegments = function(course: Array<Obstacle>): Array<Segment> {
   const participatingObstacles = course.filter(obstacle => obstacle.partOfCourse != false);
-  return arrays.zipAdjacent(participatingObstacles).
+  return zipAdjacent(participatingObstacles).
     map(([o1, o2]) => calculateSegment(o1, o2));
 };
 
 export {
+  Segment,
   calculateSegment,
   calculateSegments,
   normalizeAngle

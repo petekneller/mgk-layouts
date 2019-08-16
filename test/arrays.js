@@ -1,7 +1,7 @@
 const t = require('tap').mocha;
 const assert = require('chai').assert;
 
-const arrays = require('../src/arrays.js');
+const arrays = require('../src/arrays');
 
 t.describe('arrays.zipAdjacent', () => {
 
