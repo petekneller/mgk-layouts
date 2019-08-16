@@ -8,7 +8,7 @@ type OpenObject = import('../types').OpenObject;
 type ObstacleOpts = import('./types').ObstacleOpts;
 type Obstacle = import('./types').Obstacle;
 
-const constructor = function(opts: ObstacleOpts | OpenObject = {}): Obstacle {
+const constructor = function(opts: ObstacleOpts & OpenObject = {}): Obstacle & OpenObject {
   return addDefaults(constructNamed(canonicalise(opts)));
 };
 

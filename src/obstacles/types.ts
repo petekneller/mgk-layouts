@@ -14,4 +14,8 @@ export interface Obstacle {
   radius: number,
   entry: symbol,
   exit: symbol,
+  leftEntryBoundary: { offset: { x: number, y: number }, radius: number, entry: symbol },
+  rightEntryBoundary: { offset: { x: number, y: number }, radius: number, entry: symbol },
+  leftExitBoundary: { offset: { x: number, y: number }, radius: number, exit: symbol },
+  rightExitBoundary: { offset: { x: number, y: number }, radius: number, exit: symbol }
 };

@@ -46,6 +46,10 @@ const addDefaults = function(opts: OpenObject): Obstacle {
     radius,
     entry,
     exit,
+    leftEntryBoundary: opts.leftEntryBoundary,
+    rightEntryBoundary: opts.rightEntryBoundary,
+    leftExitBoundary: opts.leftExitBoundary,
+    rightExitBoundary: opts.rightExitBoundary
   };
 };
 
