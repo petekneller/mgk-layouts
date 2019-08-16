@@ -1,4 +1,4 @@
-import vector from 'victor';
+import vector from '../vectors';
 import * as directions from './directions';
 
 const LEFT_TURN = Symbol.for('LeftTurn');
