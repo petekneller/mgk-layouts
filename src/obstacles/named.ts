@@ -12,7 +12,7 @@ const OUT_OF_BOUNDS = Symbol.for('OutOfBounds');
 const GAP_ENTRY = Symbol.for('GapEntry');
 const GAP_EXIT = Symbol.for('GapExit');
 
-const eitherOpts = function(opts) {
+const eitherOpts = function(opts: { [x: string]: any }): void {
   // For none of the 'either' obstacles is it desirable at the moment
   // to allow overriding the setup of the left/right/entry/exit
   // boundaries - its too complicated.
@@ -38,7 +38,7 @@ const eitherOpts = function(opts) {
   opts.rightExitBoundary.exit = directions.LEFT;
 };
 
-const constructNamed = function(opts) {
+const constructNamed = function(opts: { [x: string]: any }): { [x: string]: any } {
   switch (opts.name) {
   case Symbol.keyFor(LEFT_TURN):
   case Symbol.keyFor(LEFT_ROTATION): {

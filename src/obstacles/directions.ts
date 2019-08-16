@@ -4,7 +4,7 @@ const RIGHT = Symbol.for('Right');
 const EITHER = Symbol.for('Either');
 
 const directions = [LEFT, RIGHT, EITHER];
-const directionFromString = function(s) {
+const directionFromString = function(s: string | any): symbol | any {
   if (typeof s === 'string')
     for (const dir of directions)
       if (Symbol.keyFor(dir) === s)

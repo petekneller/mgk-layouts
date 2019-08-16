@@ -1,7 +1,7 @@
 import vector from 'victor';
 import * as directions from './directions';
 
-const orientationFromCardinal = function(orientation) {
+const orientationFromCardinal = function(orientation: string | any): number | any {
   return orientation === 'N' ? 0 :
     orientation === 'E' ? 90 :
     orientation === 'S' ? 180 :
@@ -9,7 +9,7 @@ const orientationFromCardinal = function(orientation) {
     orientation;
 };
 
-const canonicalise = function(opts) {
+const canonicalise = function(opts: { [x: string]: any }): { [x: string]: any } {
   if (opts.hasOwnProperty('origin'))
     opts.origin = vector.fromObject(opts.origin);
 
