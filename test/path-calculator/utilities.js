@@ -25,11 +25,11 @@ t.describe('the segment object returned by pathCalculator.calculateSegment shoul
     assert.exists(segment.boundaryCircle1);
     victorAssert.equalVectors(segment.boundaryCircle1.origin, o1.origin);
     assert.equal(segment.boundaryCircle1.radius, o1.radius);
-    assert.equal(segment.boundaryCircle1.exit, o1.exit);
+    assert.equal(segment.boundaryCircle1.side, o1.exit);
 
     assert.exists(segment.boundaryCircle2);
     victorAssert.equalVectors(segment.boundaryCircle2.origin, o2.origin);
     assert.equal(segment.boundaryCircle2.radius, o2.radius);
-    assert.equal(segment.boundaryCircle2.entry, o2.entry);
+    assert.equal(segment.boundaryCircle2.side, o2.entry);
   });
 });

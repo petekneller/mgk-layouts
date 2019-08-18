@@ -16,16 +16,16 @@ const addDefaults = function(opts: OpenObject): Obstacle {
     opts.entryBoundaries[0] = opts.entryBoundaries[0] || {};
     opts.entryBoundaries[0].radius = opts.entryBoundaries[0].radius || radius;
     opts.entryBoundaries[0].offset = opts.entryBoundaries[0].offset || vector(-1 * radius, 0);
-    opts.entryBoundaries[0].entry = opts.entryBoundaries[0].entry || directions.RIGHT;
+    opts.entryBoundaries[0].side = opts.entryBoundaries[0].side || directions.RIGHT;
 
     opts.entryBoundaries[1] = opts.entryBoundaries[1] || {};
     opts.entryBoundaries[1].radius = opts.entryBoundaries[1].radius || radius;
     opts.entryBoundaries[1].offset = opts.entryBoundaries[1].offset || vector(radius, 0);
-    opts.entryBoundaries[1].entry = opts.entryBoundaries[1].entry || directions.LEFT;
+    opts.entryBoundaries[1].side = opts.entryBoundaries[1].side || directions.LEFT;
   } else {
     opts.entryBoundaries.radius = opts.entryBoundaries.radius || radius;
     opts.entryBoundaries.offset = opts.entryBoundaries.offset || vector(0, 0);
-    opts.entryBoundaries.entry = opts.entryBoundaries.entry || entry;
+    opts.entryBoundaries.side = opts.entryBoundaries.side || entry;
   }
 
   opts.exitBoundaries = opts.exitBoundaries || (opts.exit === directions.EITHER ? new Array() : {});
@@ -33,16 +33,16 @@ const addDefaults = function(opts: OpenObject): Obstacle {
     opts.exitBoundaries[0] = opts.exitBoundaries[0] || {};
     opts.exitBoundaries[0].radius = opts.exitBoundaries[0].radius || radius;
     opts.exitBoundaries[0].offset = opts.exitBoundaries[0].offset || vector(-1 * radius, 0);
-    opts.exitBoundaries[0].exit = opts.exitBoundaries[0].exit || directions.RIGHT;
+    opts.exitBoundaries[0].side = opts.exitBoundaries[0].side || directions.RIGHT;
 
     opts.exitBoundaries[1] = opts.exitBoundaries[1] || {};
     opts.exitBoundaries[1].radius = opts.exitBoundaries[1].radius || radius;
     opts.exitBoundaries[1].offset = opts.exitBoundaries[1].offset || vector(radius, 0);
-    opts.exitBoundaries[1].exit = opts.exitBoundaries[1].exit || directions.LEFT;
+    opts.exitBoundaries[1].side = opts.exitBoundaries[1].side || directions.LEFT;
   } else {
     opts.exitBoundaries.radius = opts.exitBoundaries.radius || radius;
     opts.exitBoundaries.offset = opts.exitBoundaries.offset || vector(0, 0);
-    opts.exitBoundaries.exit = opts.exitBoundaries.exit || exit;
+    opts.exitBoundaries.side = opts.exitBoundaries.side || exit;
   }
 
   return {

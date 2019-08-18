@@ -72,11 +72,11 @@ const renderBoundaryArc = function(boundaryCircle, segmentEntry, segmentExit, gl
   const entryAngle = pathCalculator.normalizeAngle(segmentEntry.direction());
   const exitAngle = pathCalculator.normalizeAngle(segmentExit.direction());
   const angleTurnedThrough = pathCalculator.normalizeAngle(
-    boundaryCircle.entry === obstacleCtr.RIGHT ? (exitAngle - entryAngle) : (entryAngle - exitAngle)
+    boundaryCircle.side === obstacleCtr.RIGHT ? (exitAngle - entryAngle) : (entryAngle - exitAngle)
   );
   const largeArcSweepFlag = (angleTurnedThrough > Math.PI) ? '1' : '0';
 
-  const sweepFlag = boundaryCircle.entry === obstacleCtr.RIGHT ? '0' : '1';
+  const sweepFlag = boundaryCircle.side === obstacleCtr.RIGHT ? '0' : '1';
   return `<path d="M ${x1} ${y1} A ${boundaryCircle.radius} ${boundaryCircle.radius} 0 ${largeArcSweepFlag} ${sweepFlag} ${x2} ${y2}" fill="none" stroke="black" stroke-width="0.5%" />`;
 };
 
@@ -93,7 +93,7 @@ const renderObstaclePath = function(segment1, segment2, globalToViewbox) {
     const entryAngle = pathCalculator.normalizeAngle(segment1.entry.direction());
     const exitAngle = pathCalculator.normalizeAngle(segment2.exit.direction());
     const angleTurnedThrough = pathCalculator.normalizeAngle(
-      boundaryCircle.entry === obstacleCtr.RIGHT ? (exitAngle - entryAngle) : (entryAngle - exitAngle)
+      boundaryCircle.side === obstacleCtr.RIGHT ? (exitAngle - entryAngle) : (entryAngle - exitAngle)
     );
     const lessThanFullRotation = angleTurnedThrough >= (Math.PI * 2/2);
 

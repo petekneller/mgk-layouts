@@ -26,13 +26,13 @@ const eitherOpts = function(opts: OpenObject): void {
   const leftEntryBoundary = {
     radius: opts.radius,
     offset: vector(-1 * opts.radius, 0),
-    entry: directions.RIGHT
+    side: directions.RIGHT
   };
 
   const rightEntryBoundary = {
     radius: opts.radius,
     offset: vector(opts.radius, 0),
-    entry: directions.LEFT
+    side: directions.LEFT
   };
 
   opts.entryBoundaries = (opts.entry === directions.LEFT) ?
@@ -44,13 +44,13 @@ const eitherOpts = function(opts: OpenObject): void {
   const leftExitBoundary = {
     radius: opts.radius,
     offset: vector(-1 * opts.radius, 0),
-    exit: directions.RIGHT
+    side: directions.RIGHT
   };
 
   const rightExitBoundary = {
     radius: opts.radius,
     offset: vector(opts.radius, 0),
-    exit: directions.LEFT
+    side: directions.LEFT
   };
 
   opts.exitBoundaries = (opts.exit === directions.LEFT) ?

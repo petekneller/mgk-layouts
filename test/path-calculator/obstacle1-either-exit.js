@@ -21,7 +21,7 @@ t.describe('a path segment composed of an "either"-exit obstacle followed by a s
       });
 
       t.it('the path should have a right exit', () => {
-        assert.equal(segment.boundaryCircle1.exit, obstacle.RIGHT);
+        assert.equal(segment.boundaryCircle1.side, obstacle.RIGHT);
       });
     });
 
@@ -34,7 +34,7 @@ t.describe('a path segment composed of an "either"-exit obstacle followed by a s
       });
 
       t.it('the path should have a left exit', () => {
-        assert.equal(segment.boundaryCircle1.exit, obstacle.LEFT);
+        assert.equal(segment.boundaryCircle1.side, obstacle.LEFT);
       });
     });
 
@@ -54,7 +54,7 @@ t.describe('a path segment composed of an "either"-exit obstacle followed by a s
       });
 
       t.it('the path should have a right exit', () => {
-        assert.equal(segment.boundaryCircle1.exit, obstacle.RIGHT);
+        assert.equal(segment.boundaryCircle1.side, obstacle.RIGHT);
       });
     });
 
@@ -67,7 +67,7 @@ t.describe('a path segment composed of an "either"-exit obstacle followed by a s
       });
 
       t.it('the path should have a left exit', () => {
-        assert.equal(segment.boundaryCircle1.exit, obstacle.LEFT);
+        assert.equal(segment.boundaryCircle1.side, obstacle.LEFT);
       });
     });
 

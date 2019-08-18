@@ -54,7 +54,7 @@ t.describe('the obstacle constructor', () => {
         const b = obstacle1.entryBoundaries[0];
         testBoundary(b);
         t.it('has an entry of RIGHT', () => {
-          assert.equal(b.entry, obstacle.RIGHT);
+          assert.equal(b.side, obstacle.RIGHT);
         });
       });
 
@@ -62,7 +62,7 @@ t.describe('the obstacle constructor', () => {
         const b = obstacle1.entryBoundaries[1];
         testBoundary(b);
         t.it('has an entry of LEFT', () => {
-          assert.equal(b.entry, obstacle.LEFT);
+          assert.equal(b.side, obstacle.LEFT);
         });
       });
 
@@ -75,7 +75,7 @@ t.describe('the obstacle constructor', () => {
         const b = obstacle1.exitBoundaries[0];
         testBoundary(b);
         t.it('has an exit of RIGHT', () => {
-          assert.equal(b.exit, obstacle.RIGHT);
+          assert.equal(b.side, obstacle.RIGHT);
         });
       });
 
@@ -83,7 +83,7 @@ t.describe('the obstacle constructor', () => {
         const b = obstacle1.exitBoundaries[1];
         testBoundary(b);
         t.it('has an exit of LEFT', () => {
-          assert.equal(b.exit, obstacle.LEFT);
+          assert.equal(b.side, obstacle.LEFT);
         });
       });
 

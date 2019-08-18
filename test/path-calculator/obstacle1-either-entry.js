@@ -21,7 +21,7 @@ t.describe('a path segment composed of a simple obstacle followed by an "either"
       });
 
       t.it('the path should have a right entry', () => {
-        assert.equal(segment.boundaryCircle2.entry, obstacle.RIGHT);
+        assert.equal(segment.boundaryCircle2.side, obstacle.RIGHT);
       });
     });
 
@@ -34,7 +34,7 @@ t.describe('a path segment composed of a simple obstacle followed by an "either"
       });
 
       t.it('the path should have a left entry', () => {
-        assert.equal(segment.boundaryCircle2.entry, obstacle.LEFT);
+        assert.equal(segment.boundaryCircle2.side, obstacle.LEFT);
       });
     });
 
@@ -54,7 +54,7 @@ t.describe('a path segment composed of a simple obstacle followed by an "either"
       });
 
       t.it('the path should have a right entry', () => {
-        assert.equal(segment.boundaryCircle2.entry, obstacle.RIGHT);
+        assert.equal(segment.boundaryCircle2.side, obstacle.RIGHT);
       });
     });
 
@@ -67,7 +67,7 @@ t.describe('a path segment composed of a simple obstacle followed by an "either"
       });
 
       t.it('the path should have a left entry', () => {
-        assert.equal(segment.boundaryCircle2.entry, obstacle.LEFT);
+        assert.equal(segment.boundaryCircle2.side, obstacle.LEFT);
       });
     });
 

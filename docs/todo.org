@@ -10,7 +10,7 @@
 *** +replace left|rightEntry|ExitBoundary with singleton/tuple but leave logic in path calc the same+
 *** +change logic in path calc to use singleton/tuple instead of using entry/exit side to determine algo+
 *** +remove the setup of boundaries for named eithers from =named.ts= and let =defaults.ts= add those properties+ - no, because defaults does not know how to setup the boundary origin for a multi-boundary obstacle with fixed LEFT/RIGHT
-*** change =entry|exit= in boundary circles to =side= so its uniform
+*** +change =entry|exit= in boundary circles to =side= so its uniform+
 *** change =offset= to =origin= consistently
 ** add the calc of angle turned through (rotations, etc) to the calculator rather than having the render manage it
 ** add calc of (approximate) course distance?
