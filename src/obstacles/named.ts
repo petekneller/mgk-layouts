@@ -12,7 +12,9 @@ const OUT_OF_BOUNDS = Symbol.for('OutOfBounds');
 const GAP_ENTRY = Symbol.for('GapEntry');
 const GAP_EXIT = Symbol.for('GapExit');
 
-const eitherOpts = function(opts: { [x: string]: any }): void {
+type OpenObject = import('../types').OpenObject;
+
+const eitherOpts = function(opts: OpenObject): void {
   // For none of the 'either' obstacles is it desirable at the moment
   // to allow overriding the setup of the left/right/entry/exit
   // boundaries - its too complicated.
@@ -21,24 +23,44 @@ const eitherOpts = function(opts: { [x: string]: any }): void {
   opts.entry = opts.entry || directions.EITHER;
   opts.exit = opts.exit || directions.EITHER;
 
-  opts.leftEntryBoundary = {};
-  opts.leftEntryBoundary.offset = vector(-1 * opts.radius, 0);
-  opts.leftEntryBoundary.entry = directions.RIGHT;
+  const leftEntryBoundary = {
+    radius: opts.radius,
+    offset: vector(-1 * opts.radius, 0),
+    entry: directions.RIGHT
+  };
 
-  opts.rightEntryBoundary = {};
-  opts.rightEntryBoundary.offset = vector(opts.radius, 0);
-  opts.rightEntryBoundary.entry = directions.LEFT;
+  const rightEntryBoundary = {
+    radius: opts.radius,
+    offset: vector(opts.radius, 0),
+    entry: directions.LEFT
+  };
 
-  opts.leftExitBoundary = {};
-  opts.leftExitBoundary.offset = vector(-1 * opts.radius, 0);
-  opts.leftExitBoundary.exit = directions.RIGHT;
+  opts.entryBoundaries = (opts.entry === directions.LEFT) ?
+    leftEntryBoundary :
+    (opts.entry === directions.RIGHT) ?
+      rightEntryBoundary :
+      [leftEntryBoundary, rightEntryBoundary];
 
-  opts.rightExitBoundary = {};
-  opts.rightExitBoundary.offset = vector(opts.radius, 0);
-  opts.rightExitBoundary.exit = directions.LEFT;
+  const leftExitBoundary = {
+    radius: opts.radius,
+    offset: vector(-1 * opts.radius, 0),
+    exit: directions.RIGHT
+  };
+
+  const rightExitBoundary = {
+    radius: opts.radius,
+    offset: vector(opts.radius, 0),
+    exit: directions.LEFT
+  };
+
+  opts.exitBoundaries = (opts.exit === directions.LEFT) ?
+    leftExitBoundary :
+    (opts.exit === directions.RIGHT) ?
+      rightExitBoundary :
+      [leftExitBoundary, rightExitBoundary];
 };
 
-const constructNamed = function(opts: { [x: string]: any }): { [x: string]: any } {
+const constructNamed = function(opts: OpenObject): OpenObject {
   switch (opts.name) {
   case Symbol.keyFor(LEFT_TURN):
   case Symbol.keyFor(LEFT_ROTATION): {

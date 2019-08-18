@@ -11,6 +11,18 @@ export interface ObstacleOpts {
   visible?: boolean
 };
 
+export interface EntryBoundary {
+  offset: Victor,
+  radius: number,
+  entry: symbol
+};
+
+export interface ExitBoundary {
+  offset: Victor,
+  radius: number,
+  exit: symbol
+};
+
 export interface Obstacle {
   name?: string
   origin: Victor,
@@ -20,8 +32,6 @@ export interface Obstacle {
   exit: symbol,
   partOfCourse?: boolean,
   visible?: boolean,
-  leftEntryBoundary: { offset: Victor, radius: number, entry: symbol },
-  rightEntryBoundary: { offset: Victor, radius: number, entry: symbol },
-  leftExitBoundary: { offset: Victor, radius: number, exit: symbol },
-  rightExitBoundary: { offset: Victor, radius: number, exit: symbol }
+  entryBoundaries: EntryBoundary | [EntryBoundary, EntryBoundary],
+  exitBoundaries: ExitBoundary | [ExitBoundary, ExitBoundary];
 };

@@ -5,7 +5,13 @@
 ** +add tests for radius increasing/decreasing+
 ** +fast-check arbitrary for vectors/obstacles+
 ** +tests for unknown entry and exit strategy+
-** needs a =calculateSegments= (plural) method
+** +needs a =calculateSegments= (plural) method+
+** replace left|rightEntry|ExitBoundary with a singleton/tuple instead and let path calc use that to determine the algo
+*** +replace left|rightEntry|ExitBoundary with singleton/tuple but leave logic in path calc the same+
+*** +change logic in path calc to use singleton/tuple instead of using entry/exit side to determine algo+
+*** change =entry|exit= in boundary circles to =side= so its uniform
+*** change =offset= to =origin= consistently
+*** remove the setup of boundaries for named eithers from =named.ts= and let =defaults.ts= add those properties
 ** add the calc of angle turned through (rotations, etc) to the calculator rather than having the render manage it
 ** add calc of (approximate) course distance?
 ** =obstacleLocalVectorToGlobal= and =normalizeAngle= need tests

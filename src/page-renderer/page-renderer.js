@@ -3,7 +3,7 @@ const _ = require('lodash');
 import vector from '../vectors';
 
 const arrays = require('../arrays.js');
-import obstacleCtr, { localVectorToGlobalOrientation, localVectorToGlobal} from '../obstacles';
+import obstacleCtr, { localVectorToGlobal} from '../obstacles';
 const pathCalculator = require('../path-calculator');
 
 const renderObstacle = function(obstacle, globalToViewbox) {
@@ -106,13 +106,10 @@ const renderObstaclePath = function(segment1, segment2, globalToViewbox) {
   }
   case 'Gate': {
     // Gates can be considered 2 arcs - one from the entry to the point central between the boundary circles (which should be the origin) and from that point to the exit
-    const originLocalToBoundaryCircle = ((segment1.boundaryCircle2.entry === obstacleCtr.LEFT) ?
-                                           segment1.obstacle2.rightEntryBoundary.offset :
-                                          segment1.obstacle2.leftEntryBoundary.offset).clone().invert();
-    const originAfterOrientation = localVectorToGlobalOrientation(segment1.obstacle2, originLocalToBoundaryCircle);
+    const originFromBoundary = segment1.obstacle2.origin.clone().subtract(segment1.boundaryCircle2.origin);
 
-    const arc1 = renderBoundaryArc(segment1.boundaryCircle2, segment1.entry, originAfterOrientation, globalToViewbox);
-    const arc2 = renderBoundaryArc(segment1.boundaryCircle2, originAfterOrientation, segment2.exit, globalToViewbox);
+    const arc1 = renderBoundaryArc(segment1.boundaryCircle2, segment1.entry, originFromBoundary, globalToViewbox);
+    const arc2 = renderBoundaryArc(segment1.boundaryCircle2, originFromBoundary, segment2.exit, globalToViewbox);
     return `${arc1}\n${arc2}`;
   }
   default: return '';
@@ -127,35 +124,39 @@ const renderBoundaryCircle = function(circle, globalToViewbox) {
 const renderBoundary = function(obstacle, globalToViewbox) {
   let boundaries = '';
 
-  if (obstacle.entry === obstacleCtr.EITHER) {
+  if (Array.isArray(obstacle.entryBoundaries)) {
     boundaries = boundaries.concat(renderBoundaryCircle({
-      origin: localVectorToGlobal(obstacle, obstacle.leftEntryBoundary.offset),
-      radius: obstacle.leftEntryBoundary.radius
+      origin: localVectorToGlobal(obstacle, obstacle.entryBoundaries[0].offset),
+      radius: obstacle.entryBoundaries[0].radius
     }, globalToViewbox));
     boundaries = boundaries.concat(renderBoundaryCircle({
-      origin: localVectorToGlobal(obstacle, obstacle.rightEntryBoundary.offset),
-      radius: obstacle.rightEntryBoundary.radius
+      origin: localVectorToGlobal(obstacle, obstacle.entryBoundaries[1].offset),
+      radius: obstacle.entryBoundaries[1].radius
     }, globalToViewbox));
   } else {
-    boundaries = boundaries.concat(renderBoundaryCircle(obstacle, globalToViewbox));
+    boundaries = boundaries.concat(renderBoundaryCircle({
+      origin: localVectorToGlobal(obstacle, obstacle.entryBoundaries.offset),
+      radius: obstacle.entryBoundaries.radius
+    }, globalToViewbox));
   }
 
-  if (obstacle.exit === obstacleCtr.EITHER) {
+  if (Array.isArray(obstacle.exitBoundaries)) {
     boundaries = boundaries.concat(renderBoundaryCircle({
-      origin: localVectorToGlobal(obstacle, obstacle.leftExitBoundary.offset),
-      radius: obstacle.leftExitBoundary.radius
+      origin: localVectorToGlobal(obstacle, obstacle.exitBoundaries[0].offset),
+      radius: obstacle.exitBoundaries[0].radius
     }, globalToViewbox));
     boundaries = boundaries.concat(renderBoundaryCircle({
-      origin: localVectorToGlobal(obstacle, obstacle.rightExitBoundary.offset),
-      radius: obstacle.rightExitBoundary.radius
+      origin: localVectorToGlobal(obstacle, obstacle.exitBoundaries[1].offset),
+      radius: obstacle.exitBoundaries[1].radius
     }, globalToViewbox));
   } else {
-    boundaries = boundaries.concat(renderBoundaryCircle(obstacle, globalToViewbox));
+    boundaries = boundaries.concat(renderBoundaryCircle({
+      origin: localVectorToGlobal(obstacle, obstacle.exitBoundaries.offset),
+      radius: obstacle.exitBoundaries.radius
+    }, globalToViewbox));
   }
 
   return boundaries;
-
-  //return renderBoundaryCircle(segment.boundaryCircle1).concat(renderBoundaryCircle(segment.boundaryCircle2));
 };
 
 const renderSegmentPath = function(segment, globalToViewbox) {
@@ -190,8 +191,9 @@ const courseMaxExtents = function(course) {
   const obstacleExtents = course.map(obstacle => {
     // a basic heuristic: the boundary can't be offset by more than the largest of the
     // x or y of the offset. Assumes symmetrical offsets.
-    const maxBoundaryOffset = obstacle.leftEntryBoundary ?
-          Math.max(obstacle.leftEntryBoundary.offset.x, obstacle.leftEntryBoundary.offset.y) : 0;
+    const b = (Array.isArray(obstacle.entryBoundaries) ?
+                               obstacle.entryBoundaries[0] : obstacle.entryBoundaries);
+    const maxBoundaryOffset = Math.max(b.offset.x, b.offset.y);
 
     return {
       x: obstacle.origin.x + obstacle.radius + maxBoundaryOffset,

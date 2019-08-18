@@ -27,6 +27,8 @@ t.describe('the obstacle constructor', () => {
     });
 
     const testBoundary = b => {
+      assert.isObject(b);
+
       t.it('has an offset', () => {
         assert.isObject(b.offset);
       });
@@ -37,33 +39,30 @@ t.describe('the obstacle constructor', () => {
       // .... can if I were to unify it to 'side'
     };
 
-    t.context('the leftEntryBoundary', () => {
-      testBoundary(obstacle1.leftEntryBoundary);
+    t.context('the entry boundary', () => {
+      testBoundary(obstacle1.entryBoundaries);
     });
-    t.context('the rightEntryBoundary', () => {
-      testBoundary(obstacle1.rightEntryBoundary);
-    });
-    t.context('the leftExitBoundary', () => {
-      testBoundary(obstacle1.leftExitBoundary);
-    });
-    t.context('the rightExitBoundary', () => {
-      testBoundary(obstacle1.rightExitBoundary);
+    t.context('the exit boundary', () => {
+      testBoundary(obstacle1.exitBoundaries);
     });
 
     t.context('if the entry is "either"', () => {
       const obstacle1 = obstacle({ entry: obstacle.EITHER });
 
-      t.context('the leftEntryBoundary', () => {
-        testBoundary(obstacle1.leftEntryBoundary);
+      t.context('the first entry boundary', () => {
+        console.log(obstacle1.entryBoundaries);
+        const b = obstacle1.entryBoundaries[0];
+        testBoundary(b);
         t.it('has an entry of RIGHT', () => {
-          assert.equal(obstacle1.leftEntryBoundary.entry, obstacle.RIGHT);
+          assert.equal(b.entry, obstacle.RIGHT);
         });
       });
 
-      t.context('the rightEntryBoundary', () => {
-        testBoundary(obstacle1.rightEntryBoundary);
+      t.context('the second entry boundary', () => {
+        const b = obstacle1.entryBoundaries[1];
+        testBoundary(b);
         t.it('has an entry of LEFT', () => {
-          assert.equal(obstacle1.rightEntryBoundary.entry, obstacle.LEFT);
+          assert.equal(b.entry, obstacle.LEFT);
         });
       });
 
@@ -72,17 +71,19 @@ t.describe('the obstacle constructor', () => {
     t.context('if the exit is "either"', () => {
       const obstacle1 = obstacle({ exit: obstacle.EITHER });
 
-      t.context('the leftExitBoundary', () => {
-        testBoundary(obstacle1.leftExitBoundary);
+      t.context('the first exit boundary', () => {
+        const b = obstacle1.exitBoundaries[0];
+        testBoundary(b);
         t.it('has an exit of RIGHT', () => {
-          assert.equal(obstacle1.leftExitBoundary.exit, obstacle.RIGHT);
+          assert.equal(b.exit, obstacle.RIGHT);
         });
       });
 
-      t.context('the rightExitBoundary', () => {
-        testBoundary(obstacle1.rightExitBoundary);
-        t.it('has an entry of LEFT', () => {
-          assert.equal(obstacle1.rightExitBoundary.exit, obstacle.LEFT);
+      t.context('the second exit boundary', () => {
+        const b = obstacle1.exitBoundaries[1];
+        testBoundary(b);
+        t.it('has an exit of LEFT', () => {
+          assert.equal(b.exit, obstacle.LEFT);
         });
       });
 

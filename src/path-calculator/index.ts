@@ -1,6 +1,6 @@
 const _ = require('lodash');
 import vector from '../vectors';
-import obstacle, { localVectorToGlobalOrientation, localVectorToGlobal } from '../obstacles';
+import { localVectorToGlobalOrientation, localVectorToGlobal } from '../obstacles';
 import { normalizeAngle } from './util'
 import segmentCalculator from './segment-calculator';
 import { Segment, Stage1Segment, Stage2Segment } from './types';
@@ -11,17 +11,13 @@ type Obstacle = import('../obstacles/types').Obstacle;
 const testEntrySides = function(segment: Stage2Segment) {
   const obstacle2 = segment.obstacle2;
 
-  if (obstacle2.entry !== obstacle.EITHER) {
-    const boundaryCircle = obstacle2.entry === obstacle.LEFT ?
-          obstacle2.leftEntryBoundary:
-          obstacle2.rightEntryBoundary;
-
+  if (!Array.isArray(obstacle2.entryBoundaries)) {
     return segmentCalculator({
       ...segment,
       boundaryCircle2: {
-        entry: boundaryCircle.entry,
-        radius: boundaryCircle.radius,
-        origin: localVectorToGlobal(obstacle2, boundaryCircle.offset)
+        entry: obstacle2.entryBoundaries.entry,
+        radius: obstacle2.entryBoundaries.radius,
+        origin: localVectorToGlobal(obstacle2, obstacle2.entryBoundaries.offset)
       }
     });
   }
@@ -29,17 +25,17 @@ const testEntrySides = function(segment: Stage2Segment) {
 
   const leftInputSegment = _.clone(segment);
   leftInputSegment.boundaryCircle2 = {
-    origin: localVectorToGlobal(obstacle2, obstacle2.leftEntryBoundary.offset),
-    radius: obstacle2.leftEntryBoundary.radius,
-    entry: obstacle2.leftEntryBoundary.entry
+    origin: localVectorToGlobal(obstacle2, obstacle2.entryBoundaries[0].offset),
+    radius: obstacle2.entryBoundaries[0].radius,
+    entry: obstacle2.entryBoundaries[0].entry
   };
   const leftOutputSegment = segmentCalculator(leftInputSegment);
 
   const rightInputSegment = _.clone(segment);
   rightInputSegment.boundaryCircle2 = {
-    origin: localVectorToGlobal(obstacle2, obstacle2.rightEntryBoundary.offset),
-    radius: obstacle2.rightEntryBoundary.radius,
-    entry: obstacle2.rightEntryBoundary.entry
+    origin: localVectorToGlobal(obstacle2, obstacle2.entryBoundaries[1].offset),
+    radius: obstacle2.entryBoundaries[1].radius,
+    entry: obstacle2.entryBoundaries[1].entry
   };
   const rightOutputSegment = segmentCalculator(rightInputSegment);
 
@@ -63,17 +59,13 @@ const testEntrySides = function(segment: Stage2Segment) {
 const testExitSides = function(segment: Stage1Segment): Segment {
   const obstacle1 = segment.obstacle1;
 
-  if (obstacle1.exit !== obstacle.EITHER) {
-    const boundaryCircle = obstacle1.exit === obstacle.LEFT ?
-          obstacle1.leftExitBoundary:
-          obstacle1.rightExitBoundary;
-
+  if (!Array.isArray(obstacle1.exitBoundaries)) {
     return testEntrySides({
       ...segment,
       boundaryCircle1: {
-        radius: boundaryCircle.radius,
-        exit: boundaryCircle.exit,
-        origin: localVectorToGlobal(obstacle1, boundaryCircle.offset)
+        radius: obstacle1.exitBoundaries.radius,
+        exit: obstacle1.exitBoundaries.exit,
+        origin: localVectorToGlobal(obstacle1, obstacle1.exitBoundaries.offset)
       }
     });
   }
@@ -81,17 +73,17 @@ const testExitSides = function(segment: Stage1Segment): Segment {
 
   const leftInputSegment = _.clone(segment);
   leftInputSegment.boundaryCircle1 = {
-    origin: localVectorToGlobal(obstacle1, obstacle1.leftExitBoundary.offset),
-    radius: obstacle1.leftExitBoundary.radius,
-    exit: obstacle1.leftExitBoundary.exit
+    origin: localVectorToGlobal(obstacle1, obstacle1.exitBoundaries[0].offset),
+    radius: obstacle1.exitBoundaries[0].radius,
+    exit: obstacle1.exitBoundaries[0].exit
   };
   const leftOutputSegment = testEntrySides(leftInputSegment);
 
   const rightInputSegment = _.clone(segment);
   rightInputSegment.boundaryCircle1 = {
-    origin: localVectorToGlobal(obstacle1, obstacle1.rightExitBoundary.offset),
-    radius: obstacle1.rightExitBoundary.radius,
-    exit: obstacle1.rightExitBoundary.exit
+    origin: localVectorToGlobal(obstacle1, obstacle1.exitBoundaries[1].offset),
+    radius: obstacle1.exitBoundaries[1].radius,
+    exit: obstacle1.exitBoundaries[1].exit
   };
   const rightOutputSegment = testEntrySides(rightInputSegment);
 
