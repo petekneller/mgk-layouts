@@ -40,7 +40,7 @@
   "scripts": {
     "clean": "rm -rf dist/",
     "ts": "npx tsc",
-    "build": "cp src/page-renderer/page.njk dist/src/page-renderer/ && npm run-script ts",
+    "build": "mkdir -p dist/src/page-renderer && cp src/page-renderer/page.njk dist/src/page-renderer/ && npm run-script ts",
     "test": "npm run-script build && npx tap -Rspec --test-ignore=dist/test/victor-assert.js --test-regex='dist/test/*'",
     "watch-tests": "npm-watch test",
     "serve": "npm run-script build && node dist/app.js",
