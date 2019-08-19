@@ -126,32 +126,32 @@ const renderBoundary = function(obstacle, globalToViewbox) {
 
   if (Array.isArray(obstacle.entryBoundaries)) {
     boundaries = boundaries.concat(renderBoundaryCircle({
-      origin: localVectorToGlobal(obstacle, obstacle.entryBoundaries[0].offset),
+      origin: localVectorToGlobal(obstacle, obstacle.entryBoundaries[0].origin),
       radius: obstacle.entryBoundaries[0].radius
     }, globalToViewbox));
     boundaries = boundaries.concat(renderBoundaryCircle({
-      origin: localVectorToGlobal(obstacle, obstacle.entryBoundaries[1].offset),
+      origin: localVectorToGlobal(obstacle, obstacle.entryBoundaries[1].origin),
       radius: obstacle.entryBoundaries[1].radius
     }, globalToViewbox));
   } else {
     boundaries = boundaries.concat(renderBoundaryCircle({
-      origin: localVectorToGlobal(obstacle, obstacle.entryBoundaries.offset),
+      origin: localVectorToGlobal(obstacle, obstacle.entryBoundaries.origin),
       radius: obstacle.entryBoundaries.radius
     }, globalToViewbox));
   }
 
   if (Array.isArray(obstacle.exitBoundaries)) {
     boundaries = boundaries.concat(renderBoundaryCircle({
-      origin: localVectorToGlobal(obstacle, obstacle.exitBoundaries[0].offset),
+      origin: localVectorToGlobal(obstacle, obstacle.exitBoundaries[0].origin),
       radius: obstacle.exitBoundaries[0].radius
     }, globalToViewbox));
     boundaries = boundaries.concat(renderBoundaryCircle({
-      origin: localVectorToGlobal(obstacle, obstacle.exitBoundaries[1].offset),
+      origin: localVectorToGlobal(obstacle, obstacle.exitBoundaries[1].origin),
       radius: obstacle.exitBoundaries[1].radius
     }, globalToViewbox));
   } else {
     boundaries = boundaries.concat(renderBoundaryCircle({
-      origin: localVectorToGlobal(obstacle, obstacle.exitBoundaries.offset),
+      origin: localVectorToGlobal(obstacle, obstacle.exitBoundaries.origin),
       radius: obstacle.exitBoundaries.radius
     }, globalToViewbox));
   }
@@ -193,7 +193,7 @@ const courseMaxExtents = function(course) {
     // x or y of the offset. Assumes symmetrical offsets.
     const b = (Array.isArray(obstacle.entryBoundaries) ?
                                obstacle.entryBoundaries[0] : obstacle.entryBoundaries);
-    const maxBoundaryOffset = Math.max(b.offset.x, b.offset.y);
+    const maxBoundaryOffset = Math.max(b.origin.x, b.origin.y);
 
     return {
       x: obstacle.origin.x + obstacle.radius + maxBoundaryOffset,

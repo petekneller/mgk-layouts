@@ -30,7 +30,7 @@ t.describe('the obstacle constructor', () => {
       assert.isObject(b);
 
       t.it('has an offset', () => {
-        assert.isObject(b.offset);
+        assert.isObject(b.origin);
       });
       t.it('has a radius', () => {
         assert.isNumber(b.radius);

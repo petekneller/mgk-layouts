@@ -6,7 +6,6 @@ import segmentCalculator from './segment-calculator';
 import { Segment, Stage1Segment, Stage2Segment } from './types';
 import { zipAdjacent } from '../arrays';
 
-type OpenObject = import('../types').OpenObject;
 type Obstacle = import('../obstacles/types').Obstacle;
 type BoundaryCircle = import('../obstacles/types').BoundaryCircle;
 
@@ -94,11 +93,11 @@ const calculateSegments = function(course: Array<Obstacle>): Array<Segment> {
     map(([o1, o2]) => calculateSegment(o1, o2));
 };
 
-const localToGlobalBoundary = function(o: Obstacle, b: BoundaryCircle): OpenObject {
+const localToGlobalBoundary = function(o: Obstacle, b: BoundaryCircle): BoundaryCircle {
   return {
     side: b.side,
     radius: b.radius,
-    origin: localVectorToGlobal(o, b.offset)
+    origin: localVectorToGlobal(o, b.origin)
   };
 };
 

@@ -12,7 +12,7 @@ export interface ObstacleOpts {
 };
 
 export interface BoundaryCircle {
-  offset: Victor,
+  origin: Victor,
   radius: number,
   side: symbol
 };

@@ -1,12 +1,12 @@
 type Obstacle = import('../obstacles/types').Obstacle
-type OpenObject = import('../types').OpenObject;
+type BoundaryCircle = import('../obstacles/types').BoundaryCircle
 import Victor from 'victor';
 
 export interface Segment {
   obstacle1: Obstacle,
   obstacle2: Obstacle,
-  boundaryCircle1: OpenObject,
-  boundaryCircle2: OpenObject,
+  boundaryCircle1: BoundaryCircle,
+  boundaryCircle2: BoundaryCircle,
   o12: Victor,
   beta: number,
   entry: Victor,
@@ -19,9 +19,9 @@ export type Stage1Segment = {
 };
 
 export type Stage2Segment = Stage1Segment & {
-  boundaryCircle1: OpenObject
+  boundaryCircle1: BoundaryCircle
 };
 
 export type Stage3Segment = Stage2Segment & {
-  boundaryCircle2: OpenObject
+  boundaryCircle2: BoundaryCircle
 };
