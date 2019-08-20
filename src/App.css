@@ -1,0 +1,8 @@
+.flex-item {
+  border: solid 1px black;
+  height: 100%;
+}
+
+.grid-item {
+  border: solid 1px red;
+}
