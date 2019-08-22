@@ -1,9 +1,8 @@
+/*
+  { box-sizing: border-box } changes the box model to include padding in the 100% sizing
+*/
 .outer-spacing {
   height: 100%;
   padding: 10px;
   box-sizing: border-box;
-}
-
-.grid-item {
-  border: solid 1px red;
 }
