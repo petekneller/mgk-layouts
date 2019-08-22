@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 
-function App() {
+const App: React.FC = () => {
   // { box-sizing: border-box } changes the box model to include padding in the 100% sizing
   return (
       <div style={{ height: '100%', padding: '10px', boxSizing: 'border-box', display: 'flex' }}>
