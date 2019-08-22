@@ -11,9 +11,9 @@
 
 .viewport-left-axis {
   bottom: 0;
-  left: -40px;
+  left: calc(-1 * var(--axis-depth, 0px));
 }
 
 .viewport-bottom-axis {
-  bottom: -40px;
+  bottom: calc(-1 * var(--axis-depth, 0px));
 }
