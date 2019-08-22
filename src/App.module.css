@@ -1,0 +1,9 @@
+.outer-spacing {
+  height: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.grid-item {
+  border: solid 1px red;
+}
