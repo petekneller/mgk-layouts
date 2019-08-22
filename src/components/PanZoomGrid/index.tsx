@@ -2,6 +2,32 @@ import React from 'react';
 import styles from './PanZoomGrid.module.css';
 import GridViewport from './GridViewport';
 
+const maxExtent = 1000;
+
+const zoomPanTransform = function(centre: {x: number, y: number}, zoom: number): string {
+  const {x, y} = centre;
+  const scaledX = x * zoom;
+  const scaledY = y * zoom;
+  const translateX = scaledX - 50;
+  const translateY = scaledY - 50;
+  return `translate(${-1 * translateX}, ${-1 * translateY}) scale(${zoom})`
+};
+
+const panXTransform = function(centreX: number, zoom: number): string {
+  const scaledX = centreX * zoom;
+  const translateX = scaledX - 50;
+  return `translate(${-1 * translateX}, 0)`;
+};
+
+const panYTransform = function(centreY: number, zoom: number): string {
+  const scaledY = centreY * zoom;
+  const translateY = scaledY - 50;
+  return `translate(0, ${-1 * translateY})`;
+};
+
+const panCentre = { x: 70, y: 100 };
+const zoomFactor = 0.8;
+
 const PanZoomGrid: React.FC = () => {
   return (
       <div className={ styles.container } >
@@ -15,18 +41,35 @@ const PanZoomGrid: React.FC = () => {
           <div className={ styles['grid-container'] }>
 
             <GridViewport positioningStyle='viewport-main'>
-              { [...Array(100).keys()].map(idx => <line y1='0' y2='100' x1={idx} x2={idx} style={{ stroke:'lightgray', strokeWidth:'0.2%' }} />) }
-              { [...Array(100).keys()].map(idx => <line x1='0' x2='100' y1={idx} y2={idx} style={{ stroke:'lightgray', strokeWidth:'0.2%' }} />) }
-              { [...Array(10).keys()].map(idx => <line y1='0' y2='100' x1={idx * 10} x2={idx * 10} style={{ stroke:'darkgray', strokeWidth:'0.2%' }} />) }
-              { [...Array(10).keys()].map(idx => <line x1='0' x2='100' y1={idx * 10} y2={idx * 10} style={{ stroke:'darkgray', strokeWidth:'0.2%' }} />) }
+              <g transform={ zoomPanTransform(panCentre, zoomFactor) }>
+                { [...Array(maxExtent).keys()].map(idx => <line y1='0' y2={maxExtent} x1={idx} x2={idx} style={{ stroke:'lightgray', strokeWidth:'0.2%' }} />) }
+                { [...Array(maxExtent).keys()].map(idx => <line x1='0' x2={maxExtent} y1={idx} y2={idx} style={{ stroke:'lightgray', strokeWidth:'0.2%' }} />) }
+                { [...Array(maxExtent/10).keys()].map(idx => <line y1='0' y2={maxExtent} x1={idx * 10} x2={idx * 10} style={{ stroke:'darkgray', strokeWidth:'0.2%' }} />) }
+                { [...Array(maxExtent/10).keys()].map(idx => <line x1='0' x2={maxExtent} y1={idx * 10} y2={idx * 10} style={{ stroke:'darkgray', strokeWidth:'0.2%' }} />) }
+                <circle cx='50' cy='50' r='5' stroke='red' fill='blue'/>
+              </g>
             </GridViewport>
 
             <GridViewport positioningStyle='viewport-left-axis'>
-              { [...Array(9).keys()].map(idx => <line x1='0' x2='2' y1={idx * 10 + 10} y2={idx * 10 + 10} style={{ stroke:'black', strokeWidth:'0.2%' }} />) }
+              <g transform={ panYTransform(panCentre.y, zoomFactor) }>
+                { [...Array(maxExtent/10 - 1).keys()].map(idx => {
+                  const i = idx + 1;
+                  const y = i * 10;
+                  const scaledY = y * zoomFactor;
+                  return <text x='0' y={ scaledY + 0.5 } className={styles['axis-text']} >{y.toString()}</text>;
+                })}
+              </g>
             </GridViewport>
 
             <GridViewport positioningStyle='viewport-bottom-axis'>
-              { [...Array(9).keys()].map(idx => <line y1='100' y2='98' x1={idx * 10 + 10} x2={idx * 10 + 10} style={{ stroke:'black', strokeWidth:'0.2%' }} />) }
+              <g transform={ panXTransform(panCentre.x, zoomFactor) }>
+                { [...Array(maxExtent/10 - 1).keys()].map(idx => {
+                  const i = idx + 1;
+                  const x = i * 10;
+                  const scaledX = x * zoomFactor;
+                  return <text y={100} x={ scaledX - 1} className={styles['axis-text']} >{x.toString()}</text>;
+                })}
+              </g>
             </GridViewport>
 
          </div>
