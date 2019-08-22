@@ -2,26 +2,29 @@ import React from 'react';
 import styles from './PanZoomGrid.module.css';
 import GridViewport from './GridViewport';
 
+const maxViewboxExtent = 100;
 const maxExtent = 1000;
+
+const viewboxCentre = maxViewboxExtent / 2;
 
 const zoomPanTransform = function(centre: {x: number, y: number}, zoom: number): string {
   const {x, y} = centre;
   const scaledX = x * zoom;
   const scaledY = y * zoom;
-  const translateX = scaledX - 50;
-  const translateY = scaledY - 50;
+  const translateX = scaledX - viewboxCentre;
+  const translateY = scaledY - viewboxCentre;
   return `translate(${-1 * translateX}, ${-1 * translateY}) scale(${zoom})`
 };
 
 const panXTransform = function(centreX: number, zoom: number): string {
   const scaledX = centreX * zoom;
-  const translateX = scaledX - 50;
+  const translateX = scaledX - viewboxCentre;
   return `translate(${-1 * translateX}, 0)`;
 };
 
 const panYTransform = function(centreY: number, zoom: number): string {
   const scaledY = centreY * zoom;
-  const translateY = scaledY - 50;
+  const translateY = scaledY - viewboxCentre;
   return `translate(0, ${-1 * translateY})`;
 };
 
@@ -40,7 +43,7 @@ const PanZoomGrid: React.FC = () => {
         <div className={ `${styles.cell} ${styles.main}` } >
           <div className={ styles['grid-container'] }>
 
-            <GridViewport positioningStyle='viewport-main'>
+            <GridViewport positioningStyle='viewport-main' maxExtent={maxViewboxExtent}>
               <g transform={ zoomPanTransform(panCentre, zoomFactor) }>
                 { [...Array(maxExtent).keys()].map(idx => <line y1='0' y2={maxExtent} x1={idx} x2={idx} style={{ stroke:'lightgray', strokeWidth:'0.2%' }} />) }
                 { [...Array(maxExtent).keys()].map(idx => <line x1='0' x2={maxExtent} y1={idx} y2={idx} style={{ stroke:'lightgray', strokeWidth:'0.2%' }} />) }
@@ -50,7 +53,7 @@ const PanZoomGrid: React.FC = () => {
               </g>
             </GridViewport>
 
-            <GridViewport positioningStyle='viewport-left-axis'>
+            <GridViewport positioningStyle='viewport-left-axis' maxExtent={maxViewboxExtent}>
               <g transform={ panYTransform(panCentre.y, zoomFactor) }>
                 { [...Array(maxExtent/10 - 1).keys()].map(idx => {
                   const i = idx + 1;
@@ -61,7 +64,7 @@ const PanZoomGrid: React.FC = () => {
               </g>
             </GridViewport>
 
-            <GridViewport positioningStyle='viewport-bottom-axis'>
+            <GridViewport positioningStyle='viewport-bottom-axis' maxExtent={maxViewboxExtent}>
               <g transform={ panXTransform(panCentre.x, zoomFactor) }>
                 { [...Array(maxExtent/10 - 1).keys()].map(idx => {
                   const i = idx + 1;
