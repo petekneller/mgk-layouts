@@ -4,16 +4,3 @@
   overflow: hidden;
   position: absolute;
 }
-
-.viewport-main {
-  bottom: 0;
-}
-
-.viewport-left-axis {
-  bottom: 0;
-  left: calc(-1 * var(--axis-depth, 0px));
-}
-
-.viewport-bottom-axis {
-  bottom: calc(-1 * var(--axis-depth, 0px));
-}

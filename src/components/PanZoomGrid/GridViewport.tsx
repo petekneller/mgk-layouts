@@ -3,7 +3,7 @@ import styles from './GridViewport.module.css';
 
 interface Props {
   children?: React.ReactNode,
-  positioningStyle: string
+  styleName: string
   maxExtent: number
 };
 
@@ -12,7 +12,7 @@ const GridViewport = (props: Props) => {
     <svg
       viewBox={ `0 0 ${props.maxExtent} ${props.maxExtent}` }
       preserveAspectRatio='xMinYMax slice'
-      className={ `${styles.viewport} ${styles[props.positioningStyle]}` } >
+      className={ `${styles.viewport} ${props.styleName}` } >
         { props.children }
     </svg>
   );

@@ -23,7 +23,7 @@ const PanZoomGrid: React.FC = () => {
         <div className={ `${styles.cell} ${styles.main}` } >
           <div className={ styles['grid-container'] }>
 
-            <GridViewport positioningStyle='viewport-left-axis' maxExtent={maxViewboxExtent}>
+            <GridViewport styleName={ styles['viewport-left-axis'] } maxExtent={maxViewboxExtent}>
               <LeftAxis
                 transformationFn={ gridTransformFn }
                 maxViewboxExtent={maxViewboxExtent}
@@ -32,7 +32,7 @@ const PanZoomGrid: React.FC = () => {
                 zoomFactor={zoomFactor} />
             </GridViewport>
 
-            <GridViewport positioningStyle='viewport-bottom-axis' maxExtent={maxViewboxExtent}>
+            <GridViewport styleName={ styles['viewport-bottom-axis'] } maxExtent={maxViewboxExtent}>
               <BottomAxis
                 transformationFn={ gridTransformFn }
                 maxViewboxExtent={maxViewboxExtent}
@@ -41,7 +41,7 @@ const PanZoomGrid: React.FC = () => {
                 zoomFactor={zoomFactor} />
             </GridViewport>
 
-            <GridViewport positioningStyle='viewport-main' maxExtent={maxViewboxExtent}>
+            <GridViewport styleName={ styles['viewport-main'] } maxExtent={maxViewboxExtent}>
               <MainGrid
                 transformationFn={ gridTransformFn }
                 maxGridExtent={maxCourseExtent}
