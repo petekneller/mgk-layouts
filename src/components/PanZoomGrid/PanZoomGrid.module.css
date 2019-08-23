@@ -33,9 +33,3 @@
   border-left:2px solid black;
   border-bottom: 2px solid black;
 }
-
-.axis-text {
-  font-family: monospace;
-  font-size: 2px;
-  /*text-align: right;*/
-}

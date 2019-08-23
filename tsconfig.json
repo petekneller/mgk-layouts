@@ -12,6 +12,10 @@
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "strict": true,
+    "noUnusedLocals": true,                   /* Report errors on unused locals. */
+    "noUnusedParameters": true,               /* Report errors on unused parameters. */
+    "noImplicitReturns": true,                /* Report error when not all code paths in function return a value. */
+    "noFallthroughCasesInSwitch": true,       /* Report errors for fallthrough cases in switch statement. */
     "downlevelIteration": true, /* Provide full support for iterables in 'for-of', spread, and destructuring when targeting 'ES5' or 'ES3'. */
     "forceConsistentCasingInFileNames": true,
     "module": "esnext",
@@ -19,7 +23,8 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react"
+    "jsx": "react",
+    "experimentalDecorators": true           /* Enables experimental support for ES7 decorators. */
   },
   "include": [
     "src"

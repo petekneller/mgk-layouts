@@ -1,0 +1,9 @@
+.minor-grid {
+  stroke: lightgray;
+  stroke-width: 0.2%;
+}
+
+.major-grid {
+  stroke: darkgray;
+  stroke-width: 0.2%
+}
