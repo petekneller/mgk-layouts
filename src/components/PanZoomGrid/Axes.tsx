@@ -23,7 +23,7 @@ const LeftAxis = (props: Props) => {
         const i = idx + 1;
         const y = i * 10;
         const scaledY = y * props.zoomFactor;
-        return <text x='0' y={ scaledY + 0.5 } className={styles['axis-text']} >{y.toString()}</text>;
+        return <text x='0' y={ scaledY + 0.5 } className={styles['axis-text']} key={`left-${y.toString()}`} >{y.toString()}</text>;
       })}
     </g>
   );
@@ -43,7 +43,7 @@ const BottomAxis = (props: Props) => {
         const i = idx + 1;
         const x = i * 10;
         const scaledX = x * props.zoomFactor;
-        return <text y={props.maxViewboxExtent} x={ scaledX - 1 } className={styles['axis-text']} >{x.toString()}</text>;
+        return <text y={props.maxViewboxExtent} x={ scaledX - 1 } className={styles['axis-text']} key={`bottom-${x.toString()}`} >{x.toString()}</text>;
       })}
     </g>
   );

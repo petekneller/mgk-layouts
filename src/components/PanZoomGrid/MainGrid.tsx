@@ -20,19 +20,19 @@ const MainGrid = (props: Props) => {
 
       <g className={ styles['minor-grid'] }>
         { [...Array(props.maxGridExtent).keys()].map(idx =>
-          <line y1='0' y2={props.maxGridExtent} x1={idx} x2={idx} />
+          <line y1='0' y2={props.maxGridExtent} x1={idx} x2={idx} key={`minor-x-${idx}`} />
         )}
         { [...Array(props.maxGridExtent).keys()].map(idx =>
-          <line x1='0' x2={props.maxGridExtent} y1={idx} y2={idx} />
+          <line x1='0' x2={props.maxGridExtent} y1={idx} y2={idx} key={`minor-y-${idx}`} />
         )}
       </g>
 
       <g className={ styles['major-grid'] }>
         { [...Array(props.maxGridExtent/10).keys()].map(idx =>
-          <line y1='0' y2={props.maxGridExtent} x1={idx * 10} x2={idx * 10} />
+          <line y1='0' y2={props.maxGridExtent} x1={idx * 10} x2={idx * 10} key={`major-x-${idx * 10}`} />
         )}
         { [...Array(props.maxGridExtent/10).keys()].map(idx =>
-          <line x1='0' x2={props.maxGridExtent} y1={idx * 10} y2={idx * 10} />
+          <line x1='0' x2={props.maxGridExtent} y1={idx * 10} y2={idx * 10} key={`major-y-${idx * 10}`} />
         )}
       </g>
 
