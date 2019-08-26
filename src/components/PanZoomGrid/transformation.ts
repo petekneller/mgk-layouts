@@ -1,11 +1,17 @@
-const panTransform = function(viewboxCentre: {x: number, y: number}) {
-  const { x: viewboxX, y: viewboxY } = viewboxCentre;
-  return function(panCentre: {x: number, y: number}, zoomFactor: number): {x: number, y: number} {
-    const { x, y } = panCentre;
-    const [ scaledX, scaledY ] = [ x * zoomFactor, y * zoomFactor ];
-    const [ translateX, translateY ] = [ scaledX - viewboxX, scaledY - viewboxY ];
-    return { x: -1 * translateX, y: -1 * translateY };
-  };
+const gridToViewport = function(maxGridExtent: number): [(x: number) => number, (y: number) => number, (o: { x: number, y: number }) => {x: number, y: number}] {
+  return [
+    function(x: number): number {
+      return x;
+    },
+    function(y: number): number {
+      return maxGridExtent - y;
+    },
+    function({x, y}: {x: number, y: number}): {x: number, y: number} {
+      return {x, y: maxGridExtent - y};
+    }
+  ];
 };
 
-export default panTransform;
+export {
+  gridToViewport
+}

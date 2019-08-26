@@ -1,8 +1,9 @@
 import React from 'react';
 import styles from './Axes.module.css';
+import { gridToViewport } from './transformation';
+const _ = require('lodash');
 
 interface Props {
-  transformationFn: (panCentre: {x: number, y: number}, zoomFactor: number) => {x: number, y: number},
   maxViewboxExtent: number,
   maxGridExtent: number,
   panCentre: {x: number, y: number},
@@ -10,40 +11,41 @@ interface Props {
 }
 
 const LeftAxis = (props: Props) => {
-  const leftAxisTransform = function(centreY: number, zoomFactor: number): string {
-    // @ts-ignore: unused args
-    // eslint-disable-next-line
-    const {x, y} = props.transformationFn({x: 0, y: centreY}, zoomFactor);
-    return `translate(0, ${y})`;
+  const [gridToViewportX, gridToViewportY,] = gridToViewport(props.maxGridExtent);
+
+  const transformString = function(centreY: number, zoomFactor: number): string {
+    const basicViewboxOffset = -1 * (props.maxGridExtent - props.maxViewboxExtent);
+    const viewboxCentre = props.maxViewboxExtent / 2;
+    const panOffset = (centreY * zoomFactor) - viewboxCentre;
+    return `translate(0, ${basicViewboxOffset + panOffset})`;
   };
 
   return (
-    <g transform={ leftAxisTransform(props.panCentre.y, props.zoomFactor) }>
-      { [...Array(props.maxGridExtent/10 - 1).keys()].map(idx => {
-        const i = idx + 1;
-        const y = i * 10;
+    <g transform={ transformString(props.panCentre.y, props.zoomFactor) }>
+      { _.drop([...Array(props.maxGridExtent/10).keys()]).map((idx: number) => {
+        const y = idx * 10;
         const scaledY = y * props.zoomFactor;
-        return <text x='0' y={ scaledY + 0.5 } className={styles['axis-text']} key={`left-${y.toString()}`} >{y.toString()}</text>;
+        return <text x={ gridToViewportX(0) } y={ gridToViewportY(scaledY - 0.5) } className={styles['axis-text']} key={`left-${y.toString()}`} >{y.toString()}</text>;
       })}
     </g>
   );
 };
 
 const BottomAxis = (props: Props) => {
-  const bottomAxisTransform = function(centreX: number, zoomFactor: number): string {
-    // @ts-ignore: unused args
-    // eslint-disable-next-line
-    const {x, y} = props.transformationFn({x: centreX, y: 0}, zoomFactor);
-    return `translate(${x}, 0)`;
+  const [gridToViewportX,,] = gridToViewport(props.maxGridExtent);
+
+  const transformString = function(centreX: number, zoomFactor: number): string {
+    const viewboxCentre = props.maxViewboxExtent / 2;
+    const panOffset = (centreX * zoomFactor) - viewboxCentre;
+    return `translate(${-1 * panOffset}, ${0})`;
   };
 
   return (
-    <g transform={ bottomAxisTransform(props.panCentre.x, props.zoomFactor) }>
-      { [...Array(props.maxGridExtent/10 - 1).keys()].map(idx => {
-        const i = idx + 1;
-        const x = i * 10;
+    <g transform={ transformString(props.panCentre.x, props.zoomFactor) }>
+      { _.drop([...Array(props.maxGridExtent/10 - 1).keys()]).map((idx: number) => {
+        const x = idx * 10;
         const scaledX = x * props.zoomFactor;
-        return <text y={props.maxViewboxExtent} x={ scaledX - 1 } className={styles['axis-text']} key={`bottom-${x.toString()}`} >{x.toString()}</text>;
+        return <text y={ props.maxViewboxExtent } x={ gridToViewportX(scaledX - 1) } className={styles['axis-text']} key={`bottom-${x.toString()}`} >{x.toString()}</text>;
       })}
     </g>
   );
