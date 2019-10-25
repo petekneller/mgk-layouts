@@ -11,4 +11,5 @@
 .pointer-capture {
   visibility: hidden;
   pointer-events: all;
+  cursor: move;
 }
