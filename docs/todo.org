@@ -39,7 +39,7 @@ Maybe a decent strategy:
 ** +convert to an express.js app and read course from path param?+
 ** +add axis/grid lines+
 ** +auto calculate grid size+
-** add boundary markers/non-participatory obstacles
+** +add boundary markers/non-participatory obstacles+
+** +hidden obstacles?+
 ** add jink lines
-** hidden obstacles?
 ** add 'placeholder' obstacle
