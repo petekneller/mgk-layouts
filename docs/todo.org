@@ -1,3 +1,18 @@
+* react app
+** problems to investigate/risks to mitigate
+*** +how do I lay out a central grid and some sort of 'slide-out' to hold a options menu or list of course obstacles?+
+*** +how do I lay out the main grid with its axis and numbered markings+
+*** panning and zooming of grid
+**** +just programmatically to start with; {0,0} should be bottom-left, not top-left as normal for SVG+
+**** panning
+***** +working basically+
+***** should respect grid bounds so you can't pan off the edge of the world
+***** sort of works with the laptop touchscreen, but not well
+**** zooming
+***** get it working with a mouse wheel
+***** it should respect the pan bounds
+This probably means it that if a zoom-out action will bring into view an area that is out-of-bounds then the view should be panned automatically to keep that area out of the view
+***** get it working with touch
 * add posthoc tests for EITHER obstacles being forced LEFT/RIGHT
 * path calculator
 ** +same radius, entry/exit on same side+
