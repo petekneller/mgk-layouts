@@ -7,7 +7,10 @@ interface Props {
   maxGridExtent: number,
   panCentre: {x: number, y: number},
   zoomFactor: number,
-  children?: React.ReactNode
+  children?: React.ReactNode,
+  onPointerDown: (e) => void,
+  onPointerUp: (e) => void,
+  onPointerMove: (e) => void
 }
 
 const MainGrid = (props: Props) => {
@@ -42,6 +45,15 @@ const MainGrid = (props: Props) => {
           <line x1='0' x2={props.maxGridExtent} y1={idx * 10} y2={idx * 10} key={`major-y-${idx * 10}`} />
         )}
       </g>
+
+      <rect
+       x='0' y='0'
+       width={props.maxGridExtent} height={props.maxGridExtent}
+       className={ styles['pointer-capture'] }
+       onPointerDown={props.onPointerDown}
+       onPointerUp={props.onPointerUp}
+       onPointerMove={e => props.onPointerMove(e)}
+      />
 
       { props.children }
     </g>

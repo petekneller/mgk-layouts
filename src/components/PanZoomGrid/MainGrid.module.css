@@ -7,3 +7,8 @@
   stroke: darkgray;
   stroke-width: 0.2%
 }
+
+.pointer-capture {
+  visibility: hidden;
+  pointer-events: all;
+}
