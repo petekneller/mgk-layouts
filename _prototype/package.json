@@ -4,7 +4,7 @@
   "description": "",
   "main": "app.js",
   "dependencies": {
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.19",
     "nunjucks": "^3.2.0",
     "victor": "^1.1.0"
   },
