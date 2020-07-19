@@ -10,7 +10,8 @@ interface Props {
   children?: React.ReactNode,
   onPointerDown: (e) => void,
   onPointerUp: (e) => void,
-  onPointerMove: (e) => void
+  onPointerMove: (e) => void,
+  onWheel: (e) => void
 }
 
 const MainGrid = (props: Props) => {
@@ -47,12 +48,13 @@ const MainGrid = (props: Props) => {
       </g>
 
       <rect
-       x='0' y='0'
-       width={props.maxGridExtent} height={props.maxGridExtent}
-       className={ styles['pointer-capture'] }
-       onPointerDown={props.onPointerDown}
-       onPointerUp={props.onPointerUp}
-       onPointerMove={e => props.onPointerMove(e)}
+        x='0' y='0'
+        width={props.maxGridExtent} height={props.maxGridExtent}
+        className={ styles['pointer-capture'] }
+        onPointerDown={props.onPointerDown}
+        onPointerUp={props.onPointerUp}
+        onPointerMove={e => props.onPointerMove(e)}
+        onWheel={props.onWheel}
       />
 
       { props.children }
