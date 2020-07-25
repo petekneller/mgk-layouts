@@ -1,8 +1,31 @@
-/*
-  { box-sizing: border-box } changes the box model to include padding in the 100% sizing
-*/
-.outer-spacing {
+html {
+  font-size: 16px; /* the default, but worth noting */
+}
+
+#root-container {
   height: 100%;
-  padding: 10px;
-  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+
+.outer-margin {
+  margin: 10px;
+}
+
+#title-block {
+  font-size: 2em;
+}
+#title-block h2 {
+  margin-left: 4em;
+}
+
+#content-separator {
+  height: 30px;
+  background-color: red;
+  border-top: black solid 2px;
+  border-bottom: black solid 2px;
+}
+
+#body-container {
+  flex-grow: 1;
 }
