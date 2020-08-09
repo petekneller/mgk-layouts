@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './App.module.css';
-import SlideOut from './components/SlideOut';
+import Drawer from './components/Drawer';
 import PanZoomGrid from './components/PanZoomGrid';
 import { IconButton } from '@material-ui/core'
 import SettingsIcon from '@material-ui/icons/Settings';
@@ -35,9 +35,14 @@ const App: React.FC = () => {
       <div id={ styles['content-separator'] }></div>
 
       <div id={ styles['body-container'] } className={ styles['outer-margin'] }>
-        <SlideOut>
-          <PanZoomGrid></PanZoomGrid>
-        </SlideOut>
+        <Drawer
+          mainContent={
+            <PanZoomGrid></PanZoomGrid>
+          }
+          drawerContent={
+            <h1 style={{ width: '200px' }}>Hello world</h1>
+          }
+        />
       </div>
     </div>
   );
